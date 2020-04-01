@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Drawing;
+using VectorEditorApplication;
 
 namespace VectorEditor
 {
@@ -21,60 +20,71 @@ namespace VectorEditor
     /// </summary>
     public partial class MainWindow : Window
     {
+        VectorEditorApp GraphApp;
         public MainWindow()
         {
             InitializeComponent();
-        }
-       /* Code by Mary(github.com/dma117) But she speaks that It's from the Internet. But We also know that she lies.
-        private void HandleCheck(object sender, RoutedEventArgs e)
-        {
-            RadioButton rb = sender as RadioButton;
-            MyText.Text = "You chose: " + rb.GroupName + ": " + rb.Name;
-        }
-        */
-        private void Image_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-
+            GraphApp = new VectorEditorApp(new WriteableBitmap(630, 400, 96, 96, PixelFormats.Pbgra32, null));
+            conturPalette.SelectedColor = Colors.Black;
+            GraphApp.SetConturColor(conturPalette.SelectedColor.Value);
+            gradientPalette.SelectedColor = Colors.Black;
+            GraphApp.SetGradientColor(gradientPalette.SelectedColor.Value);
+            image.Source = GraphApp.paintBox;
         }
 
-        private void pictureBox_MouseUp(object sender, MouseButtonEventArgs e)
+        private void paintBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            Point clickCord = e.GetPosition(image);
+            GraphApp.StartDraw((int)clickCord.X, (int)clickCord.Y); //TODO
+            image.Source = GraphApp.paintBox;
+            //MessageBox.Show(GraphApp.figures.Count.ToString());
         }
 
-        private void pictureBox_MouseMove(object sender, MouseEventArgs e)
+        private void paintBox_MouseMove(object sender, MouseEventArgs e)
         {
-
+            Point clickCord = e.GetPosition(image);
+            GraphApp.ResizeFigure((int) clickCord.X, (int) clickCord.Y);
+            image.Source = GraphApp.paintBox;
         }
 
-        private void pictureBox_MouseDown(object sender, MouseButtonEventArgs e)
+        private void paintBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)//TODO: Add image.Source = GraphApp.paintBox; ???
         {
-
+            GraphApp.FinishDraw();
+            //image.Source = GraphApp.paintBox;
         }
 
         private void rectangle_buttonClick(object sender, RoutedEventArgs e)
         {
-
+            GraphApp.SetCurrentTool(PaintTools.Rectabgle);
         }
 
         private void elipse_buttonClick(object sender, RoutedEventArgs e)
         {
-
+            GraphApp.SetCurrentTool(PaintTools.Ellipse);
         }
 
         private void line_buttonClick(object sender, RoutedEventArgs e)
         {
-
+            GraphApp.SetCurrentTool(PaintTools.Line);
         }
-
         private void smth_buttonClick(object sender, RoutedEventArgs e)
         {
-
+            //GraphApp.CreateFigure();
         }
 
-        private void pencil_buttonClick(object sender, RoutedEventArgs e)
+/*        private void pencil_buttonClick(object sender, RoutedEventArgs e)
         {
+            GraphApp.SetCurrentTool(PaintTools.Pencil);
+        }*/
 
+        private void conturPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            GraphApp.SetConturColor((Color) e.NewValue);
+        }
+
+        private void gradientPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            GraphApp.SetGradientColor((Color) e.NewValue);
         }
     }
 }

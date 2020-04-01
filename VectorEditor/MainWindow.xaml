@@ -6,20 +6,20 @@
         xmlns:local="clr-namespace:VectorEditor"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="VectorEditor v.0.1" Height="600" Width="800">
+        Title="VectorEditor v.0.1" Height="550" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="0.4*"></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
-        <Image x:Name="pictureBox" Grid.Column="1" Grid.Row="0" MouseDown="pictureBox_MouseUp" MouseMove="pictureBox_MouseMove" MouseUp="pictureBox_MouseDown"></Image>
+
+        <Image x:Name="image" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="paintBox_MouseLeftButtonDown" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp"></Image>
         <Border Grid.Row="1" Grid.Column="1" Background="Pink"></Border>
-        <TextBlock Text="Область, зарезервированная для будующих тасков" FontSize="20" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <TextBlock x:Name="lol" Text="Область, зарезервированная для будующих тасков" FontSize="20" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -30,12 +30,16 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Button x:Name="rectangle" Content="Прямоугольник" Grid.Row="0" Click="rectangle_buttonClick"></Button>
             <Button x:Name="elipse" Content="Элипс" Grid.Row="1" Click="elipse_buttonClick"></Button>
             <Button x:Name="line" Content="Прямая" Grid.Row="2" Click="line_buttonClick"></Button>
             <Button x:Name="smth" Content="smth" Grid.Row="3" Click="smth_buttonClick"></Button>
-            <Button x:Name="pencil" Content="Карандаш" Grid.Row="4" Click="pencil_buttonClick"></Button>
+            <Button x:Name="pencil" Content="Карандаш" Grid.Row="4"></Button>
+            <xctk:ColorPicker x:Name="conturPalette" Grid.Row="5" Grid.Column="0" SelectedColorChanged="conturPalette_SelectedColorChanged"></xctk:ColorPicker>
+            <xctk:ColorPicker x:Name="gradientPalette" Grid.Row="6" Grid.Column="0" SelectedColorChanged="gradientPalette_SelectedColorChanged"></xctk:ColorPicker>
         </Grid>
     </Grid>
 </Window>
