@@ -40,6 +40,7 @@ namespace VectorEditorApplication
         public LinkedList<IDrawable> geometryTools = new LinkedList<IDrawable>();
         Tool currentTool = new Rectangle();
         private DrawingProcess currentDrawingProcess;
+        public bool isNotPencil;
         Color gradientColor;
         Color conturColor;
 
@@ -53,6 +54,7 @@ namespace VectorEditorApplication
         {
             this.paintBox = paintBox;
             currentDrawingProcess = DrawingProcess.notDrawing;
+            isNotPencil = true;
         }
 
         public void SetCurrentTool(Tool currentTool)
@@ -90,6 +92,11 @@ namespace VectorEditorApplication
         {
             if (currentDrawingProcess == DrawingProcess.inDrawingProcess)
             {
+                if (!isNotPencil)
+                {
+                    geometryTools.AddLast(currentTool.CreateFigure(x, y, x, y, conturColor, gradientColor));
+                }
+
                 (geometryTools.Last.Value).EditSize(x, y);
                 MergeBitmapAndImage();
             }
@@ -106,6 +113,7 @@ namespace VectorEditorApplication
         public void MergeBitmapAndImage()
         {
             paintBox.Clear();
+
             foreach (var drawingFigure in geometryTools)
             {
                 drawingFigure.Draw(paintBox);
@@ -270,7 +278,6 @@ namespace VectorEditorApplication
 
     class Pencil : Tool
     {
-        
         public Pencil()
         {
 
@@ -281,11 +288,16 @@ namespace VectorEditorApplication
 
         }
 
+        static int xcord, ycord;
+
         override public void Draw(WriteableBitmap paintBox)
         {
+
             paintBox.DrawLine(leftX, leftY, rightX, rightY, conturColor);
-            this.leftX = rightX;
-            this.leftY = rightY;
+
+            xcord = rightX;
+            ycord = rightY;
+
         }
 
         public override void SetCorrectCoordinate()
@@ -299,6 +311,14 @@ namespace VectorEditorApplication
         public override Tool CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor)
         {
             return new Pencil(x1, y1, x2, y2, conturColor, gradientColor);
+        }
+
+        public override void EditSize(int x, int y)
+        {
+            leftX = xcord;
+            leftY = ycord;
+            rightX = x;
+            rightY = y;
         }
 
     }

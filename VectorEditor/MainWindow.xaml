@@ -37,7 +37,7 @@
             <Button x:Name="rectangle" Content="Прямоугольник" Grid.Row="0" Click="rectangle_buttonClick"></Button>
             <Button x:Name="elipse" Content="Элипс" Grid.Row="1" Click="elipse_buttonClick"></Button>
             <Button x:Name="line" Content="Прямая" Grid.Row="2" Click="line_buttonClick"></Button>
-            <Button x:Name="smth" Content="smth" Grid.Row="3" Click="smth_buttonClick"></Button>
+            <Button x:Name="smth" Content="Coming soon" Grid.Row="3" Click="smth_buttonClick"></Button>
             <Button x:Name="pencil" Content="Карандаш" Grid.Row="4" Click="pencil_buttonClick"></Button>
             <xctk:ColorPicker x:Name="conturPalette" Grid.Row="5" Grid.Column="0" SelectedColorChanged="conturPalette_SelectedColorChanged"></xctk:ColorPicker>
             <xctk:ColorPicker x:Name="gradientPalette" Grid.Row="6" Grid.Column="0" SelectedColorChanged="gradientPalette_SelectedColorChanged"></xctk:ColorPicker>
