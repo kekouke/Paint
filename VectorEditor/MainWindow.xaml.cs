@@ -24,20 +24,21 @@ namespace VectorEditor
         public MainWindow()
         {
             InitializeComponent();
-            GraphApp = new VectorEditorApp(new WriteableBitmap(630, 400, 96, 96, PixelFormats.Pbgra32, null));
+            GraphApp = new VectorEditorApp(new WriteableBitmap(640, 420, 96, 96, PixelFormats.Pbgra32, null));
             conturPalette.SelectedColor = Colors.Black;
             GraphApp.SetConturColor(conturPalette.SelectedColor.Value);
-            gradientPalette.SelectedColor = Colors.Black;
+            gradientPalette.SelectedColor = Colors.White;
             GraphApp.SetGradientColor(gradientPalette.SelectedColor.Value);
             image.Source = GraphApp.paintBox;
+            //image.Source = GraphApp.paintBoxForPencil;
         }
 
         private void paintBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point clickCord = e.GetPosition(image);
-            GraphApp.StartDraw((int)clickCord.X, (int)clickCord.Y); //TODO
+            GraphApp.StartDraw((int)clickCord.X, (int)clickCord.Y);
             image.Source = GraphApp.paintBox;
-            //MessageBox.Show(GraphApp.figures.Count.ToString());
+            //image.Source = GraphApp.paintBoxForPencil;
         }
 
         private void paintBox_MouseMove(object sender, MouseEventArgs e)
@@ -45,12 +46,12 @@ namespace VectorEditor
             Point clickCord = e.GetPosition(image);
             GraphApp.ResizeFigure((int) clickCord.X, (int) clickCord.Y);
             image.Source = GraphApp.paintBox;
+            //image.Source = GraphApp.paintBoxForPencil;
         }
 
-        private void paintBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)//TODO: Add image.Source = GraphApp.paintBox; ???
+        private void paintBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             GraphApp.FinishDraw();
-            //image.Source = GraphApp.paintBox;
         }
 
         private void rectangle_buttonClick(object sender, RoutedEventArgs e)
@@ -72,10 +73,10 @@ namespace VectorEditor
             //GraphApp.CreateFigure();
         }
 
-/*        private void pencil_buttonClick(object sender, RoutedEventArgs e)
+        private void pencil_buttonClick(object sender, RoutedEventArgs e)
         {
             GraphApp.SetCurrentTool(PaintTools.Pencil);
-        }*/
+        }
 
         private void conturPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
@@ -85,6 +86,13 @@ namespace VectorEditor
         private void gradientPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             GraphApp.SetGradientColor((Color) e.NewValue);
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+            //WriteableBitmap bitmap = (image.Source as WriteableBitmap).Resize((int)(ActualWidth * 0.8), (int)(ActualHeight * 0.7), WriteableBitmapExtensions.Interpolation.Bilinear);
+           // image.Source = GraphApp.SetSizeBitmap(bitmap);
         }
     }
 }

@@ -28,16 +28,16 @@ namespace VectorEditorApplication
         {
             get { return new Line(); }
         }
-/*        public static Pencil Pencil
+        public static Pencil Pencil
         {
             get { return new Pencil(); }
-        }*/
+        }
     }
 
     class VectorEditorApp
     {
         public WriteableBitmap paintBox;
-        public LinkedList<IDrawable> figures = new LinkedList<IDrawable>();
+        public LinkedList<IDrawable> geometryTools = new LinkedList<IDrawable>();
         Tool currentTool = new Rectangle();
         private DrawingProcess currentDrawingProcess;
         Color gradientColor;
@@ -70,31 +70,43 @@ namespace VectorEditorApplication
             gradientColor = color;
         }
 
+        public WriteableBitmap SetSizeBitmap(WriteableBitmap bitmap)
+        {
+            paintBox = bitmap;
+            return paintBox;
+        }
+
         public void StartDraw(int x1, int y1)
         {
-            figures.AddLast(currentTool.CreateFigure(x1, y1, x1, y1, conturColor, gradientColor));
-            MergeBitmapAndImage();
-            currentDrawingProcess = DrawingProcess.inDrawingProcess;
+            if (currentDrawingProcess == DrawingProcess.notDrawing)
+            {
+                geometryTools.AddLast(currentTool.CreateFigure(x1, y1, x1, y1, conturColor, gradientColor));
+                MergeBitmapAndImage();
+                currentDrawingProcess = DrawingProcess.inDrawingProcess;
+            }
         }
 
         public void ResizeFigure(int x, int y)
         {
             if (currentDrawingProcess == DrawingProcess.inDrawingProcess)
             {
-                (figures.Last.Value).EditSize(x, y);
+                (geometryTools.Last.Value).EditSize(x, y);
                 MergeBitmapAndImage();
             }
         }
 
         public void FinishDraw()
         {
-            currentDrawingProcess = DrawingProcess.notDrawing;
+            if (currentDrawingProcess == DrawingProcess.inDrawingProcess)
+            {
+                currentDrawingProcess = DrawingProcess.notDrawing;
+            }
         }
 
         public void MergeBitmapAndImage()
         {
             paintBox.Clear();
-            foreach (var drawingFigure in figures)
+            foreach (var drawingFigure in geometryTools)
             {
                 drawingFigure.Draw(paintBox);
             }
@@ -112,6 +124,12 @@ namespace VectorEditorApplication
         public int leftY;
         public int rightX;
         public int rightY;
+
+        public int leftXDraw;
+        public int leftYDraw;
+        public int rightXDraw;
+        public int rightYDraw;
+
         protected Color conturColor;
         protected Color gradientColor;
 
@@ -131,13 +149,38 @@ namespace VectorEditorApplication
         }
 
         abstract public void Draw(WriteableBitmap paintBox);
+        public abstract Tool CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor);
         public virtual void EditSize(int x, int y)
         {
             rightX = x;
             rightY = y;
         }
 
-        public abstract Tool CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor);
+        public virtual void SetCorrectCoordinate()
+        {
+            if (leftX > rightX)
+            {
+                leftXDraw = rightX;
+                rightXDraw = leftX;
+            }
+            else
+            {
+                leftXDraw = leftX;
+                rightXDraw = rightX;
+            }
+
+            if (leftY > rightY)
+            {
+                leftYDraw = rightY;
+                rightYDraw = leftY;
+            }
+            else
+            {
+                leftYDraw = leftY;
+                rightYDraw = rightY;
+            }
+
+        }
 
     }
 
@@ -160,8 +203,9 @@ namespace VectorEditorApplication
 
         override public void Draw(WriteableBitmap paintBox)
         {
-            paintBox.DrawRectangle(leftX, leftY, rightX, rightY, conturColor);
-            paintBox.FillRectangle(leftX, leftY, rightX, rightY, gradientColor);
+            SetCorrectCoordinate();
+            paintBox.DrawRectangle(leftXDraw - 1, leftYDraw - 1, rightXDraw, rightYDraw, conturColor);
+            paintBox.FillRectangle(leftXDraw, leftYDraw, rightXDraw, rightYDraw, gradientColor);
         }
 
     }
@@ -185,8 +229,9 @@ namespace VectorEditorApplication
 
         override public void Draw(WriteableBitmap paintBox)
         {
-            paintBox.DrawEllipse(leftX, leftY, rightX, rightY, conturColor);
-            paintBox.FillEllipse(leftX, leftY, rightX, rightY, gradientColor);
+            SetCorrectCoordinate();
+            paintBox.DrawEllipse(leftXDraw - 1, leftYDraw - 1, rightXDraw + 1, rightYDraw + 1, conturColor);
+            paintBox.FillEllipse(leftXDraw, leftYDraw, rightXDraw, rightYDraw, gradientColor);
         }
     }
 
@@ -208,18 +253,54 @@ namespace VectorEditorApplication
             return new Line(x1, y1, x2, y2, conturColor, gradientColor);
         }
 
+        public override void SetCorrectCoordinate()
+        {
+            leftYDraw = leftY;
+            rightYDraw = rightY;
+            leftXDraw = leftX;
+            rightXDraw = rightX;
+        }
+
         override public void Draw(WriteableBitmap paintBox)
         {
-            paintBox.DrawLine(leftX, leftY, rightX, rightY, conturColor);
+            SetCorrectCoordinate();
+            paintBox.DrawLine(leftXDraw, leftYDraw, rightXDraw, rightYDraw, conturColor);
         }
     }
 
-/*    class Pencil : Tool
+    class Pencil : Tool
     {
+        
+        public Pencil()
+        {
+
+        }
+
+        public Pencil(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor) : base(x1, y1, x2, y2, conturColor, gradientColor)
+        {
+
+        }
+
+        override public void Draw(WriteableBitmap paintBox)
+        {
+            paintBox.DrawLine(leftX, leftY, rightX, rightY, conturColor);
+            this.leftX = rightX;
+            this.leftY = rightY;
+        }
+
+        public override void SetCorrectCoordinate()
+        {
+            leftYDraw = leftY;
+            rightYDraw = rightY;
+            leftXDraw = leftX;
+            rightXDraw = rightX;
+        }
+
         public override Tool CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor)
         {
-            return new Pencil(); //TODO
+            return new Pencil(x1, y1, x2, y2, conturColor, gradientColor);
         }
-    }*/
+
+    }
 
 }

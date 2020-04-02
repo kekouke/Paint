@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:VectorEditor"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="VectorEditor v.0.1" Height="550" Width="800">
+        Title="VectorEditor v.0.1" Height="600" Width="800"
+        MinHeight="600" MinWidth="800" SizeChanged="Window_SizeChanged" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -37,7 +38,7 @@
             <Button x:Name="elipse" Content="Элипс" Grid.Row="1" Click="elipse_buttonClick"></Button>
             <Button x:Name="line" Content="Прямая" Grid.Row="2" Click="line_buttonClick"></Button>
             <Button x:Name="smth" Content="smth" Grid.Row="3" Click="smth_buttonClick"></Button>
-            <Button x:Name="pencil" Content="Карандаш" Grid.Row="4"></Button>
+            <Button x:Name="pencil" Content="Карандаш" Grid.Row="4" Click="pencil_buttonClick"></Button>
             <xctk:ColorPicker x:Name="conturPalette" Grid.Row="5" Grid.Column="0" SelectedColorChanged="conturPalette_SelectedColorChanged"></xctk:ColorPicker>
             <xctk:ColorPicker x:Name="gradientPalette" Grid.Row="6" Grid.Column="0" SelectedColorChanged="gradientPalette_SelectedColorChanged"></xctk:ColorPicker>
         </Grid>
