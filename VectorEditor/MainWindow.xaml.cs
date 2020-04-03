@@ -24,7 +24,7 @@ namespace VectorEditor
         public MainWindow()
         {
             InitializeComponent();
-            GraphApp = new VectorEditorApp(new WriteableBitmap(640, 420, 96, 96, PixelFormats.Pbgra32, null));
+            GraphApp = new VectorEditorApp(new WriteableBitmap(650, 430, 96, 96, PixelFormats.Pbgra32, null)); // 640 420
             conturPalette.SelectedColor = Colors.Black;
             GraphApp.SetConturColor(conturPalette.SelectedColor.Value);
             gradientPalette.SelectedColor = Colors.White;
@@ -42,7 +42,7 @@ namespace VectorEditor
         private void paintBox_MouseMove(object sender, MouseEventArgs e)
         {
             Point clickCord = e.GetPosition(image);
-            GraphApp.ResizeFigure((int) clickCord.X, (int) clickCord.Y);
+            GraphApp.MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
             image.Source = GraphApp.paintBox;
         }
 
@@ -81,17 +81,22 @@ namespace VectorEditor
 
         private void conturPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            GraphApp.SetConturColor((Color) e.NewValue);
+            GraphApp.SetConturColor((Color)e.NewValue);
         }
 
         private void gradientPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
-            GraphApp.SetGradientColor((Color) e.NewValue);
+            GraphApp.SetGradientColor((Color)e.NewValue);
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
 
+        }
+
+        private void paintBox_MouseLeave(object sender, MouseEventArgs e)
+        {
+            GraphApp.MouseOutOfRange();
         }
     }
 }

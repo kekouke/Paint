@@ -47,7 +47,8 @@ namespace VectorEditorApplication
         private enum DrawingProcess
         {
             notDrawing,
-            inDrawingProcess
+            inDrawingProcess,
+            inNotDisplay
         }
 
         public VectorEditorApp(WriteableBitmap paintBox)
@@ -59,7 +60,7 @@ namespace VectorEditorApplication
 
         public void SetCurrentTool(Tool currentTool)
         {
-            this.currentTool = currentTool; 
+            this.currentTool = currentTool;
         }
 
         public void SetConturColor(Color color)
@@ -88,18 +89,32 @@ namespace VectorEditorApplication
             }
         }
 
-        public void ResizeFigure(int x, int y)
+        public void MouseMoveHandler(int x, int y)
         {
             if (currentDrawingProcess == DrawingProcess.inDrawingProcess)
             {
-                if (!isNotPencil)
-                {
-                    geometryTools.AddLast(currentTool.CreateFigure(x, y, x, y, conturColor, gradientColor));
-                }
-
-                (geometryTools.Last.Value).EditSize(x, y);
-                MergeBitmapAndImage();
+                ResizeFigure(x, y);
             }
+            else if (currentDrawingProcess == DrawingProcess.inNotDisplay)
+            {
+                if (Mouse.LeftButton == MouseButtonState.Pressed)
+                {
+                    currentDrawingProcess = DrawingProcess.notDrawing;
+                    StartDraw(x, y);
+                }
+            }
+        }
+
+        public void ResizeFigure(int x, int y)
+        {
+            if (!isNotPencil)
+            {
+                geometryTools.AddLast(currentTool.CreateFigure(x, y, x, y, conturColor, gradientColor));
+            }
+
+            (geometryTools.Last.Value).EditSize(x, y);
+            MergeBitmapAndImage();
+
         }
 
         public void FinishDraw()
@@ -107,6 +122,14 @@ namespace VectorEditorApplication
             if (currentDrawingProcess == DrawingProcess.inDrawingProcess)
             {
                 currentDrawingProcess = DrawingProcess.notDrawing;
+            }
+        }
+
+        public void MouseOutOfRange()
+        {
+            if (currentDrawingProcess == DrawingProcess.inDrawingProcess)
+            {
+                currentDrawingProcess = DrawingProcess.inNotDisplay;
             }
         }
 

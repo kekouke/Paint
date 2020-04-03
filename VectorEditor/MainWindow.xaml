@@ -18,7 +18,7 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Image x:Name="image" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="paintBox_MouseLeftButtonDown" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp"></Image>
+        <Image x:Name="image" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="paintBox_MouseLeftButtonDown" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp" MouseLeave="paintBox_MouseLeave"></Image>
         <Border Grid.Row="1" Grid.Column="1" Background="Pink"></Border>
         <TextBlock x:Name="lol" Text="Область, зарезервированная для будующих тасков" FontSize="20" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
