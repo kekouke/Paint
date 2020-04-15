@@ -23,6 +23,13 @@ namespace VectorEditorApplication
 
         }
 
+        public Figure(int x1, int y1, Color conturColor)
+        {
+            leftX = x1;
+            leftY = y1;
+            this.conturColor = conturColor;
+        }
+
         public Figure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor)
         {
             leftX = x1;

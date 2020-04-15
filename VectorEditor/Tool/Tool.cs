@@ -28,7 +28,7 @@ namespace VectorEditorApplication
 
         protected abstract Figure CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor);
 
-        public void MergeBitmapAndImage() //TODO: Rename the function
+        protected void MergeBitmapAndImage() //TODO: Rename the function
         {
             VectorEditorApp.paintBox.Clear();
 

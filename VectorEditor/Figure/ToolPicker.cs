@@ -7,6 +7,7 @@ namespace VectorEditorApplication
 
     public class ToolPicker
     {
+
         public ToolPicker()
         {
             rectTool = new RectTool();

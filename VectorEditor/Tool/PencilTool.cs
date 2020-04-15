@@ -16,7 +16,8 @@ namespace VectorEditorApplication
         {
             if (currentState == States.mouseClick)
             {
-                VectorEditorApp.figures.AddLast(CreateFigure(x, y, VectorEditorApp.thickness, VectorEditorApp.thickness, VectorEditorApp.conturColor, VectorEditorApp.gradientColor));
+                //VectorEditorApp.figures.AddLast(CreateFigure(x, y, VectorEditorApp.thickness, VectorEditorApp.thickness, VectorEditorApp.conturColor, VectorEditorApp.gradientColor));
+                VectorEditorApp.figures.Last.Value.EditSize(x, y);
                 MergeBitmapAndImage();
             }
             /*
@@ -38,9 +39,9 @@ namespace VectorEditorApplication
 
         }
 
-        protected override Figure CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor)
+        protected override Figure CreateFigure(int x1, int y1, int width,int _, Color conturColor, Color gradientColor)
         {
-            return new Pencil(x1, y1, x2, y2, conturColor, gradientColor);
+            return new Pencil(x1, y1, width, conturColor);
         }
     }
 }
