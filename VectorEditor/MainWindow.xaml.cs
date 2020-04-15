@@ -46,29 +46,28 @@ namespace VectorEditor
 
         private void rectangle_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(GraphApp.cats.Rectabgle);
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.Rectabgle);
             GraphApp.isNotPencil = true;
         }
 
         private void elipse_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(GraphApp.cats.Ellipse);
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.Ellipse);
             GraphApp.isNotPencil = true;
         }
 
         private void line_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(GraphApp.cats.Line);
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.Line);
             GraphApp.isNotPencil = true;
         }
         private void smth_buttonClick(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void pencil_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(GraphApp.cats.Pencil);
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.Pencil);
             GraphApp.isNotPencil = false;
         }
 

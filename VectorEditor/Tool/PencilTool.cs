@@ -9,16 +9,15 @@ namespace VectorEditorApplication
         public override void MouseDownHandler(int x, int y)
         {
             VectorEditorApp.figures.AddLast(CreateFigure(x, y, VectorEditorApp.thickness, VectorEditorApp.thickness, VectorEditorApp.conturColor, VectorEditorApp.gradientColor));
-            MergeBitmapAndImage();
+            Invalidate();
             currentState = States.mouseClick;
         }
         public override void MouseMoveHandler(int x, int y)
         {
             if (currentState == States.mouseClick)
             {
-                //VectorEditorApp.figures.AddLast(CreateFigure(x, y, VectorEditorApp.thickness, VectorEditorApp.thickness, VectorEditorApp.conturColor, VectorEditorApp.gradientColor));
                 VectorEditorApp.figures.Last.Value.EditSize(x, y);
-                MergeBitmapAndImage();
+                Invalidate();
             }
             /*
             else if (currentDrawingProcess == DrawingProcess.inNotDisplay)

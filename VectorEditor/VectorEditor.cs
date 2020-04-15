@@ -20,13 +20,13 @@ namespace VectorEditorApplication
         public static Color gradientColor;
         public static Color conturColor;
         public static int thickness;
-        public ToolPicker cats; //TODO
+        public ToolPicker toolPicker;
 
         public VectorEditorApp(WriteableBitmap paintBox)
         {
             VectorEditorApp.paintBox = paintBox;
             isNotPencil = true;
-            cats = new ToolPicker();
+            toolPicker = new ToolPicker();
         }
 
         public void SetCurrentTool(Tool currentTool)

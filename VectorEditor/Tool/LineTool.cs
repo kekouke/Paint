@@ -9,7 +9,7 @@ namespace VectorEditorApplication
         public override void MouseDownHandler(int x, int y)
         {
             VectorEditorApp.figures.AddLast(CreateFigure(x, y, x, y, VectorEditorApp.conturColor, VectorEditorApp.gradientColor));
-            MergeBitmapAndImage();
+            Invalidate();
             currentState = States.mouseClick;
         }
         public override void MouseMoveHandler(int x, int y)
@@ -17,7 +17,7 @@ namespace VectorEditorApplication
             if (currentState == States.mouseClick)
             {
                 VectorEditorApp.figures.Last.Value.EditSize(x, y);
-                MergeBitmapAndImage();
+                Invalidate();
             }
             /*
             else if (currentDrawingProcess == DrawingProcess.inNotDisplay)
