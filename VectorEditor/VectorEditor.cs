@@ -54,10 +54,14 @@ namespace VectorEditorApplication
             paintBox = bitmap;
             return paintBox;
         } //TODO
-
-        public void MouseOutOfRange()
+        
+        public void Cancel()
         {
-
+            if (figures.Count > 0)
+            {
+                figures.RemoveLast();
+                Tool.Invalidate();
+            }
         }
 
     }

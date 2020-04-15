@@ -28,7 +28,7 @@ namespace VectorEditorApplication
 
         protected abstract Figure CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor);
 
-        public void Invalidate()
+        public static void Invalidate()
         {
             VectorEditorApp.paintBox.Clear();
 

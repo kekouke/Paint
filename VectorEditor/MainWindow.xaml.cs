@@ -61,8 +61,9 @@ namespace VectorEditor
             GraphApp.SetCurrentTool(GraphApp.toolPicker.Line);
             GraphApp.isNotPencil = true;
         }
-        private void smth_buttonClick(object sender, RoutedEventArgs e)
+        private void cancel_buttonClick(object sender, RoutedEventArgs e)
         {
+            GraphApp.Cancel();
         }
 
         private void pencil_buttonClick(object sender, RoutedEventArgs e)
@@ -88,7 +89,7 @@ namespace VectorEditor
 
         private void paintBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            GraphApp.MouseOutOfRange();
+           // GraphApp.MouseOutOfRange();
         }
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
