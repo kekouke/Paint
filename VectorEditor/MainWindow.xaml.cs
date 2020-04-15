@@ -20,6 +20,8 @@ namespace VectorEditor
             GraphApp.SetConturColor(conturPalette.SelectedColor.Value);
             gradientPalette.SelectedColor = Colors.White;
             GraphApp.SetGradientColor(gradientPalette.SelectedColor.Value);
+            slider.Value = 1;
+            VectorEditorApp.thickness = (int) slider.Value;
             image.Source = VectorEditorApp.paintBox;
         }
 
@@ -44,19 +46,19 @@ namespace VectorEditor
 
         private void rectangle_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(PaintTools.Rectabgle);
+            GraphApp.SetCurrentTool(GraphApp.cats.Rectabgle);
             GraphApp.isNotPencil = true;
         }
 
         private void elipse_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(PaintTools.Ellipse);
+            GraphApp.SetCurrentTool(GraphApp.cats.Ellipse);
             GraphApp.isNotPencil = true;
         }
 
         private void line_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(PaintTools.Line);
+            GraphApp.SetCurrentTool(GraphApp.cats.Line);
             GraphApp.isNotPencil = true;
         }
         private void smth_buttonClick(object sender, RoutedEventArgs e)
@@ -66,7 +68,7 @@ namespace VectorEditor
 
         private void pencil_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(PaintTools.Pencil);
+            GraphApp.SetCurrentTool(GraphApp.cats.Pencil);
             GraphApp.isNotPencil = false;
         }
 
@@ -88,6 +90,11 @@ namespace VectorEditor
         private void paintBox_MouseLeave(object sender, MouseEventArgs e)
         {
             GraphApp.MouseOutOfRange();
+        }
+
+        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            GraphApp.SetThicknessValue((int) e.NewValue);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Windows.Media.Imaging;
 
 namespace VectorEditorApplication
 {
-    abstract class Figure : IDrawable
+    public abstract class Figure : IDrawable
     {
         public int leftX;
         public int leftY;

@@ -19,11 +19,14 @@ namespace VectorEditorApplication
         public bool isNotPencil;
         public static Color gradientColor;
         public static Color conturColor;
+        public static int thickness;
+        public ToolPicker cats; //TODO
 
         public VectorEditorApp(WriteableBitmap paintBox)
         {
             VectorEditorApp.paintBox = paintBox;
             isNotPencil = true;
+            cats = new ToolPicker();
         }
 
         public void SetCurrentTool(Tool currentTool)
@@ -39,6 +42,11 @@ namespace VectorEditorApplication
         public void SetGradientColor(Color color)
         {
             gradientColor = color;
+        }
+
+        public void SetThicknessValue(int thickness)
+        {
+            VectorEditorApp.thickness = thickness;
         }
 
         public WriteableBitmap SetSizeBitmap(WriteableBitmap bitmap)

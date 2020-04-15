@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace VectorEditorApplication
 {
-    class EllipseTool : Tool
+    public class EllipseTool : Tool
     {
         public override void MouseDownHandler(int x, int y)
         {

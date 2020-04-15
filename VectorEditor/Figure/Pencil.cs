@@ -20,7 +20,7 @@ namespace VectorEditorApplication
         override public void Draw(WriteableBitmap paintBox)
         {
 
-            paintBox.DrawLine(leftX, leftY, rightX, rightY, conturColor);
+            paintBox.FillEllipseCentered(leftX, leftY, rightX, rightY, conturColor);
 
             xcord = rightX;
             ycord = rightY;
@@ -37,10 +37,6 @@ namespace VectorEditorApplication
 
         public override void EditSize(int x, int y)
         {
-            leftX = xcord;
-            leftY = ycord;
-            rightX = x;
-            rightY = y;
         }
 
     }

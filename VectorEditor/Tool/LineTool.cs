@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace VectorEditorApplication
 {
-    class LineTool : Tool
+    public class LineTool : Tool
     {
         public override void MouseDownHandler(int x, int y)
         {

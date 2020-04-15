@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 
 namespace VectorEditorApplication
 {
-    abstract class Tool
+    public abstract class Tool
     {
         protected enum States
         {

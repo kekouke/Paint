@@ -33,6 +33,7 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Button x:Name="rectangle" Content="Прямоугольник" Grid.Row="0" Click="rectangle_buttonClick"></Button>
             <Button x:Name="elipse" Content="Элипс" Grid.Row="1" Click="elipse_buttonClick"></Button>
@@ -41,6 +42,7 @@
             <Button x:Name="pencil" Content="Карандаш" Grid.Row="4" Click="pencil_buttonClick"></Button>
             <xctk:ColorPicker x:Name="conturPalette" Grid.Row="5" Grid.Column="0" SelectedColorChanged="conturPalette_SelectedColorChanged"></xctk:ColorPicker>
             <xctk:ColorPicker x:Name="gradientPalette" Grid.Row="6" Grid.Column="0" SelectedColorChanged="gradientPalette_SelectedColorChanged"></xctk:ColorPicker>
+            <Slider x:Name="slider" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center" Margin="10" ValueChanged="slider_ValueChanged" Minimum="0" Maximum="100"/>
         </Grid>
     </Grid>
 </Window>
