@@ -20,26 +20,26 @@ namespace VectorEditor
             GraphApp.SetConturColor(conturPalette.SelectedColor.Value);
             gradientPalette.SelectedColor = Colors.White;
             GraphApp.SetGradientColor(gradientPalette.SelectedColor.Value);
-            image.Source = GraphApp.paintBox;
+            image.Source = VectorEditorApp.paintBox;
         }
 
         private void paintBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point clickCord = e.GetPosition(image);
-            GraphApp.StartDraw((int)clickCord.X, (int)clickCord.Y);
-            image.Source = GraphApp.paintBox;
+            GraphApp.currentTool.MouseDownHandler((int)clickCord.X, (int)clickCord.Y); //GraphApp.StartDraw((int)clickCord.X, (int)clickCord.Y);
+            image.Source = VectorEditorApp.paintBox;
         }
 
         private void paintBox_MouseMove(object sender, MouseEventArgs e)
         {
             Point clickCord = e.GetPosition(image);
-            GraphApp.MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
-            image.Source = GraphApp.paintBox;
+            GraphApp.currentTool.MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
+            image.Source = VectorEditorApp.paintBox;
         }
 
         private void paintBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            GraphApp.FinishDraw();
+            GraphApp.currentTool.MouseUpHandler();
         }
 
         private void rectangle_buttonClick(object sender, RoutedEventArgs e)

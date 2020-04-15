@@ -13,25 +13,16 @@ namespace VectorEditorApplication
 
     class VectorEditorApp
     {
-        public WriteableBitmap paintBox;
-        public LinkedList<IDrawable> geometryTools = new LinkedList<IDrawable>();
-        Tool currentTool = new Rectangle();
-        private DrawingProcess currentDrawingProcess;
+        public static WriteableBitmap paintBox;
+        public static LinkedList<IDrawable> figures = new LinkedList<IDrawable>();
+        public Tool currentTool = new RectTool();
         public bool isNotPencil;
-        Color gradientColor;
-        Color conturColor;
-
-        private enum DrawingProcess
-        {
-            notDrawing,
-            inDrawingProcess,
-            inNotDisplay
-        }
+        public static Color gradientColor;
+        public static Color conturColor;
 
         public VectorEditorApp(WriteableBitmap paintBox)
         {
-            this.paintBox = paintBox;
-            currentDrawingProcess = DrawingProcess.notDrawing;
+            VectorEditorApp.paintBox = paintBox;
             isNotPencil = true;
         }
 
@@ -54,70 +45,11 @@ namespace VectorEditorApplication
         {
             paintBox = bitmap;
             return paintBox;
-        }
-
-        public void StartDraw(int x1, int y1)
-        {
-            if (currentDrawingProcess == DrawingProcess.notDrawing)
-            {
-                geometryTools.AddLast(currentTool.CreateFigure(x1, y1, x1, y1, conturColor, gradientColor));
-                MergeBitmapAndImage();
-                currentDrawingProcess = DrawingProcess.inDrawingProcess;
-            }
-        }
-
-        public void MouseMoveHandler(int x, int y)
-        {
-            if (currentDrawingProcess == DrawingProcess.inDrawingProcess)
-            {
-                ResizeFigure(x, y);
-            }
-            else if (currentDrawingProcess == DrawingProcess.inNotDisplay)
-            {
-                if (Mouse.LeftButton == MouseButtonState.Pressed)
-                {
-                    currentDrawingProcess = DrawingProcess.notDrawing;
-                    StartDraw(x, y);
-                }
-            }
-        }
-
-        public void ResizeFigure(int x, int y)
-        {
-            if (!isNotPencil)
-            {
-                geometryTools.AddLast(currentTool.CreateFigure(x, y, x, y, conturColor, gradientColor));
-            }
-
-            (geometryTools.Last.Value).EditSize(x, y);
-            MergeBitmapAndImage();
-
-        }
-
-        public void FinishDraw()
-        {
-            if (currentDrawingProcess == DrawingProcess.inDrawingProcess)
-            {
-                currentDrawingProcess = DrawingProcess.notDrawing;
-            }
-        }
+        } //TODO
 
         public void MouseOutOfRange()
         {
-            if (currentDrawingProcess == DrawingProcess.inDrawingProcess)
-            {
-                currentDrawingProcess = DrawingProcess.inNotDisplay;
-            }
-        }
 
-        public void MergeBitmapAndImage()
-        {
-            paintBox.Clear();
-
-            foreach (var drawingFigure in geometryTools)
-            {
-                drawingFigure.Draw(paintBox);
-            }
         }
 
     }
