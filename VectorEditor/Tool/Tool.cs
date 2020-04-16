@@ -16,15 +16,23 @@ namespace VectorEditorApplication
         {
             initial,
             mouseClick,
-            mouseMove,
-            bouseLeave
+            wait,
+            mouseLeave
         }
         protected States currentState = States.initial;
 
         public abstract void MouseDownHandler(int x, int y);
         public abstract void MouseMoveHandler(int x, int y);
-        public abstract void MouseUpHandler();
-        public abstract void MouseLeaveHandler();
+        public virtual void MouseUpHandler()
+        {
+            currentState = States.initial;
+        }
+        public virtual void MouseLeaveHandler()
+        {
+        }
+        public virtual void MouseEnterHandler(int x, int y)
+        {
+        }
 
         protected abstract Figure CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor);
 

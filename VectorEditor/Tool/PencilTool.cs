@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace VectorEditorApplication
 {
@@ -19,15 +20,6 @@ namespace VectorEditorApplication
                 VectorEditorApp.figures.Last.Value.EditSize(x, y);
                 Invalidate();
             }
-            /*
-            else if (currentDrawingProcess == DrawingProcess.inNotDisplay)
-             {
-                 if (Mouse.LeftButton == MouseButtonState.Pressed)
-                 {
-                     currentDrawingProcess = DrawingProcess.notDrawing;
-                     StartDraw(x, y);
-                 }
-             }*/
         }
         public override void MouseUpHandler()
         {
@@ -35,7 +27,14 @@ namespace VectorEditorApplication
         }
         public override void MouseLeaveHandler()
         {
-
+            currentState = States.initial;
+        }
+        public override void MouseEnterHandler(int x, int y)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                MouseDownHandler(x, y);
+            }
         }
 
         protected override Figure CreateFigure(int x1, int y1, int width,int _, Color conturColor, Color gradientColor)

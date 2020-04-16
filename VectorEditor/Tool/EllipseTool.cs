@@ -19,23 +19,6 @@ namespace VectorEditorApplication
                 VectorEditorApp.figures.Last.Value.EditSize(x, y);
                 Invalidate();
             }
-            /*
-            else if (currentDrawingProcess == DrawingProcess.inNotDisplay)
-             {
-                 if (Mouse.LeftButton == MouseButtonState.Pressed)
-                 {
-                     currentDrawingProcess = DrawingProcess.notDrawing;
-                     StartDraw(x, y);
-                 }
-             }*/
-        }
-        public override void MouseUpHandler()
-        {
-            currentState = States.initial;
-        }
-        public override void MouseLeaveHandler()
-        {
-
         }
 
         protected override Figure CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor)

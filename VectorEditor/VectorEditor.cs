@@ -15,17 +15,18 @@ namespace VectorEditorApplication
     {
         public static WriteableBitmap paintBox;
         public static LinkedList<IDrawable> figures = new LinkedList<IDrawable>();
+        public static List<IDrawable> figuresHistory = new List<IDrawable>();
         public Tool currentTool = new RectTool();
-        public bool isNotPencil;
         public static Color gradientColor;
         public static Color conturColor;
         public static int thickness;
         public ToolPicker toolPicker;
 
+        private int countOfFigures = 0;
+
         public VectorEditorApp(WriteableBitmap paintBox)
         {
             VectorEditorApp.paintBox = paintBox;
-            isNotPencil = true;
             toolPicker = new ToolPicker();
         }
 
@@ -55,12 +56,29 @@ namespace VectorEditorApplication
             return paintBox;
         } //TODO
         
-        public void Cancel()
+        public void GoBack()
         {
-            if (figures.Count > 0)
+            if (countOfFigures > 0)
             {
+
+                foreach (var element in figures)
+                {
+                    figuresHistory.Add(element);
+                }
+
                 figures.RemoveLast();
                 Tool.Invalidate();
+                countOfFigures--;
+            }
+        }
+
+        public void GoNext()
+        {
+            if (countOfFigures < figuresHistory.Count)
+            {
+                figures.AddLast(figuresHistory[countOfFigures]);
+                Tool.Invalidate();
+                countOfFigures++;
             }
         }
 

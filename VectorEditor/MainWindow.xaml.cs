@@ -15,7 +15,7 @@ namespace VectorEditor
         public MainWindow()
         {
             InitializeComponent();
-            GraphApp = new VectorEditorApp(new WriteableBitmap(650, 430, 96, 96, PixelFormats.Pbgra32, null)); // 640 420
+            GraphApp = new VectorEditorApp(new WriteableBitmap(652, 432, 96, 96, PixelFormats.Pbgra32, null)); // 640 420
             conturPalette.SelectedColor = Colors.Black;
             GraphApp.SetConturColor(conturPalette.SelectedColor.Value);
             gradientPalette.SelectedColor = Colors.White;
@@ -27,6 +27,7 @@ namespace VectorEditor
 
         private void paintBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            Mouse.Capture(image);
             Point clickCord = e.GetPosition(image);
             GraphApp.currentTool.MouseDownHandler((int)clickCord.X, (int)clickCord.Y); //GraphApp.StartDraw((int)clickCord.X, (int)clickCord.Y);
             image.Source = VectorEditorApp.paintBox;
@@ -42,34 +43,48 @@ namespace VectorEditor
         private void paintBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             GraphApp.currentTool.MouseUpHandler();
+            Mouse.Capture(null);
+        }
+
+        private void paintBox_MouseLeave(object sender, MouseEventArgs e)
+        {
+            GraphApp.currentTool.MouseLeaveHandler();
+        }
+
+        private void paintBox_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Point coord = e.GetPosition(image);
+            GraphApp.currentTool.MouseEnterHandler((int)coord.X, (int)coord.Y);
         }
 
         private void rectangle_buttonClick(object sender, RoutedEventArgs e)
         {
             GraphApp.SetCurrentTool(GraphApp.toolPicker.Rectabgle);
-            GraphApp.isNotPencil = true;
         }
 
         private void elipse_buttonClick(object sender, RoutedEventArgs e)
         {
             GraphApp.SetCurrentTool(GraphApp.toolPicker.Ellipse);
-            GraphApp.isNotPencil = true;
         }
 
         private void line_buttonClick(object sender, RoutedEventArgs e)
         {
             GraphApp.SetCurrentTool(GraphApp.toolPicker.Line);
-            GraphApp.isNotPencil = true;
         }
+
         private void cancel_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.Cancel();
+            GraphApp.GoBack();
+        }
+
+        private void next_buttonClick(object sender, RoutedEventArgs e)
+        {
+            GraphApp.GoNext();
         }
 
         private void pencil_buttonClick(object sender, RoutedEventArgs e)
         {
             GraphApp.SetCurrentTool(GraphApp.toolPicker.Pencil);
-            GraphApp.isNotPencil = false;
         }
 
         private void conturPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
@@ -84,17 +99,12 @@ namespace VectorEditor
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-
-        }
-
-        private void paintBox_MouseLeave(object sender, MouseEventArgs e)
-        {
-           // GraphApp.MouseOutOfRange();
-        }
+        } //TODO
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            GraphApp.SetThicknessValue((int) e.NewValue);
+            GraphApp.SetThicknessValue((int)slider.Value);
+            sliderValue.Text = ((int)slider.Value).ToString();
         }
     }
 }

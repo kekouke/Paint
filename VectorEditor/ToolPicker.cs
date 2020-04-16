@@ -7,13 +7,13 @@ namespace VectorEditorApplication
 
     public class ToolPicker
     {
-
         public ToolPicker()
         {
             rectTool = new RectTool();
             ellipseTool = new EllipseTool();
             lineTool = new LineTool();
             pencilTool = new PencilTool();
+            polylineTool = new PolylineTool();
         }
 
         public RectTool Rectabgle
@@ -32,10 +32,15 @@ namespace VectorEditorApplication
         {
             get { return pencilTool; }
         }
+        public PolylineTool Polyline
+        {
+            get { return polylineTool; }
+        }
 
         RectTool rectTool;
         EllipseTool ellipseTool;
         LineTool lineTool;
         PencilTool pencilTool;
+        PolylineTool polylineTool;
     }
 }

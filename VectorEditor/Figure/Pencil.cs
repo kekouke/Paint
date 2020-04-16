@@ -26,13 +26,13 @@ namespace VectorEditorApplication
 
         override public void Draw(WriteableBitmap paintBox)
         {
-            if (width < 3)
+            if (width < 2)
             {
                 paintBox.DrawPolyline(points.ToArray(), conturColor);
             }
             else
             {
-                for (int i = 2; i < points.Count - 2; i += 2)
+                for (int i = 2; i <= points.Count - 2; i += 2)
                 {
                     paintBox.FillEllipseCentered(points[i - 2], points[i - 1], width, width, conturColor);
                 }
@@ -57,7 +57,7 @@ namespace VectorEditorApplication
             double dx = Math.Abs(x1 - x2);
             double dy = Math.Abs(y1 - y2);
             double lenght = Math.Sqrt(dx * dx + dy * dy);
-            double integralPoints = Math.Ceiling(2 * lenght / width);
+            double integralPoints = 2 * lenght / width;
             double Xparallax = dx / integralPoints;
             double Yparallax = dy / integralPoints;
 
