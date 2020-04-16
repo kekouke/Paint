@@ -22,8 +22,6 @@ namespace VectorEditorApplication
         public static int thickness;
         public ToolPicker toolPicker;
 
-        private int countOfFigures = 0;
-
         public VectorEditorApp(WriteableBitmap paintBox)
         {
             VectorEditorApp.paintBox = paintBox;
@@ -58,9 +56,10 @@ namespace VectorEditorApplication
         
         public void GoBack()
         {
-            if (countOfFigures > 0)
-            {
 
+            if (figures.Count > 0)
+            {
+                figuresHistory.Clear();
                 foreach (var element in figures)
                 {
                     figuresHistory.Add(element);
@@ -68,17 +67,15 @@ namespace VectorEditorApplication
 
                 figures.RemoveLast();
                 Tool.Invalidate();
-                countOfFigures--;
             }
         }
 
         public void GoNext()
         {
-            if (countOfFigures < figuresHistory.Count)
+            if (figures.Count < figuresHistory.Count)
             {
-                figures.AddLast(figuresHistory[countOfFigures]);
+                figures.AddLast(figuresHistory[figures.Count]);
                 Tool.Invalidate();
-                countOfFigures++;
             }
         }
 
