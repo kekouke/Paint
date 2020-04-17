@@ -15,7 +15,7 @@ namespace VectorEditorApplication
     {
         public static WriteableBitmap paintBox;
         public static LinkedList<IDrawable> figures = new LinkedList<IDrawable>();
-        public static List<IDrawable> figuresHistory = new List<IDrawable>();
+        //public static List<IDrawable> figuresHistory;
         public Tool currentTool = new RectTool();
         public static Color gradientColor;
         public static Color conturColor;
@@ -59,12 +59,6 @@ namespace VectorEditorApplication
 
             if (figures.Count > 0)
             {
-                figuresHistory.Clear();
-                foreach (var element in figures)
-                {
-                    figuresHistory.Add(element);
-                }
-
                 figures.RemoveLast();
                 Tool.Invalidate();
             }
@@ -72,11 +66,12 @@ namespace VectorEditorApplication
 
         public void GoNext()
         {
-            if (figures.Count < figuresHistory.Count)
+/*            if (figures.Count < figuresHistory.Count)
             {
                 figures.AddLast(figuresHistory[figures.Count]);
+                figuresHistory.RemoveAt(figuresHistory.Count - 1);
                 Tool.Invalidate();
-            }
+            }*/
         }
 
     }
