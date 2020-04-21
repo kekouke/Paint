@@ -3,7 +3,7 @@ using System.Windows.Media.Imaging;
 
 namespace VectorEditorApplication
 {
-    class Ellipse : Figure
+    class Ellipse : FourPointFigure
     {
         public Ellipse()
         {

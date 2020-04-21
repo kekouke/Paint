@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 namespace VectorEditorApplication
 {
-    class Polyline : Figure
+    class Polyline : TwoPointFigure
     {
-        private List<int> points = new List<int>();
         public Polyline()
         {
 

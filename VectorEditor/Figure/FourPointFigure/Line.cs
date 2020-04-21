@@ -3,7 +3,7 @@ using System.Windows.Media.Imaging;
 
 namespace VectorEditorApplication
 {
-    class Line : Figure
+    class Line : FourPointFigure
     {
 
         public Line()
@@ -16,17 +16,9 @@ namespace VectorEditorApplication
 
         }
 
-        public override void SetCorrectCoordinate()
-        {
-            leftYDraw = leftY;
-            rightYDraw = rightY;
-            leftXDraw = leftX;
-            rightXDraw = rightX;
-        }
         override public void Draw(WriteableBitmap paintBox)
         {
-            SetCorrectCoordinate();
-            paintBox.DrawLine(leftXDraw, leftYDraw, rightXDraw, rightYDraw, conturColor);
+            paintBox.DrawLine(leftX, leftY, rightX, rightY, conturColor);
         }
     }
 }

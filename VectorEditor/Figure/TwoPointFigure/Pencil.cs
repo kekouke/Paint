@@ -6,9 +6,8 @@ using System.Collections.Generic;
 
 namespace VectorEditorApplication
 {
-    class Pencil : Figure
+    class Pencil : TwoPointFigure
     {
-        public List<int> points = new List<int>();
         private int width;
 
         public Pencil()
@@ -19,9 +18,6 @@ namespace VectorEditorApplication
         public Pencil(int x1, int y1, int width, Color conturColor) : base(x1, y1, conturColor)
         {
             this.width = width;
-            points = new List<int>();
-            points.Add(leftX);
-            points.Add(leftY);
         }
 
         override public void Draw(WriteableBitmap paintBox)

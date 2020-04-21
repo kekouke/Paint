@@ -3,7 +3,7 @@ using System.Windows.Media.Imaging;
 
 namespace VectorEditorApplication
 {
-    class Rectangle : Figure
+    class Rectangle : FourPointFigure
     {
         public Rectangle()
         {

@@ -37,7 +37,7 @@ namespace VectorEditorApplication
             }
         }
 
-        protected override Figure CreateFigure(int x1, int y1, int width,int _, Color conturColor, Color gradientColor)
+        protected override Figure CreateFigure(int x1, int y1, int width, int _, Color conturColor, Color __)
         {
             return new Pencil(x1, y1, width, conturColor);
         }
