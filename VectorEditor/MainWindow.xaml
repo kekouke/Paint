@@ -19,8 +19,8 @@
         </Grid.ColumnDefinitions>
 
         <Image x:Name="image" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="paintBox_MouseLeftButtonDown" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp" MouseLeave="paintBox_MouseLeave" MouseEnter="paintBox_MouseEnter"></Image>
-        <Border Grid.Row="1" Grid.Column="1" Background="Pink"></Border>
-        <TextBlock x:Name="lol" Text="Область, зарезервированная для будующих тасков" FontSize="20" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <Border Grid.Row="1" Grid.Column="1" Background="AliceBlue"></Border>
+        <TextBlock x:Name="lol" Text="Coming soon" FontSize="90" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -35,17 +35,20 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Button x:Name="rectangle" Content="Прямоугольник" Grid.Row="0" Click="rectangle_buttonClick"></Button>
             <Button x:Name="elipse" Content="Элипс" Grid.Row="1" Click="elipse_buttonClick"></Button>
             <Button x:Name="line" Content="Прямая" Grid.Row="2" Click="line_buttonClick"></Button>
-            <Button x:Name="cancel" Content="Шаг назад" Grid.Row="3" Click="cancel_buttonClick"></Button>
-            <Button x:Name="next" Content="Coming Soon" Grid.Row="4" Click="next_buttonClick"></Button>
-            <Button x:Name="pencil" Content="Карандаш" Grid.Row="5" Click="pencil_buttonClick"></Button>
-            <xctk:ColorPicker x:Name="conturPalette" Grid.Row="6" Grid.Column="0" SelectedColorChanged="conturPalette_SelectedColorChanged"></xctk:ColorPicker>
-            <xctk:ColorPicker x:Name="gradientPalette" Grid.Row="7" Grid.Column="0" SelectedColorChanged="gradientPalette_SelectedColorChanged"></xctk:ColorPicker>
-            <Slider x:Name="slider" Grid.Column="0" Grid.Row="8" VerticalAlignment="Center" Margin="10" ValueChanged="slider_ValueChanged" Minimum="0" Maximum="19"/>
-            <TextBlock x:Name="sliderValue" Text="1" Grid.Column="0" Grid.Row="8" VerticalAlignment="Bottom" HorizontalAlignment="Center"></TextBlock>
+            <Button x:Name="cancel" Content="Шаг назад" Grid.Row="3" HorizontalAlignment="Left" Click="cancel_buttonClick"></Button>
+            <Button x:Name="next" Content="Coming Soon" Grid.Row="3" HorizontalAlignment="Right" Click="next_buttonClick"></Button>
+            <Button x:Name="pencil" Content="Карандаш" Grid.Row="4" Click="pencil_buttonClick"></Button>
+            <Button x:Name="zoom" Content="Лупа" Grid.Row="5" Click="zoom_buttonClick"></Button>
+            <Button x:Name="hand" Content="Рука" Grid.Row="6" Click="hand_buttonClick"></Button>
+            <xctk:ColorPicker x:Name="conturPalette" Grid.Row="7" Grid.Column="0" SelectedColorChanged="conturPalette_SelectedColorChanged"></xctk:ColorPicker>
+            <xctk:ColorPicker x:Name="gradientPalette" Grid.Row="8" Grid.Column="0" SelectedColorChanged="gradientPalette_SelectedColorChanged"></xctk:ColorPicker>
+            <Slider x:Name="slider" Grid.Column="0" Grid.Row="9" VerticalAlignment="Center" Margin="10" ValueChanged="slider_ValueChanged" Minimum="0" Maximum="19"/>
+            <TextBlock x:Name="sliderValue" Text="1" Grid.Column="0" Grid.Row="9" VerticalAlignment="Bottom" HorizontalAlignment="Center"></TextBlock>
         </Grid>
     </Grid>
 </Window>

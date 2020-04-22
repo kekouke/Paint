@@ -87,6 +87,16 @@ namespace VectorEditor
             GraphApp.SetCurrentTool(GraphApp.toolPicker.Pencil);
         }
 
+        private void zoom_buttonClick(object sender, RoutedEventArgs e)
+        {
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.Zoom);
+        }
+
+        private void hand_buttonClick(object sender, RoutedEventArgs e)
+        {
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.Hand);
+        }
+
         private void conturPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             GraphApp.SetConturColor((Color)e.NewValue);
@@ -97,9 +107,10 @@ namespace VectorEditor
             GraphApp.SetGradientColor((Color)e.NewValue);
         }
 
+        // TODO Dield
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-        } //TODO
+        }
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
