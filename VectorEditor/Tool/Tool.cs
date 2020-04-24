@@ -17,7 +17,8 @@ namespace VectorEditorApplication
             initial,
             mouseClick,
             wait,
-            mouseLeave
+            mouseLeave,
+            mouseMove
         }
         protected States currentState = States.initial;
 

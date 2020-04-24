@@ -21,6 +21,8 @@ namespace VectorEditorApplication
         public static Color conturColor;
         public static int thickness;
         public ToolPicker toolPicker;
+        public static double screenOffsetX;
+        public static double screenOffsetY;
 
         public VectorEditorApp(WriteableBitmap paintBox)
         {
@@ -72,7 +74,7 @@ namespace VectorEditorApplication
                 figuresHistory.RemoveAt(figuresHistory.Count - 1);
                 Tool.Invalidate();
             }*/
-        }
+        } //TODO
 
     }
     interface IDrawable

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -6,9 +7,6 @@ using VectorEditorApplication;
 
 namespace VectorEditor
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         VectorEditorApp GraphApp;
@@ -21,29 +19,37 @@ namespace VectorEditor
             gradientPalette.SelectedColor = Colors.White;
             GraphApp.SetGradientColor(gradientPalette.SelectedColor.Value);
             slider.Value = 1;
-            VectorEditorApp.thickness = (int) slider.Value;
+            VectorEditorApp.thickness = (int)slider.Value;
             image.Source = VectorEditorApp.paintBox;
         }
 
         private void paintBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Mouse.Capture(image);
-            Point clickCord = e.GetPosition(image);
-            GraphApp.currentTool.MouseDownHandler((int)clickCord.X, (int)clickCord.Y); //GraphApp.StartDraw((int)clickCord.X, (int)clickCord.Y);
-            image.Source = VectorEditorApp.paintBox;
+                Mouse.Capture(image);
+                Point clickCord = e.GetPosition(image);
+                GraphApp.currentTool.MouseDownHandler((int)clickCord.X, (int)clickCord.Y);
+                image.Source = VectorEditorApp.paintBox;
         }
 
         private void paintBox_MouseMove(object sender, MouseEventArgs e)
         {
-            Point clickCord = e.GetPosition(image);
-            GraphApp.currentTool.MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
-            image.Source = VectorEditorApp.paintBox;
+                Point clickCord = e.GetPosition(image);
+                GraphApp.currentTool.MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
+
+                if (GraphApp.currentTool is HandTool)
+                {
+                    ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
+                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.screenOffsetX);
+                }
+
+                image.Source = VectorEditorApp.paintBox;
         }
 
         private void paintBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             GraphApp.currentTool.MouseUpHandler();
             Mouse.Capture(null);
+            image.Source = VectorEditorApp.paintBox;
         }
 
         private void paintBox_MouseLeave(object sender, MouseEventArgs e)
@@ -107,7 +113,7 @@ namespace VectorEditor
             GraphApp.SetGradientColor((Color)e.NewValue);
         }
 
-        // TODO Dield
+        // TODO Field
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
         }

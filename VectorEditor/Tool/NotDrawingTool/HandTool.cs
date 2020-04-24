@@ -2,26 +2,39 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media; // Delete later
+using Point = System.Drawing.Point;
 
 namespace VectorEditorApplication
 {
     public class HandTool : Tool
     {
+        List<Point> handPoint;
+
+        public HandTool()
+        {
+            handPoint = new List<Point>();
+        }
+
         public override void MouseDownHandler(int x, int y)
         {
+            handPoint.Add(new Point(x, y));
+            currentState = States.mouseClick;
         }
+
         public override void MouseMoveHandler(int x, int y)
         {
+            if (currentState == States.mouseClick)
+            {
+                handPoint.Add(new Point(x, y));
+                VectorEditorApp.screenOffsetX -= handPoint[handPoint.Count - 1].X - handPoint[handPoint.Count - 2].X;
+                VectorEditorApp.screenOffsetY -= handPoint[handPoint.Count - 1].Y - handPoint[handPoint.Count - 2].Y;
+            }
         }
-        public virtual void MouseUpHandler()
+
+        public override void MouseUpHandler()
         {
+            handPoint.Clear();
             currentState = States.initial;
-        }
-        public virtual void MouseLeaveHandler()
-        {
-        }
-        public virtual void MouseEnterHandler(int x, int y)
-        {
         }
 
         // Delete later
