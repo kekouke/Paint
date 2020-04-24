@@ -39,7 +39,7 @@ namespace VectorEditor
                 if (GraphApp.currentTool is HandTool)
                 {
                     ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
-                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.screenOffsetX);
+                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.screenOffsetY);
                 }
 
                 image.Source = VectorEditorApp.paintBox;
@@ -48,6 +48,14 @@ namespace VectorEditor
         private void paintBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             GraphApp.currentTool.MouseUpHandler();
+
+            if (GraphApp.currentTool is ZoomTool)
+            {
+                image.LayoutTransform = new ScaleTransform(VectorEditorApp.scaleX, VectorEditorApp.scaleY);
+                ScrollViewer.ScrollToVerticalOffset((VectorEditorApp.distanceToPointY * VectorEditorApp.scaleY));
+                ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.distanceToPointX * VectorEditorApp.scaleX);
+            }
+
             Mouse.Capture(null);
             image.Source = VectorEditorApp.paintBox;
         }
@@ -122,6 +130,21 @@ namespace VectorEditor
         {
             GraphApp.SetThicknessValue((int)slider.Value);
             sliderValue.Text = ((int)slider.Value).ToString();
+        }
+
+        private void image_Loaded(object sender, RoutedEventArgs e)
+        {
+            GraphApp.SetImageboxSize(image.ActualHeight, image.ActualWidth);
+        }
+
+        private void paintBox_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (GraphApp.currentTool is ZoomTool)
+            {
+                image.LayoutTransform = new ScaleTransform(1, 1);
+                ScrollViewer.ScrollToVerticalOffset(0);
+                ScrollViewer.ScrollToHorizontalOffset(0);
+            }
         }
     }
 }

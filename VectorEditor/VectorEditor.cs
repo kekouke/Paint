@@ -23,6 +23,12 @@ namespace VectorEditorApplication
         public ToolPicker toolPicker;
         public static double screenOffsetX;
         public static double screenOffsetY;
+        public static double scaleX;
+        public static double scaleY;
+        public static double imageWidth;
+        public static double imageHeight;
+        public static double distanceToPointX;
+        public static double distanceToPointY;
 
         public VectorEditorApp(WriteableBitmap paintBox)
         {
@@ -48,6 +54,12 @@ namespace VectorEditorApplication
         public void SetThicknessValue(int thickness)
         {
             VectorEditorApp.thickness = thickness;
+        }
+
+        public void SetImageboxSize(double height, double width)
+        {
+            imageHeight = height;
+            imageWidth = width;
         }
 
         public WriteableBitmap SetSizeBitmap(WriteableBitmap bitmap)

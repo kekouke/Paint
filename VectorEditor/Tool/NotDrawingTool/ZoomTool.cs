@@ -3,48 +3,83 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media.Imaging;
 using System.Windows.Media; // Delete it later
+using System.Windows;
 
 namespace VectorEditorApplication
 {
     public class ZoomTool : Tool
     {
-        //Point zoomPoint;
+        LinkedList<Point> zoomPoint;
+        bool zoom;
+
+        public ZoomTool()
+        {
+            zoomPoint = new LinkedList<Point>();
+            zoom = false;
+        }
+
         public override void MouseDownHandler(int x, int y)
         {
-/*            zoomPoint = new Point(x, y);
-            currentState = States.mouseClick;*/
+            zoomPoint.AddLast(new Point(x, y));
+            zoomPoint.AddLast(new Point(x, y));
+            currentState = States.mouseClick;
         }
         public override void MouseMoveHandler(int x, int y)
         {
-/*            if (currentState == States.mouseClick)
+            if (currentState == States.mouseClick)
             {
-                currentState = States.mouseMove;
-            }*/
-        }
-        public virtual void MouseUpHandler()
-        {
-/*            if (currentState == States.mouseClick)
-            {
-                foreach (FourPointFigure element in VectorEditorApp.figures)
-                {
-                    element.leftXDraw = element.leftXDraw * 2 - zoomPoint.X;
-                    element.rightXDraw = element.rightXDraw * 2 - zoomPoint.X;
-                    element.leftYDraw = element.leftYDraw * 2 - zoomPoint.Y;
-                    element.rightYDraw = element.rightYDraw * 2 - zoomPoint.Y;
-                }
-                Invalidate();
-                currentState = States.initial;
+                zoomPoint.Last.Value = new Point(x, y);
             }
-            else if (currentState == States.mouseMove)
+        }
+        public override void MouseUpHandler()
+        {
+            if (!zoom)
             {
+                FieldCalculate();
+
+                zoomPoint.Clear();
                 currentState = States.initial;
-            }*/
+                zoom = true;
+            }
         }
-        public virtual void MouseLeaveHandler()
+
+        public void MouseRightUpHandler()
         {
+            zoom = false;
         }
-        public virtual void MouseEnterHandler(int x, int y)
+
+        private void FieldCalculate()
         {
+            if (Point.Subtract(zoomPoint.First.Value, zoomPoint.Last.Value).Length > 100)
+            {
+                if (zoomPoint.First.Value.X > zoomPoint.Last.Value.X)
+                {
+                    VectorEditorApp.scaleX = VectorEditorApp.imageWidth / (zoomPoint.First.Value.X - zoomPoint.Last.Value.X);
+                    VectorEditorApp.distanceToPointX = zoomPoint.Last.Value.X;
+                }
+                else
+                {
+                    VectorEditorApp.scaleX = VectorEditorApp.imageWidth / (zoomPoint.Last.Value.X - zoomPoint.First.Value.X);
+                    VectorEditorApp.distanceToPointX = zoomPoint.First.Value.X;
+                }
+                if (zoomPoint.First.Value.Y > zoomPoint.Last.Value.Y)
+                {
+                    VectorEditorApp.scaleY = VectorEditorApp.imageHeight / (zoomPoint.First.Value.Y - zoomPoint.Last.Value.Y);
+                    VectorEditorApp.distanceToPointY = zoomPoint.Last.Value.Y;
+                }
+                else
+                {
+                    VectorEditorApp.scaleY = VectorEditorApp.imageHeight / (zoomPoint.Last.Value.Y - zoomPoint.First.Value.Y);
+                    VectorEditorApp.distanceToPointY = zoomPoint.First.Value.Y;
+                }
+            }
+            else
+            {
+                VectorEditorApp.distanceToPointX = 1;
+                VectorEditorApp.distanceToPointY = 1;
+                VectorEditorApp.scaleX = 2;
+                VectorEditorApp.scaleY = 2;
+            }
         }
 
         // Delete it later
