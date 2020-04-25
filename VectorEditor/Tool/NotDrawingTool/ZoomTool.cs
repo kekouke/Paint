@@ -2,56 +2,65 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media.Imaging;
-using System.Windows.Media; // Delete it later
 using System.Windows;
 
 namespace VectorEditorApplication
 {
-    public class ZoomTool : Tool
+    public class ZoomTool : NotDrawingTool
     {
         LinkedList<Point> zoomPoint;
-        bool zoom;
+        public static bool justClick;
+        private bool _zoom;
 
         public ZoomTool()
         {
             zoomPoint = new LinkedList<Point>();
-            zoom = false;
+            justClick = false;
+            _zoom = false;
         }
 
         public override void MouseDownHandler(int x, int y)
         {
-            zoomPoint.AddLast(new Point(x, y));
-            zoomPoint.AddLast(new Point(x, y));
-            currentState = States.mouseClick;
+            if (_zoom == false)
+            {
+                zoomPoint.AddLast(new Point(x, y));
+                zoomPoint.AddLast(new Point(x, y));
+                HandTool.handForNewViewport = true;
+                currentState = States.mouseClick;
+            }
         }
+
         public override void MouseMoveHandler(int x, int y)
         {
-            if (currentState == States.mouseClick)
+            if (currentState == States.mouseClick && !_zoom)
             {
                 zoomPoint.Last.Value = new Point(x, y);
             }
         }
         public override void MouseUpHandler()
         {
-            if (!zoom)
+            if (_zoom == false)
             {
+                _zoom = true;
                 FieldCalculate();
-
                 zoomPoint.Clear();
+                MakeRatio();
                 currentState = States.initial;
-                zoom = true;
             }
         }
 
-        public void MouseRightUpHandler()
+        public override void MouseRightUpHandler()
         {
-            zoom = false;
+            _zoom = false;
         }
 
         private void FieldCalculate()
         {
-            if (Point.Subtract(zoomPoint.First.Value, zoomPoint.Last.Value).Length > 100)
+            if (Point.Subtract(zoomPoint.First.Value, zoomPoint.Last.Value).Length > 50 && Math.Abs(zoomPoint.First.Value.X - zoomPoint.Last.Value.X) > 20 &&
+                Math.Abs(zoomPoint.First.Value.Y - zoomPoint.Last.Value.Y) > 20)
             {
+                justClick = false;
+
                 if (zoomPoint.First.Value.X > zoomPoint.Last.Value.X)
                 {
                     VectorEditorApp.scaleX = VectorEditorApp.imageWidth / (zoomPoint.First.Value.X - zoomPoint.Last.Value.X);
@@ -75,18 +84,18 @@ namespace VectorEditorApplication
             }
             else
             {
-                VectorEditorApp.distanceToPointX = 1;
-                VectorEditorApp.distanceToPointY = 1;
+                justClick = true;
                 VectorEditorApp.scaleX = 2;
                 VectorEditorApp.scaleY = 2;
+                VectorEditorApp.distanceToPointX = zoomPoint.First.Value.X / VectorEditorApp.scaleX;
+                VectorEditorApp.distanceToPointY = zoomPoint.First.Value.Y / VectorEditorApp.scaleY;
             }
         }
 
-        // Delete it later
-        protected override Figure CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor)
+        private void MakeRatio()
         {
-            return new Pencil();
+            VectorEditorApp.scaleY = (VectorEditorApp.scaleY + VectorEditorApp.scaleX) / 2;
+            VectorEditorApp.scaleX = VectorEditorApp.scaleY;
         }
-
     }
 }

@@ -29,11 +29,13 @@ namespace VectorEditorApplication
         public static double imageHeight;
         public static double distanceToPointX;
         public static double distanceToPointY;
+        public bool isZoomed;
 
         public VectorEditorApp(WriteableBitmap paintBox)
         {
             VectorEditorApp.paintBox = paintBox;
             toolPicker = new ToolPicker();
+            isZoomed = false;
         }
 
         public void SetCurrentTool(Tool currentTool)

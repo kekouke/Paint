@@ -1,23 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Media; // Delete later
-using Point = System.Drawing.Point;
+using System.Windows;
 
 namespace VectorEditorApplication
 {
-    public class HandTool : Tool
+    public class HandTool : NotDrawingTool
     {
         List<Point> handPoint;
+        public static bool handActive;
+        public static bool handForNewViewport = true;
 
         public HandTool()
         {
             handPoint = new List<Point>();
+            handActive = false;
         }
 
         public override void MouseDownHandler(int x, int y)
         {
+
+            if (handForNewViewport)
+            {
+                VectorEditorApp.screenOffsetX = VectorEditorApp.scaleX * VectorEditorApp.distanceToPointX;
+                VectorEditorApp.screenOffsetY = VectorEditorApp.scaleY * VectorEditorApp.distanceToPointY;
+                 handForNewViewport = false;
+            }
+
             handPoint.Add(new Point(x, y));
+            handActive = true;
             currentState = States.mouseClick;
         }
 
@@ -34,14 +45,10 @@ namespace VectorEditorApplication
         public override void MouseUpHandler()
         {
             handPoint.Clear();
+            handActive = false;
             currentState = States.initial;
+            //VectorEditorApp.screenOffsetX = 0;
+           // VectorEditorApp.screenOffsetY = 0;
         }
-
-        // Delete later
-        protected override Figure CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor)
-        {
-            return new Pencil();
-        }
-
     }
 }

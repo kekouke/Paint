@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace VectorEditorApplication
 {
-    public class PencilTool : Tool
+    public class PencilTool : DrawingTool
     {
         public override void MouseDownHandler(int x, int y)
         {

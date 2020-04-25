@@ -13,7 +13,7 @@ namespace VectorEditor
         public MainWindow()
         {
             InitializeComponent();
-            GraphApp = new VectorEditorApp(new WriteableBitmap(652, 432, 96, 96, PixelFormats.Pbgra32, null)); // 640 420
+            GraphApp = new VectorEditorApp(new WriteableBitmap(652, 432, 96, 96, PixelFormats.Pbgra32, null));
             conturPalette.SelectedColor = Colors.Black;
             GraphApp.SetConturColor(conturPalette.SelectedColor.Value);
             gradientPalette.SelectedColor = Colors.White;
@@ -36,10 +36,10 @@ namespace VectorEditor
                 Point clickCord = e.GetPosition(image);
                 GraphApp.currentTool.MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
 
-                if (GraphApp.currentTool is HandTool)
+                if (GraphApp.currentTool is HandTool && HandTool.handActive)
                 {
                     ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
-                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.screenOffsetY);
+                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.screenOffsetX);
                 }
 
                 image.Source = VectorEditorApp.paintBox;
@@ -49,11 +49,22 @@ namespace VectorEditor
         {
             GraphApp.currentTool.MouseUpHandler();
 
-            if (GraphApp.currentTool is ZoomTool)
+            if (GraphApp.currentTool is ZoomTool && !GraphApp.isZoomed)
             {
+
                 image.LayoutTransform = new ScaleTransform(VectorEditorApp.scaleX, VectorEditorApp.scaleY);
-                ScrollViewer.ScrollToVerticalOffset((VectorEditorApp.distanceToPointY * VectorEditorApp.scaleY));
-                ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.distanceToPointX * VectorEditorApp.scaleX);
+
+                if (ZoomTool.justClick)
+                {
+                    ScrollViewer.ScrollToVerticalOffset(e.GetPosition(image).Y);
+                    ScrollViewer.ScrollToHorizontalOffset(e.GetPosition(image).X);
+                }
+                else
+                {
+                    ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.distanceToPointY * VectorEditorApp.scaleY);
+                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.distanceToPointX * VectorEditorApp.scaleX);
+                }
+                GraphApp.isZoomed = true;
             }
 
             Mouse.Capture(null);
@@ -141,9 +152,11 @@ namespace VectorEditor
         {
             if (GraphApp.currentTool is ZoomTool)
             {
+                GraphApp.currentTool.MouseRightUpHandler();
                 image.LayoutTransform = new ScaleTransform(1, 1);
                 ScrollViewer.ScrollToVerticalOffset(0);
                 ScrollViewer.ScrollToHorizontalOffset(0);
+                GraphApp.isZoomed = false;
             }
         }
     }

@@ -34,8 +34,9 @@ namespace VectorEditorApplication
         public virtual void MouseEnterHandler(int x, int y)
         {
         }
-
-        protected abstract Figure CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor);
+        public virtual void MouseRightUpHandler()
+        {
+        }
 
         public static void Invalidate()
         {

@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 
 namespace VectorEditorApplication
 {
-    public class PolylineTool : Tool
+    public class PolylineTool : DrawingTool
     {
         public override void MouseDownHandler(int x, int y)
         {
