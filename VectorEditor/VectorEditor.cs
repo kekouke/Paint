@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace VectorEditorApplication
 {
 
     class VectorEditorApp
     {
-        public static WriteableBitmap paintBox;
-        public static LinkedList<IDrawable> figures = new LinkedList<IDrawable>();
+        public static Graphics paintBox;
+        public static LinkedList<IDrawable> figures;
         //public static List<IDrawable> figuresHistory;
-        public Tool currentTool = new RectTool();
-        public static Color gradientColor;
+        public Tool currentTool;
+        public static Color fillColor;
         public static Color conturColor;
         public static int thickness;
         public ToolPicker toolPicker;
@@ -25,17 +18,21 @@ namespace VectorEditorApplication
         public static double screenOffsetY;
         public static double scaleX;
         public static double scaleY;
+        public static double currentScaleX;
+        public static double currentScaleY;
         public static double imageWidth;
         public static double imageHeight;
         public static double distanceToPointX;
         public static double distanceToPointY;
-        public bool isZoomed;
 
-        public VectorEditorApp(WriteableBitmap paintBox)
+        public VectorEditorApp(Bitmap paintBox)
         {
-            VectorEditorApp.paintBox = paintBox;
+            VectorEditorApp.paintBox = Graphics.FromImage(paintBox);
+            figures = new LinkedList<IDrawable>();
             toolPicker = new ToolPicker();
-            isZoomed = false;
+            currentTool = new RectTool();
+            currentScaleX = 1;
+            currentScaleY = 1;
         }
 
         public void SetCurrentTool(Tool currentTool)
@@ -48,9 +45,9 @@ namespace VectorEditorApplication
             conturColor = color;
         }
 
-        public void SetGradientColor(Color color)
+        public void SetFillColor(Color color)
         {
-            gradientColor = color;
+            fillColor = color;
         }
 
         public void SetThicknessValue(int thickness)
@@ -64,11 +61,11 @@ namespace VectorEditorApplication
             imageWidth = width;
         }
 
-        public WriteableBitmap SetSizeBitmap(WriteableBitmap bitmap)
-        {
-            paintBox = bitmap;
-            return paintBox;
-        } //TODO
+       // public Bitmap SetSizeBitmap(Bitmap bitmap)
+       // {
+       //     paintBox = bitmap;
+       //     return paintBox;
+        //} //TODO
         
         public void GoBack()
         {
@@ -93,7 +90,7 @@ namespace VectorEditorApplication
     }
     interface IDrawable
     {
-        void Draw(WriteableBitmap paintBox);
+        void Draw(Graphics paintBox);
         void EditSize(int x, int y);
     }
 }

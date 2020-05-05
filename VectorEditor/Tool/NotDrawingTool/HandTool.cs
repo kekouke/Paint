@@ -24,7 +24,7 @@ namespace VectorEditorApplication
             {
                 VectorEditorApp.screenOffsetX = VectorEditorApp.scaleX * VectorEditorApp.distanceToPointX;
                 VectorEditorApp.screenOffsetY = VectorEditorApp.scaleY * VectorEditorApp.distanceToPointY;
-                 handForNewViewport = false;
+                handForNewViewport = false;
             }
 
             handPoint.Add(new Point(x, y));
@@ -48,7 +48,7 @@ namespace VectorEditorApplication
             handActive = false;
             currentState = States.initial;
             //VectorEditorApp.screenOffsetX = 0;
-           // VectorEditorApp.screenOffsetY = 0;
+            // VectorEditorApp.screenOffsetY = 0;
         }
     }
 }

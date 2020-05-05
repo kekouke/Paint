@@ -1,12 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using System.Drawing;
 
 namespace VectorEditorApplication
 {
@@ -40,8 +32,8 @@ namespace VectorEditorApplication
 
         public static void Invalidate()
         {
-            VectorEditorApp.paintBox.Clear();
-
+            VectorEditorApp.paintBox.Clear(Color.White);
+            
             foreach (var drawingFigure in VectorEditorApp.figures)
             {
                 drawingFigure.Draw(VectorEditorApp.paintBox);

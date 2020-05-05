@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Drawing;
 
 namespace VectorEditorApplication
 {
@@ -17,12 +16,12 @@ namespace VectorEditorApplication
 
         }
 
-        public FourPointFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor) : base(x1, y1, x2, y2, conturColor)
+        public FourPointFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor, int width) : base(x1, y1, x2, y2, conturColor, width)
         {
             this.gradientColor = gradientColor;
         }
 
-        override abstract public void Draw(WriteableBitmap paintBox);
+        override abstract public void Draw(Graphics paintBox);
 
         public void SetCorrectCoordinate()
         {

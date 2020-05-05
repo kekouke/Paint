@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Drawing;
 
 namespace VectorEditorApplication
 {
@@ -10,6 +9,7 @@ namespace VectorEditorApplication
         public int rightX;
         public int rightY;
 
+        public int thickness;
         protected Color conturColor;
 
         public Figure()
@@ -17,16 +17,17 @@ namespace VectorEditorApplication
 
         }
 
-        public Figure(int x1, int y1, int x2, int y2, Color conturColor)
+        public Figure(int x1, int y1, int x2, int y2, Color conturColor, int thickness)
         {
             leftX = x1;
             leftY = y1;
             rightX = x2;
             rightY = y2;
             this.conturColor = conturColor;
+            this.thickness = thickness;
         }
 
-        abstract public void Draw(WriteableBitmap paintBox);
+        abstract public void Draw(Graphics paintBox);
         public virtual void EditSize(int x, int y)
         {
             rightX = x;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Media;
+﻿using System.Drawing;
 using System.Windows.Input;
 
 namespace VectorEditorApplication
@@ -9,7 +7,7 @@ namespace VectorEditorApplication
     {
         public override void MouseDownHandler(int x, int y)
         {
-            VectorEditorApp.figures.AddLast(CreateFigure(x, y, VectorEditorApp.thickness, VectorEditorApp.thickness, VectorEditorApp.conturColor, VectorEditorApp.gradientColor));
+            VectorEditorApp.figures.AddLast(CreateFigure(x, y, x, y, VectorEditorApp.conturColor, VectorEditorApp.fillColor, VectorEditorApp.thickness));
             Invalidate();
             currentState = States.mouseClick;
         }
@@ -37,9 +35,9 @@ namespace VectorEditorApplication
             }
         }
 
-        protected override Figure CreateFigure(int x1, int y1, int width, int _, Color conturColor, Color __)
+        protected override Figure CreateFigure(int x1, int y1, int x2, int y2, Color conturColor, Color fillColor, int thickness)
         {
-            return new Pencil(x1, y1, width, conturColor);
+            return new Pencil(x1, y1, thickness, conturColor);
         }
     }
 }

@@ -1,28 +1,28 @@
-﻿using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Drawing;
 using System.Collections.Generic;
 
 namespace VectorEditorApplication
 {
     abstract class TwoPointFigure : Figure
     {
-        public List<int> points;
+        public List<Point> points;
 
         public TwoPointFigure()
         {
 
         }
 
-        public TwoPointFigure(int x, int y, Color conturColor)
+        public TwoPointFigure(int x, int y, int thickness, Color conturColor)
         {
-            points = new List<int>();
-            points.Add(x);
-            points.Add(y);
+            points = new List<Point>();
+            points.Add(new Point(x, y));
+            points.Add(new Point(x, y));
             this.conturColor = conturColor;
+            this.thickness = thickness;
         }
 
 
-        override abstract public void Draw(WriteableBitmap paintBox);
+        override abstract public void Draw(Graphics paintBox);
 
     }
 }

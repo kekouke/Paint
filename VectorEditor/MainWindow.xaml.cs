@@ -3,53 +3,60 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Interop;
 using VectorEditorApplication;
+using System.Drawing;
+using Color = System.Drawing.Color;
 
 namespace VectorEditor
 {
     public partial class MainWindow : Window
     {
         VectorEditorApp GraphApp;
+        Bitmap picture;
+
         public MainWindow()
         {
             InitializeComponent();
-            GraphApp = new VectorEditorApp(new WriteableBitmap(652, 432, 96, 96, PixelFormats.Pbgra32, null));
-            conturPalette.SelectedColor = Colors.Black;
-            GraphApp.SetConturColor(conturPalette.SelectedColor.Value);
-            gradientPalette.SelectedColor = Colors.White;
-            GraphApp.SetGradientColor(gradientPalette.SelectedColor.Value);
+            picture = new Bitmap(652, 452);
+            GraphApp = new VectorEditorApp(picture); //652 452
             slider.Value = 1;
             VectorEditorApp.thickness = (int)slider.Value;
-            image.Source = VectorEditorApp.paintBox;
+            conturPalette.SelectedColor = Colors.Black;
+            fillPalette.SelectedColor = Colors.White;
+            GraphApp.SetFillColor(Color.White);
+            GraphApp.SetConturColor(Color.Black);
+            Display();
         }
 
+        #region MouseHandlers
         private void paintBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-                Mouse.Capture(image);
-                Point clickCord = e.GetPosition(image);
-                GraphApp.currentTool.MouseDownHandler((int)clickCord.X, (int)clickCord.Y);
-                image.Source = VectorEditorApp.paintBox;
+            Mouse.Capture(image);
+            var clickCord = e.GetPosition(image);
+            GraphApp.currentTool.MouseDownHandler((int)clickCord.X, (int)clickCord.Y);
+            Display();
         }
 
         private void paintBox_MouseMove(object sender, MouseEventArgs e)
         {
-                Point clickCord = e.GetPosition(image);
-                GraphApp.currentTool.MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
+            var clickCord = e.GetPosition(image);
+            GraphApp.currentTool.MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
 
-                if (GraphApp.currentTool is HandTool && HandTool.handActive)
-                {
-                    ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
-                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.screenOffsetX);
-                }
+            if (GraphApp.currentTool is HandTool && HandTool.handActive)
+            {
+                ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
+                ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.screenOffsetX);
+            }
 
-                image.Source = VectorEditorApp.paintBox;
+            Display();
         }
 
         private void paintBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             GraphApp.currentTool.MouseUpHandler();
 
-            if (GraphApp.currentTool is ZoomTool && !GraphApp.isZoomed)
+            if (GraphApp.currentTool is ZoomTool)
             {
 
                 image.LayoutTransform = new ScaleTransform(VectorEditorApp.scaleX, VectorEditorApp.scaleY);
@@ -61,14 +68,13 @@ namespace VectorEditor
                 }
                 else
                 {
-                    ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.distanceToPointY * VectorEditorApp.scaleY);
-                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.distanceToPointX * VectorEditorApp.scaleX);
+                    ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.distanceToPointY);
+                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.distanceToPointX);
                 }
-                GraphApp.isZoomed = true;
             }
 
             Mouse.Capture(null);
-            image.Source = VectorEditorApp.paintBox;
+            Display();
         }
 
         private void paintBox_MouseLeave(object sender, MouseEventArgs e)
@@ -78,10 +84,23 @@ namespace VectorEditor
 
         private void paintBox_MouseEnter(object sender, MouseEventArgs e)
         {
-            Point coord = e.GetPosition(image);
+            var coord = e.GetPosition(image);
             GraphApp.currentTool.MouseEnterHandler((int)coord.X, (int)coord.Y);
         }
 
+        private void paintBox_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (GraphApp.currentTool is ZoomTool)
+            {
+                GraphApp.currentTool.MouseRightUpHandler();
+                image.LayoutTransform = new ScaleTransform(1, 1);
+                ScrollViewer.ScrollToVerticalOffset(0);
+                ScrollViewer.ScrollToHorizontalOffset(0);
+            }
+        }
+        #endregion
+
+        #region Tools
         private void rectangle_buttonClick(object sender, RoutedEventArgs e)
         {
             GraphApp.SetCurrentTool(GraphApp.toolPicker.Rectabgle);
@@ -95,16 +114,6 @@ namespace VectorEditor
         private void line_buttonClick(object sender, RoutedEventArgs e)
         {
             GraphApp.SetCurrentTool(GraphApp.toolPicker.Line);
-        }
-
-        private void cancel_buttonClick(object sender, RoutedEventArgs e)
-        {
-            GraphApp.GoBack();
-        }
-
-        private void next_buttonClick(object sender, RoutedEventArgs e)
-        {
-            GraphApp.GoNext();
         }
 
         private void pencil_buttonClick(object sender, RoutedEventArgs e)
@@ -121,17 +130,23 @@ namespace VectorEditor
         {
             GraphApp.SetCurrentTool(GraphApp.toolPicker.Hand);
         }
+        #endregion
 
-        private void conturPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        #region Palette
+        private void conturPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
-            GraphApp.SetConturColor((Color)e.NewValue);
+            var fillColor = (System.Windows.Media.Color)e.NewValue;
+            var drawingcolor = Color.FromArgb(fillColor.A, fillColor.R, fillColor.G, fillColor.B);
+            GraphApp.SetConturColor(drawingcolor);
         }
 
-        private void gradientPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        private void fillPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
-            GraphApp.SetGradientColor((Color)e.NewValue);
+            var fillColor = (System.Windows.Media.Color) e.NewValue;
+            var drawingcolor = Color.FromArgb(fillColor.A, fillColor.R, fillColor.G, fillColor.B);
+            GraphApp.SetFillColor(drawingcolor);
         }
-
+        #endregion
         // TODO Field
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -146,18 +161,44 @@ namespace VectorEditor
         private void image_Loaded(object sender, RoutedEventArgs e)
         {
             GraphApp.SetImageboxSize(image.ActualHeight, image.ActualWidth);
+            //Display();
         }
 
-        private void paintBox_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void cancel_buttonClick(object sender, RoutedEventArgs e)
         {
-            if (GraphApp.currentTool is ZoomTool)
-            {
-                GraphApp.currentTool.MouseRightUpHandler();
-                image.LayoutTransform = new ScaleTransform(1, 1);
-                ScrollViewer.ScrollToVerticalOffset(0);
-                ScrollViewer.ScrollToHorizontalOffset(0);
-                GraphApp.isZoomed = false;
-            }
+            GraphApp.GoBack();
+            Display();
         }
+
+        private void Display()
+        {
+            var handle = picture.GetHbitmap();
+            image.Source = Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+        }
+
+        private void next_buttonClick(object sender, RoutedEventArgs e)
+        {
+            GraphApp.GoNext();
+        }
+        /*        private void ScrollViewer_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+                {
+                    if (GraphApp.currentTool is HandTool)
+                    {
+                        if (image.ActualWidth - e.HorizontalOffset < 900)
+                        {
+                            VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth + 10, (int)image.ActualHeight, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+                            Tool.Invalidate();
+                        }
+                        if (image.ActualHeight - e.VerticalOffset < 900)
+                        {
+                            VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth, (int)image.ActualHeight + 10, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+                            Tool.Invalidate();
+                        }
+
+
+                        image.Source = VectorEditorApp.paintBox;
+                        GraphApp.SetImageboxSize(image.ActualHeight, image.ActualWidth);
+                    }
+                }*/
     }
 }
