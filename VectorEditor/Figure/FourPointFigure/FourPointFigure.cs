@@ -9,7 +9,7 @@ namespace VectorEditorApplication
         public int rightXDraw;
         public int rightYDraw;
 
-        protected Color gradientColor;
+        public Color gradientColor;
 
         public FourPointFigure()
         {

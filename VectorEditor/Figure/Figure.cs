@@ -10,7 +10,7 @@ namespace VectorEditorApplication
         public int rightY;
 
         public int thickness;
-        protected Color conturColor;
+        public Color conturColor;
 
         public Figure()
         {

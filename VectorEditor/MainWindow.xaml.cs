@@ -130,6 +130,10 @@ namespace VectorEditor
         {
             GraphApp.SetCurrentTool(GraphApp.toolPicker.Hand);
         }
+        private void pie_buttonClick(object sender, RoutedEventArgs e)
+        {
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.Pie);
+        }
         #endregion
 
         #region Palette
@@ -181,24 +185,24 @@ namespace VectorEditor
             GraphApp.GoNext();
         }
         /*        private void ScrollViewer_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
-                {
-                    if (GraphApp.currentTool is HandTool)
-                    {
-                        if (image.ActualWidth - e.HorizontalOffset < 900)
-                        {
-                            VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth + 10, (int)image.ActualHeight, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
-                            Tool.Invalidate();
-                        }
-                        if (image.ActualHeight - e.VerticalOffset < 900)
-                        {
-                            VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth, (int)image.ActualHeight + 10, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
-                            Tool.Invalidate();
-                        }
+       {
+           if (GraphApp.currentTool is HandTool)
+           {
+               if (image.ActualWidth - e.HorizontalOffset < 900)
+               {
+                   VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth + 10, (int)image.ActualHeight, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+                   Tool.Invalidate();
+               }
+               if (image.ActualHeight - e.VerticalOffset < 900)
+               {
+                   VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth, (int)image.ActualHeight + 10, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+                   Tool.Invalidate();
+               }
 
 
-                        image.Source = VectorEditorApp.paintBox;
-                        GraphApp.SetImageboxSize(image.ActualHeight, image.ActualWidth);
-                    }
-                }*/
+               image.Source = VectorEditorApp.paintBox;
+               GraphApp.SetImageboxSize(image.ActualHeight, image.ActualWidth);
+           }
+       }*/
     }
 }

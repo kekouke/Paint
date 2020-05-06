@@ -16,6 +16,7 @@ namespace VectorEditorApplication
             polylineTool = new PolylineTool();
             zoomTool = new ZoomTool();
             handTool = new HandTool();
+            pieTool = new PieTool();
         }
 
         public RectTool Rectabgle
@@ -46,6 +47,10 @@ namespace VectorEditorApplication
         {
             get { return handTool; }
         }
+        public PieTool Pie
+        {
+            get { return pieTool; }
+        }
 
         RectTool rectTool;
         EllipseTool ellipseTool;
@@ -54,5 +59,6 @@ namespace VectorEditorApplication
         PolylineTool polylineTool;
         ZoomTool zoomTool;
         HandTool handTool;
+        PieTool pieTool;
     }
 }
