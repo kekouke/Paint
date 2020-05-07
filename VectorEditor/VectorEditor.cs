@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace VectorEditorApplication
@@ -8,12 +9,10 @@ namespace VectorEditorApplication
     {
         public static Graphics paintBox;
         public static LinkedList<IDrawable> figures;
-        //public static List<IDrawable> figuresHistory;
         public Tool currentTool;
-        public static Color fillColor;
-        public static Color conturColor;
         public static int thickness;
         public ToolPicker toolPicker;
+
         public static double screenOffsetX;
         public static double screenOffsetY;
         public static double scaleX;
@@ -38,16 +37,6 @@ namespace VectorEditorApplication
         public void SetCurrentTool(Tool currentTool)
         {
             this.currentTool = currentTool;
-        }
-
-        public void SetConturColor(Color color)
-        {
-            conturColor = color;
-        }
-
-        public void SetFillColor(Color color)
-        {
-            fillColor = color;
         }
 
         public void SetThicknessValue(int thickness)
@@ -87,10 +76,5 @@ namespace VectorEditorApplication
             }*/
         } //TODO
 
-    }
-    interface IDrawable
-    {
-        void Draw(Graphics paintBox);
-        void EditSize(int x, int y);
     }
 }

@@ -15,6 +15,7 @@ namespace VectorEditorApplication
         {
             p = new Pen(conturColor);
             p.Width = thickness;
+            p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
         }
 
         override public void Draw(Graphics paintBox)

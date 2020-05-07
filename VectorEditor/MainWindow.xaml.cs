@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -8,10 +9,15 @@ using VectorEditorApplication;
 using System.Drawing;
 using Color = System.Drawing.Color;
 
+
 namespace VectorEditor
 {
     public partial class MainWindow : Window
     {
+        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr hObject);
+
+
         VectorEditorApp GraphApp;
         Bitmap picture;
 
@@ -20,12 +26,21 @@ namespace VectorEditor
             InitializeComponent();
             picture = new Bitmap(652, 452);
             GraphApp = new VectorEditorApp(picture); //652 452
-            slider.Value = 1;
-            VectorEditorApp.thickness = (int)slider.Value;
-            conturPalette.SelectedColor = Colors.Black;
-            fillPalette.SelectedColor = Colors.White;
-            GraphApp.SetFillColor(Color.White);
-            GraphApp.SetConturColor(Color.Black);
+
+            GraphApp.toolPicker.AddTool(new RectTool());
+            GraphApp.toolPicker.AddTool(new EllipseTool());
+            GraphApp.toolPicker.AddTool(new LineTool());
+            GraphApp.toolPicker.AddTool(new PencilTool());
+            GraphApp.toolPicker.AddTool(new ZoomTool());
+            GraphApp.toolPicker.AddTool(new HandTool());
+            GraphApp.toolPicker.AddTool(new PieTool());
+
+            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[0].Item2, 0); //TODO
+
+            //slider.Value = 1;
+            //VectorEditorApp.thickness = (int)slider.Value;
+           // fillPalette.SelectedColor = Colors.White;
+
             Display();
         }
 
@@ -103,64 +118,56 @@ namespace VectorEditor
         #region Tools
         private void rectangle_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.Rectabgle);
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[0].Item1);
+            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[0].Item2, 0);
         }
 
         private void elipse_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.Ellipse);
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[1].Item1);
+            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[1].Item2, 1);
         }
 
         private void line_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.Line);
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[2].Item1);
+            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[2].Item2, 2);
         }
 
         private void pencil_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.Pencil);
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[3].Item1);
+            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[3].Item2, 3);
         }
 
         private void zoom_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.Zoom);
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[4].Item1);
+            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[4].Item2, 4);
         }
 
         private void hand_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.Hand);
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[5].Item1);
+            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[5].Item2, 5);
         }
         private void pie_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.Pie);
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[6].Item1);
+            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[6].Item2, 6);
         }
         #endregion
 
-        #region Palette
-        private void conturPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
-        {
-            var fillColor = (System.Windows.Media.Color)e.NewValue;
-            var drawingcolor = Color.FromArgb(fillColor.A, fillColor.R, fillColor.G, fillColor.B);
-            GraphApp.SetConturColor(drawingcolor);
-        }
-
-        private void fillPalette_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
-        {
-            var fillColor = (System.Windows.Media.Color) e.NewValue;
-            var drawingcolor = Color.FromArgb(fillColor.A, fillColor.R, fillColor.G, fillColor.B);
-            GraphApp.SetFillColor(drawingcolor);
-        }
-        #endregion
         // TODO Field
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
         }
 
-        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+/*        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             GraphApp.SetThicknessValue((int)slider.Value);
             sliderValue.Text = ((int)slider.Value).ToString();
-        }
+        }*/
 
         private void image_Loaded(object sender, RoutedEventArgs e)
         {
@@ -178,6 +185,7 @@ namespace VectorEditor
         {
             var handle = picture.GetHbitmap();
             image.Source = Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            DeleteObject(handle);
         }
 
         private void next_buttonClick(object sender, RoutedEventArgs e)

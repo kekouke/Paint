@@ -21,16 +21,14 @@
         <ScrollViewer x:Name="ScrollViewer" Grid.Column="1" Grid.Row="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
             <Image x:Name="image" Grid.Column="1" Grid.Row="0"  MouseLeftButtonDown="paintBox_MouseLeftButtonDown" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp" MouseRightButtonUp="paintBox_MouseRightButtonUp" MouseLeave="paintBox_MouseLeave" MouseEnter="paintBox_MouseEnter"></Image>
         </ScrollViewer>
-        <Border Grid.Row="1" Grid.Column="1" Background="AliceBlue"></Border>
-        <TextBlock x:Name="lol" Text="Coming soon" FontSize="90" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <Grid Grid.Row="1" Grid.Column="1" Background="AliceBlue">
+            <StackPanel x:Name="param" Grid.Row="1" Grid.Column="1" Orientation="Horizontal"></StackPanel>
+        </Grid>
         <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
@@ -49,10 +47,6 @@
             <Button x:Name="zoom" Content="Лупа" Grid.Row="5" Click="zoom_buttonClick"></Button>
             <Button x:Name="hand" Content="Рука" Grid.Row="6" Click="hand_buttonClick"></Button>
             <Button x:Name="pie" Content="Сегмент" Grid.Row="7" Click="pie_buttonClick"></Button>
-            <xctk:ColorPicker x:Name="conturPalette" Grid.Row="8" Grid.Column="0" SelectedColorChanged="conturPalette_SelectedColorChanged"></xctk:ColorPicker>
-            <xctk:ColorPicker x:Name="fillPalette" Grid.Row="9" Grid.Column="0" SelectedColorChanged="fillPalette_SelectedColorChanged"></xctk:ColorPicker>
-            <Slider x:Name="slider" Grid.Column="0" Grid.Row="10" VerticalAlignment="Center" Margin="10" ValueChanged="slider_ValueChanged" Minimum="0" Maximum="19"/>
-            <TextBlock x:Name="sliderValue" Text="1" Grid.Column="0" Grid.Row="10" VerticalAlignment="Bottom" HorizontalAlignment="Center"></TextBlock>
         </Grid>
     </Grid>
 </Window>

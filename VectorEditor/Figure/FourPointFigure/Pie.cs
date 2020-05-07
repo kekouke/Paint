@@ -2,7 +2,7 @@
 
 namespace VectorEditorApplication
 {
-    class Pie : FourPointFigure
+    class Pie : FourPointFigure //TODO
     {
         Pen p;
         Brush br;

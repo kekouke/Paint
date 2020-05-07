@@ -4,9 +4,19 @@ namespace VectorEditorApplication
 {
     public class LineTool : DrawingTool
     {
+        private ConturColorConfig conturColor;
+
+        public ConturColorConfig ConturColor { get { return conturColor; } set { ConturColor = value; } }
+
+        public LineTool()
+        {
+            conturColor = new ConturColorConfig(System.Windows.Media.Colors.Black);
+        }
+
+
         public override void MouseDownHandler(int x, int y)
         {
-            VectorEditorApp.figures.AddLast(CreateFigure(x, y, x, y, VectorEditorApp.conturColor, VectorEditorApp.fillColor, VectorEditorApp.thickness));
+            VectorEditorApp.figures.AddLast(CreateFigure(x, y, x, y, conturColor.colorDrawing, conturColor.colorDrawing, VectorEditorApp.thickness));
             Invalidate();
             currentState = States.mouseClick;
         }

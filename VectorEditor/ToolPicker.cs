@@ -1,64 +1,35 @@
-﻿using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
+using System;
+using System.Windows;
 
 namespace VectorEditorApplication
 {
 
     public class ToolPicker
     {
+
+        readonly public List<(Tool, Type)> tools;
+
         public ToolPicker()
         {
-            rectTool = new RectTool();
-            ellipseTool = new EllipseTool();
-            lineTool = new LineTool();
-            pencilTool = new PencilTool();
-            polylineTool = new PolylineTool();
-            zoomTool = new ZoomTool();
-            handTool = new HandTool();
-            pieTool = new PieTool();
+            tools = new List<(Tool, Type)>();
         }
 
-        public RectTool Rectabgle
+        public void AddTool(Tool tool)
         {
-            get { return rectTool; }
-        }
-        public EllipseTool Ellipse
-        {
-            get { return ellipseTool; }
-        }
-        public LineTool Line
-        {
-            get { return lineTool; }
-        }
-        public PencilTool Pencil
-        {
-            get { return pencilTool; }
-        }
-        public PolylineTool Polyline
-        {
-            get { return polylineTool; }
-        }
-        public ZoomTool Zoom
-        {
-            get { return zoomTool; }
-        }
-        public HandTool Hand
-        {
-            get { return handTool; }
-        }
-        public PieTool Pie
-        {
-            get { return pieTool; }
+            tools.Add((tool, tool.GetType()));
         }
 
-        RectTool rectTool;
-        EllipseTool ellipseTool;
-        LineTool lineTool;
-        PencilTool pencilTool;
-        PolylineTool polylineTool;
-        ZoomTool zoomTool;
-        HandTool handTool;
-        PieTool pieTool;
+        public void ShowInterface(Panel panel, Type toolType, int index)
+        {
+            var toolConfigs = toolType.GetProperties();
+            panel.Children.Clear();
+
+            foreach (var arg in toolConfigs)
+            {
+                panel.Children.Add((arg.GetValue(tools[index].Item1) as Config).Configurator);
+            }
+        }
     }
 }

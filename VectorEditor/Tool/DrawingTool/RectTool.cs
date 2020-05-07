@@ -1,12 +1,26 @@
-﻿using System.Drawing;
+﻿using Color = System.Drawing.Color;
+using System.Windows.Controls;
 
 namespace VectorEditorApplication
 {
     public class RectTool : DrawingTool
     {
+        private ConturColorConfig conturColor;
+        private FillColorConfig fillColor;
+
+
+        public ConturColorConfig ConturColor { get { return conturColor; } set { ConturColor = value; } }
+        public FillColorConfig FillColor { get { return fillColor; } set { FillColor = value; } }
+
+        public RectTool()
+        {
+            conturColor = new ConturColorConfig(System.Windows.Media.Colors.Black);
+            fillColor = new FillColorConfig(System.Windows.Media.Colors.White);
+        }
+
         public override void MouseDownHandler(int x, int y)
         {
-            VectorEditorApp.figures.AddLast(CreateFigure(x, y, x, y, VectorEditorApp.conturColor, VectorEditorApp.fillColor, VectorEditorApp.thickness));
+            VectorEditorApp.figures.AddLast(CreateFigure(x, y, x, y, conturColor.colorDrawing, fillColor.colorDrawing, VectorEditorApp.thickness));
             Invalidate();
             currentState = States.mouseClick;
         }
