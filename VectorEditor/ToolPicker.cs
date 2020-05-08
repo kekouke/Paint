@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using System;
-using System.Windows;
 
 namespace VectorEditorApplication
 {
@@ -29,7 +28,10 @@ namespace VectorEditorApplication
 
             foreach (var arg in toolConfigs)
             {
-                panel.Children.Add((arg.GetValue(tools[index].Item1) as Config).Configurator);
+                if (arg.PropertyType.IsSubclassOf(typeof(Config)))
+                {
+                    panel.Children.Add((arg.GetValue(tools[index].Item1) as Config)?.Configurator);
+                }
             }
         }
     }

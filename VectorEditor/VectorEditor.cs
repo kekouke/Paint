@@ -23,6 +23,7 @@ namespace VectorEditorApplication
         public static double imageHeight;
         public static double distanceToPointX;
         public static double distanceToPointY;
+        public bool isZoomed;
 
         public VectorEditorApp(Bitmap paintBox)
         {
@@ -31,7 +32,7 @@ namespace VectorEditorApplication
             toolPicker = new ToolPicker();
             currentScaleX = 1;
             currentScaleY = 1;
-            thickness = 7; // TODO: Delete it
+            isZoomed = false;
         }
 
         public void SetCurrentTool(Tool currentTool)

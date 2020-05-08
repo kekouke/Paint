@@ -38,9 +38,6 @@ namespace VectorEditor
             GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[0].Item1);
             GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[0].Item2, 0); //TODO
 
-            //slider.Value = 1;
-            //VectorEditorApp.thickness = (int)slider.Value;
-
             Display();
         }
 
@@ -71,7 +68,7 @@ namespace VectorEditor
         {
             GraphApp.currentTool.MouseUpHandler();
 
-            if (GraphApp.currentTool is ZoomTool)
+            if (GraphApp.currentTool is ZoomTool && !GraphApp.isZoomed)
             {
 
                 image.LayoutTransform = new ScaleTransform(VectorEditorApp.scaleX, VectorEditorApp.scaleY);
@@ -83,9 +80,10 @@ namespace VectorEditor
                 }
                 else
                 {
-                    ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.distanceToPointY);
-                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.distanceToPointX);
+                    ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.distanceToPointY * VectorEditorApp.scaleY);
+                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.distanceToPointX * VectorEditorApp.scaleX);
                 }
+                GraphApp.isZoomed = true;
             }
 
             Mouse.Capture(null);
@@ -111,6 +109,7 @@ namespace VectorEditor
                 image.LayoutTransform = new ScaleTransform(1, 1);
                 ScrollViewer.ScrollToVerticalOffset(0);
                 ScrollViewer.ScrollToHorizontalOffset(0);
+                GraphApp.isZoomed = false;
             }
         }
         #endregion
@@ -158,16 +157,17 @@ namespace VectorEditor
         }
         #endregion
 
+        private void Display()
+        {
+            var handle = picture.GetHbitmap();
+            image.Source = Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            DeleteObject(handle);
+        }
+
         // TODO Field
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
         }
-
-/*        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            GraphApp.SetThicknessValue((int)slider.Value);
-            sliderValue.Text = ((int)slider.Value).ToString();
-        }*/
 
         private void image_Loaded(object sender, RoutedEventArgs e)
         {
@@ -179,13 +179,6 @@ namespace VectorEditor
         {
             GraphApp.GoBack();
             Display();
-        }
-
-        private void Display()
-        {
-            var handle = picture.GetHbitmap();
-            image.Source = Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            DeleteObject(handle);
         }
 
         private void next_buttonClick(object sender, RoutedEventArgs e)

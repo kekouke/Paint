@@ -18,7 +18,7 @@
             <ColumnDefinition Width="0.2*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ScrollViewer x:Name="ScrollViewer" Grid.Column="1" Grid.Row="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer x:Name="ScrollViewer" Grid.Column="1" Grid.Row="0" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
             <Image x:Name="image" Grid.Column="1" Grid.Row="0"  MouseLeftButtonDown="paintBox_MouseLeftButtonDown" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp" MouseRightButtonUp="paintBox_MouseRightButtonUp" MouseLeave="paintBox_MouseLeave" MouseEnter="paintBox_MouseEnter"></Image>
         </ScrollViewer>
         <Grid Grid.Row="1" Grid.Column="1" Background="AliceBlue">
@@ -44,7 +44,9 @@
             <Button x:Name="cancel" Content="Шаг назад" Grid.Row="3" HorizontalAlignment="Left" Click="cancel_buttonClick"></Button>
             <Button x:Name="next" Content="Coming Soon" Grid.Row="3" HorizontalAlignment="Right" Click="next_buttonClick"></Button>
             <Button x:Name="pencil" Content="Карандаш" Grid.Row="4" Click="pencil_buttonClick"></Button>
-            <Button x:Name="pie" Content="Сегмент" Grid.Row="4" Click="pie_buttonClick" Margin="0,63,0,0" Grid.RowSpan="4"></Button>
+            <Button x:Name="zoom" Content="Лупа" Grid.Row="5" Click="zoom_buttonClick"></Button>
+            <Button x:Name="hand" Content="Рука" Grid.Row="6" Click="hand_buttonClick"></Button>
+            <Button x:Name="pie" Content="Сегмент" Grid.Row="6" Click="pie_buttonClick" Grid.RowSpan="2" Margin="0,73,0,0"></Button>
         </Grid>
     </Grid>
 </Window>
