@@ -36,8 +36,6 @@ namespace VectorEditorApplication
             pen.DashStyle = dashStyle.dashStyle;
             pen.Width = thickness.Thickness;
 
-            //HatchBrush brush = new HatchBrush(hatchStyle.fillStyle, Color.Black, fillColor.colorDrawing);
-
             VectorEditorApp.figures.AddLast(CreateFigure(x, y, x, y, pen));
             Invalidate();
             currentState = States.mouseClick;
@@ -53,7 +51,10 @@ namespace VectorEditorApplication
 
         protected override Figure CreateFigure(int x1, int y1, int x2, int y2, Pen pen)
         {
-            return new Rectangle(x1, y1, x2, y2, pen, new HatchBrush(hatchStyle.fillStyle, Color.Black, fillColor.colorDrawing));
+            return new Rectangle(x1, y1, x2, y2, pen,
+                new HatchBrush(hatchStyle.fillStyle,
+                (hatchStyle.Configurator as ComboBox).SelectedItem.ToString() == "None" ? fillColor.colorDrawing : conturColor.colorDrawing,
+                fillColor.colorDrawing));
         }
     }
 }

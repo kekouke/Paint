@@ -11,7 +11,7 @@ namespace VectorEditorApplication
         {
             this.Thickness = thickness;
 
-            Configurator = new Slider() { Width = 70, Height = 50, Value = 1, Maximum = 100, Minimum = 0 };
+            Configurator = new Slider() { Width = 70, Height = 50, Value = 1, Maximum = 30, Minimum = 0 };
             (Configurator as Slider).ValueChanged += ThicknessConfig_changedEventHandler;
         }
 

@@ -34,6 +34,7 @@ namespace VectorEditorApplication
             else
             {
                 sweepAngle = 0;
+                (Configurator as TextBox).Text = "360";
             }
         }
     }

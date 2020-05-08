@@ -11,7 +11,10 @@ namespace VectorEditorApplication
     public class HatchBrushConfig : Config
     {
         public HatchStyle fillStyle { get; set; }
-        List<string> styles = new List<string> { "Zig-Zag", "Horizontal", "Vertical", "Divot", "Plaid" };
+        public Color colorHatch { get; set; }
+        
+
+        List<string> styles = new List<string> { "Zig-Zag", "Horizontal", "Vertical", "Divot", "Plaid", "None" };
 
         public HatchBrushConfig (HatchStyle hatchStyle)
         {

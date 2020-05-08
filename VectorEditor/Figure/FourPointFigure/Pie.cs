@@ -25,7 +25,7 @@ namespace VectorEditorApplication
             SetCorrectCoordinate();
 
             paintBox.DrawPie(p, leftXDraw - 1, leftYDraw - 1, rightXDraw - leftXDraw + 1, rightYDraw - leftYDraw + 1, startAngle, sweepAngle);
-            paintBox.FillPie(hBrush, leftXDraw, leftYDraw, rightXDraw - leftXDraw + 1, rightYDraw - leftYDraw + 1, 0, 0);
+            paintBox.FillPie(hBrush, leftXDraw, leftYDraw, rightXDraw - leftXDraw + 1, rightYDraw - leftYDraw + 1, startAngle, sweepAngle);
         }
     }
 }

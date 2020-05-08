@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Controls;
+
 namespace VectorEditorApplication
 {
     public class PieTool : DrawingTool
@@ -30,7 +32,7 @@ namespace VectorEditorApplication
             hatchStyle = new HatchBrushConfig(System.Drawing.Drawing2D.HatchStyle.ZigZag);
             thickness = new ThicknessConfig(1);
             startAngleConfig = new PieConfigStart(0);
-            sweepAngleConfig = new PieConfigSweep(0);
+            sweepAngleConfig = new PieConfigSweep(360);
         }
 
         public override void MouseDownHandler(int x, int y)
@@ -62,12 +64,14 @@ namespace VectorEditorApplication
 
         private Figure CreateLayout(int x1, int y1, int x2, int y2, Pen pen)
         {
-            return new Rectangle(x1, y1, x2, y2, pen, new HatchBrush(hatchStyle.fillStyle, Color.Black, fillColor.colorDrawing));
+            return new Rectangle(x1, y1, x2, y2, pen, new HatchBrush(hatchStyle.fillStyle, conturColor.colorDrawing, fillColor.colorDrawing));
         }
 
         protected override Figure CreateFigure(int x1, int y1, int x2, int y2, Pen pen)
         {
-            return new Pie(x1, y1, x2, y2, pen, new HatchBrush(hatchStyle.fillStyle, Color.Black, fillColor.colorDrawing),
+            return new Pie(x1, y1, x2, y2, pen, new HatchBrush(hatchStyle.fillStyle,
+                (hatchStyle.Configurator as ComboBox).SelectedItem.ToString() == "None" ? fillColor.colorDrawing : conturColor.colorDrawing,
+                fillColor.colorDrawing),
                 startAngleConfig.startAngle, sweepAngleConfig.sweepAngle);
         }
 

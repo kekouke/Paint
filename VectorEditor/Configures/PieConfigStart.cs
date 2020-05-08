@@ -34,6 +34,7 @@ namespace VectorEditorApplication
             else
             {
                 startAngle = 0;
+                (Configurator as TextBox).Text = "0";
             }
         }
     }
