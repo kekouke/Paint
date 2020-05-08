@@ -31,6 +31,7 @@ namespace VectorEditorApplication
             toolPicker = new ToolPicker();
             currentScaleX = 1;
             currentScaleY = 1;
+            thickness = 7; // TODO: Delete it
         }
 
         public void SetCurrentTool(Tool currentTool)

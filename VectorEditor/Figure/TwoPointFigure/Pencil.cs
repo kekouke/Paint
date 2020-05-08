@@ -4,18 +4,14 @@ namespace VectorEditorApplication
 {
     class Pencil : TwoPointFigure
     {
-        Pen p;
 
         public Pencil()
         {
 
         }
 
-        public Pencil(int x1, int y1, int thickness, Color conturColor) : base(x1, y1, thickness, conturColor)
+        public Pencil(int x1, int y1, Pen pen) : base(x1, y1, pen)
         {
-            p = new Pen(conturColor);
-            p.Width = thickness;
-            p.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
         }
 
         override public void Draw(Graphics paintBox)

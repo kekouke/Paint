@@ -12,13 +12,12 @@ namespace VectorEditorApplication
 
         }
 
-        public TwoPointFigure(int x, int y, int thickness, Color conturColor)
+        public TwoPointFigure(int x, int y, Pen pen)
         {
             points = new List<Point>();
             points.Add(new Point(x, y));
             points.Add(new Point(x, y));
-            this.conturColor = conturColor;
-            this.thickness = thickness;
+            this.p = pen;
         }
 
 

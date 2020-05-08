@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace VectorEditorApplication
 {
@@ -9,16 +10,13 @@ namespace VectorEditorApplication
         public int rightXDraw;
         public int rightYDraw;
 
-        public Color gradientColor;
-
         public FourPointFigure()
         {
 
         }
 
-        public FourPointFigure(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor, int width) : base(x1, y1, x2, y2, conturColor, width)
+        public FourPointFigure(int x1, int y1, int x2, int y2, Pen pen, HatchBrush brush) : base(x1, y1, x2, y2, pen, brush)
         {
-            this.gradientColor = gradientColor;
         }
 
         override abstract public void Draw(Graphics paintBox);

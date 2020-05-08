@@ -1,20 +1,18 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace VectorEditorApplication
 {
     class Line : FourPointFigure
     {
-        Pen p;
 
         public Line()
         {
 
         }
 
-        public Line(int x1, int y1, int x2, int y2, Color conturColor, Color gradientColor, int thickness) : base(x1, y1, x2, y2, conturColor, gradientColor, thickness)
+        public Line(int x1, int y1, int x2, int y2, Pen pen, HatchBrush brush) : base(x1, y1, x2, y2, pen, brush)
         {
-            p = new Pen(conturColor);
-            p.Width = thickness;
         }
 
         override public void Draw(Graphics paintBox)
