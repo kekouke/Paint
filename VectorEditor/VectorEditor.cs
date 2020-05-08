@@ -29,7 +29,6 @@ namespace VectorEditorApplication
             VectorEditorApp.paintBox = Graphics.FromImage(paintBox);
             figures = new LinkedList<IDrawable>();
             toolPicker = new ToolPicker();
-            currentTool = new RectTool();
             currentScaleX = 1;
             currentScaleY = 1;
         }

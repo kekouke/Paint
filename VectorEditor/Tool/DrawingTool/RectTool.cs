@@ -7,15 +7,18 @@ namespace VectorEditorApplication
     {
         private ConturColorConfig conturColor;
         private FillColorConfig fillColor;
+        private DashCapConfig dashStyle;
 
 
         public ConturColorConfig ConturColor { get { return conturColor; } set { ConturColor = value; } }
         public FillColorConfig FillColor { get { return fillColor; } set { FillColor = value; } }
+        public DashCapConfig DashStyle { get { return dashStyle; } set { DashStyle = value; } }
 
         public RectTool()
         {
             conturColor = new ConturColorConfig(System.Windows.Media.Colors.Black);
             fillColor = new FillColorConfig(System.Windows.Media.Colors.White);
+            dashStyle = new DashCapConfig(System.Drawing.Drawing2D.DashStyle.Solid);
         }
 
         public override void MouseDownHandler(int x, int y)

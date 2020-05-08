@@ -23,8 +23,9 @@ namespace VectorEditorApplication
 
         public void ShowInterface(Panel panel, Type toolType, int index)
         {
-            var toolConfigs = toolType.GetProperties();
             panel.Children.Clear();
+
+            var toolConfigs = toolType.GetProperties();
 
             foreach (var arg in toolConfigs)
             {

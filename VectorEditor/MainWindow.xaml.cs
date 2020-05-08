@@ -35,11 +35,11 @@ namespace VectorEditor
             GraphApp.toolPicker.AddTool(new HandTool());
             GraphApp.toolPicker.AddTool(new PieTool());
 
+            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[0].Item1);
             GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[0].Item2, 0); //TODO
 
             //slider.Value = 1;
             //VectorEditorApp.thickness = (int)slider.Value;
-           // fillPalette.SelectedColor = Colors.White;
 
             Display();
         }
