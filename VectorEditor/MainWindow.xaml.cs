@@ -171,8 +171,7 @@ namespace VectorEditor
 
         private void image_Loaded(object sender, RoutedEventArgs e)
         {
-            GraphApp.SetImageboxSize(image.ActualHeight, image.ActualWidth);
-            //Display();
+            GraphApp.SetImageboxSize(652, 452);
         }
 
         private void cancel_buttonClick(object sender, RoutedEventArgs e)

@@ -19,7 +19,7 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <ScrollViewer x:Name="ScrollViewer" Grid.Column="1" Grid.Row="0" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-            <Image x:Name="image" Grid.Column="1" Grid.Row="0"  MouseLeftButtonDown="paintBox_MouseLeftButtonDown" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp" MouseRightButtonUp="paintBox_MouseRightButtonUp" MouseLeave="paintBox_MouseLeave" MouseEnter="paintBox_MouseEnter"></Image>
+            <Image x:Name="image" Grid.Column="1" Grid.Row="0"  MouseLeftButtonDown="paintBox_MouseLeftButtonDown" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp" MouseRightButtonUp="paintBox_MouseRightButtonUp" MouseLeave="paintBox_MouseLeave" MouseEnter="paintBox_MouseEnter" Loaded="image_Loaded"></Image>
         </ScrollViewer>
         <Grid Grid.Row="1" Grid.Column="1" Background="AliceBlue">
             <StackPanel x:Name="param" Grid.Row="1" Grid.Column="1" Orientation="Horizontal"></StackPanel>

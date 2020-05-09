@@ -53,7 +53,7 @@ namespace VectorEditorApplication
 
         private void FieldCalculate()
         {
-            if (Point.Subtract(zoomPoint.First.Value, zoomPoint.Last.Value).Length > 50000)
+            if (Point.Subtract(zoomPoint.First.Value, zoomPoint.Last.Value).Length > 30)
             {
                 justClick = false;
 
