@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using Xceed.Wpf.Toolkit;
 using System.Windows.Controls;
 using System.Collections.Generic;
 
@@ -20,7 +19,7 @@ namespace VectorEditorApplication
         {
             this.fillStyle = hatchStyle;
 
-            Configurator = new ComboBox() { SelectedItem = styles[0], Width = 80, Height = 50, ItemsSource = styles };
+            Configurator = new ComboBox() { SelectedItem = styles[0], Width = 80, Height = 50, ItemsSource = styles, Margin = new Thickness(5) };
             (Configurator as ComboBox).SelectionChanged += HatchBrushConfig_selectionChangedEventHandler;
         }
 

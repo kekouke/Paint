@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace VectorEditorApplication
@@ -9,7 +8,6 @@ namespace VectorEditorApplication
     {
         public static Graphics paintBox;
         public static LinkedList<IDrawable> figures;
-        public Tool currentTool;
         public static int thickness;
         public ToolPicker toolPicker;
 
@@ -33,11 +31,6 @@ namespace VectorEditorApplication
             currentScaleX = 1;
             currentScaleY = 1;
             isZoomed = false;
-        }
-
-        public void SetCurrentTool(Tool currentTool)
-        {
-            this.currentTool = currentTool;
         }
 
         public void SetThicknessValue(int thickness)

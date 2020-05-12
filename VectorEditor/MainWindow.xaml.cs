@@ -7,8 +7,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Interop;
 using VectorEditorApplication;
 using System.Drawing;
-using Color = System.Drawing.Color;
-
 
 namespace VectorEditor
 {
@@ -24,8 +22,8 @@ namespace VectorEditor
         public MainWindow()
         {
             InitializeComponent();
-            picture = new Bitmap(652, 452);
-            GraphApp = new VectorEditorApp(picture); //652 452
+            picture = new Bitmap(1000, 1000);
+            GraphApp = new VectorEditorApp(picture);
 
             GraphApp.toolPicker.AddTool(new RectTool());
             GraphApp.toolPicker.AddTool(new EllipseTool());
@@ -35,8 +33,7 @@ namespace VectorEditor
             GraphApp.toolPicker.AddTool(new HandTool());
             GraphApp.toolPicker.AddTool(new PieTool());
 
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[0].Item1);
-            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[0].Item2, 0); //TODO
+            GraphApp.toolPicker.DisplayInterface(toolParam, param);
 
             Display();
         }
@@ -46,16 +43,16 @@ namespace VectorEditor
         {
             Mouse.Capture(image);
             var clickCord = e.GetPosition(image);
-            GraphApp.currentTool.MouseDownHandler((int)clickCord.X, (int)clickCord.Y);
+            GraphApp.toolPicker.GetSelectedTool().MouseDownHandler((int)clickCord.X, (int)clickCord.Y);
             Display();
         }
 
         private void paintBox_MouseMove(object sender, MouseEventArgs e)
         {
             var clickCord = e.GetPosition(image);
-            GraphApp.currentTool.MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
+            GraphApp.toolPicker.GetSelectedTool().MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
 
-            if (GraphApp.currentTool is HandTool && HandTool.handActive)
+            if (GraphApp.toolPicker.GetSelectedTool() is HandTool && HandTool.handActive)
             {
                 ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
                 ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.screenOffsetX);
@@ -66,9 +63,9 @@ namespace VectorEditor
 
         private void paintBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            GraphApp.currentTool.MouseUpHandler();
+            GraphApp.toolPicker.GetSelectedTool().MouseUpHandler();
 
-            if (GraphApp.currentTool is ZoomTool && !GraphApp.isZoomed)
+            if (GraphApp.toolPicker.GetSelectedTool() is ZoomTool && !GraphApp.isZoomed)
             {
 
                 image.LayoutTransform = new ScaleTransform(VectorEditorApp.scaleX, VectorEditorApp.scaleY);
@@ -92,68 +89,25 @@ namespace VectorEditor
 
         private void paintBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            GraphApp.currentTool.MouseLeaveHandler();
+            GraphApp.toolPicker.GetSelectedTool().MouseLeaveHandler();
         }
 
         private void paintBox_MouseEnter(object sender, MouseEventArgs e)
         {
             var coord = e.GetPosition(image);
-            GraphApp.currentTool.MouseEnterHandler((int)coord.X, (int)coord.Y);
+            GraphApp.toolPicker.GetSelectedTool().MouseEnterHandler((int)coord.X, (int)coord.Y);
         }
 
         private void paintBox_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (GraphApp.currentTool is ZoomTool)
+            if (GraphApp.toolPicker.GetSelectedTool() is ZoomTool)
             {
-                GraphApp.currentTool.MouseRightUpHandler();
+                GraphApp.toolPicker.GetSelectedTool().MouseRightUpHandler();
                 image.LayoutTransform = new ScaleTransform(1, 1);
                 ScrollViewer.ScrollToVerticalOffset(0);
                 ScrollViewer.ScrollToHorizontalOffset(0);
                 GraphApp.isZoomed = false;
             }
-        }
-        #endregion
-
-        #region Tools
-        private void rectangle_buttonClick(object sender, RoutedEventArgs e)
-        {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[0].Item1);
-            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[0].Item2, 0);
-        }
-
-        private void elipse_buttonClick(object sender, RoutedEventArgs e)
-        {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[1].Item1);
-            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[1].Item2, 1);
-        }
-
-        private void line_buttonClick(object sender, RoutedEventArgs e)
-        {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[2].Item1);
-            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[2].Item2, 2);
-        }
-
-        private void pencil_buttonClick(object sender, RoutedEventArgs e)
-        {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[3].Item1);
-            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[3].Item2, 3);
-        }
-
-        private void zoom_buttonClick(object sender, RoutedEventArgs e)
-        {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[4].Item1);
-            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[4].Item2, 4);
-        }
-
-        private void hand_buttonClick(object sender, RoutedEventArgs e)
-        {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[5].Item1);
-            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[5].Item2, 5);
-        }
-        private void pie_buttonClick(object sender, RoutedEventArgs e)
-        {
-            GraphApp.SetCurrentTool(GraphApp.toolPicker.tools[6].Item1);
-            GraphApp.toolPicker.ShowInterface(param, GraphApp.toolPicker.tools[6].Item2, 6);
         }
         #endregion
 
@@ -184,25 +138,48 @@ namespace VectorEditor
         {
             GraphApp.GoNext();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+
+            string value = menuItem.Header.ToString();
+
+
+            if (value == "Exit")
+            {
+                Close();
+            }
+            if (value == "About")
+            {
+                MessageBox.Show("Paint Clone\n© Козицкий Михаил(kekouke),\n2020.");
+            }
+
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
         /*        private void ScrollViewer_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
-       {
-           if (GraphApp.currentTool is HandTool)
-           {
-               if (image.ActualWidth - e.HorizontalOffset < 900)
-               {
-                   VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth + 10, (int)image.ActualHeight, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
-                   Tool.Invalidate();
-               }
-               if (image.ActualHeight - e.VerticalOffset < 900)
-               {
-                   VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth, (int)image.ActualHeight + 10, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
-                   Tool.Invalidate();
-               }
+{
+if (GraphApp.currentTool is HandTool)
+{
+if (image.ActualWidth - e.HorizontalOffset < 900)
+{
+ VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth + 10, (int)image.ActualHeight, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+ Tool.Invalidate();
+}
+if (image.ActualHeight - e.VerticalOffset < 900)
+{
+ VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth, (int)image.ActualHeight + 10, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+ Tool.Invalidate();
+}
 
 
-               image.Source = VectorEditorApp.paintBox;
-               GraphApp.SetImageboxSize(image.ActualHeight, image.ActualWidth);
-           }
-       }*/
+image.Source = VectorEditorApp.paintBox;
+GraphApp.SetImageboxSize(image.ActualHeight, image.ActualWidth);
+}
+}*/
     }
 }

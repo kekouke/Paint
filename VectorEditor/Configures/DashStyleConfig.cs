@@ -8,16 +8,16 @@ using System.Collections.Generic;
 namespace VectorEditorApplication
 {
 
-    public class DashCapConfig : Config
+    public class DashStyleConfig : Config
     {
         public DashStyle dashStyle { get; set; }
         List<string> styles = new List<string> {"Solid", "Dash", "Dot", "DashDot", "DashDotDot" };
 
-        public DashCapConfig(DashStyle dashStyle)
+        public DashStyleConfig(DashStyle dashStyle)
         {
             this.dashStyle = dashStyle;
 
-            Configurator = new ComboBox() { SelectedItem = styles[0], Width = 80, Height = 50, ItemsSource = styles};
+            Configurator = new ComboBox() { SelectedItem = styles[0], Width = 80, Height = 50, ItemsSource = styles, Margin = new Thickness(5) };
             (Configurator as ComboBox).SelectionChanged += DashCapConfig_selectionChangedEventHandler;
         }
 

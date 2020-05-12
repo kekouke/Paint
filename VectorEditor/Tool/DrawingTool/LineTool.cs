@@ -1,23 +1,34 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace VectorEditorApplication
 {
     public class LineTool : DrawingTool
     {
         private ConturColorConfig conturColor;
-        private DashCapConfig dashStyle;
+        private DashStyleConfig dashStyle;
         private ThicknessConfig thickness;
 
-        public ConturColorConfig ConturColor { get { return conturColor; } set { ConturColor = value; } }
-        public DashCapConfig DashStyle { get { return dashStyle; } set { DashStyle = value; } }
-        public ThicknessConfig Thickness { get { return thickness; } set { Thickness = value; } }
+        public ConturColorConfig ConturColor { get => conturColor; set => ConturColor = value; }
+        public DashStyleConfig DashStyle { get => dashStyle; set => DashStyle = value; }
+        public ThicknessConfig Thickness { get => thickness; set => Thickness = value; }
 
         public LineTool()
         {
             conturColor = new ConturColorConfig(System.Windows.Media.Colors.Black);
-            dashStyle = new DashCapConfig(System.Drawing.Drawing2D.DashStyle.Solid);
+            dashStyle = new DashStyleConfig(System.Drawing.Drawing2D.DashStyle.Solid);
             thickness = new ThicknessConfig(1);
+
+            ToolForm = new Button()
+            {
+                Width = 60,
+                Height = 30,
+                Content = "Line",
+                Margin = new Thickness(5)
+            };
+
         }
 
 

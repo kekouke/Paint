@@ -1,9 +1,12 @@
 using System.Drawing;
+using System.Windows;
 
 namespace VectorEditorApplication
 {
     public abstract class Tool
     {
+        public UIElement ToolForm { get; set; }
+
         protected enum States
         {
             initial,

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace VectorEditorApplication
 {
@@ -14,6 +15,15 @@ namespace VectorEditorApplication
             zoomPoint = new LinkedList<Point>();
             justClick = false;
             _zoom = false;
+
+            ToolForm = new Button()
+            {
+                Width = 60,
+                Height = 30,
+                Content = "Zoom",
+                Margin = new Thickness(5)
+            };
+
         }
 
         public override void MouseDownHandler(int x, int y)
