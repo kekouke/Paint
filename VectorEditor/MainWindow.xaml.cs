@@ -7,9 +7,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Interop;
 using VectorEditorApplication;
 using System.Drawing;
-using System.Runtime.Serialization.Json;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using Microsoft.Win32;
 
 namespace VectorEditor
 {
@@ -37,7 +35,6 @@ namespace VectorEditor
             GraphApp.toolPicker.AddTool(new PieTool());
 
             GraphApp.toolPicker.DisplayInterface(toolParam, param);
-
             Display();
         }
 
@@ -159,11 +156,26 @@ namespace VectorEditor
             }
             if (value == "Save")
             {
-                GraphApp.SaveImage();
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "PaintCLone files (*.json) | *.json";
+                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    GraphApp.SaveImage(saveFileDialog.FileName);
+                }
+
             }
             if (value == "Open")
             {
-                GraphApp.OpenImage();
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "PaintCLone files (*.json) | *.json";
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    GraphApp.OpenImage(openFileDialog.FileName);
+                }
             }
         }
 

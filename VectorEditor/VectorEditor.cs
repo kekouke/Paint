@@ -68,41 +68,37 @@ namespace VectorEditorApplication
             }*/
         } //TODO
 
-        public void SaveImage()
+        public void SaveImage(string fileName)
         {
             var jsonFormatter = new DataContractJsonSerializer(typeof(LinkedList<Figure>));
 
-            using (var file = new FileStream("picture.json", FileMode.Create))
+            using (var file = new FileStream(fileName, FileMode.Create))
             {
                 jsonFormatter.WriteObject(file, figures);
             }
         }
 
-        public void OpenImage()
+        public void OpenImage(string fileName)
         {
             var jsonFormatter = new DataContractJsonSerializer(typeof(LinkedList<Figure>));
 
-            using (var file = new FileStream("picture.json", FileMode.OpenOrCreate))
+            using (var file = new FileStream(fileName, FileMode.OpenOrCreate))
             {
-                var newFigures = jsonFormatter.ReadObject(file) as LinkedList<Figure>;
-
-                figures.Clear();
-
-                foreach (var figure in newFigures)
+                try
                 {
-                    figure.SetData();
-                    figures.AddLast(figure);
+                    figures = jsonFormatter.ReadObject(file) as LinkedList<Figure>;
+
+                    foreach (var figure in figures)
+                    {
+                        figure.SetData();
+                    }
                 }
-               // MessageBox.Show(figures.Count.ToString());
+                catch
+                {
+                    MessageBox.Show("Ошибка в чтении файла! Возможно файл поврежден");
+                }
             }
-
             Tool.Invalidate();
-           // foreach (var figure in figures)
-           // {
-           //     figure.SetData();
-           // }
-
-            //Tool.Invalidate();
         }
 
     }
