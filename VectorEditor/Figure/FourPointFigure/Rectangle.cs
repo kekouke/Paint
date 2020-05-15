@@ -1,10 +1,15 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Runtime.Serialization;
+using System.Windows;
 
 namespace VectorEditorApplication
 {
-    class Rectangle : FourPointFigure
+    [DataContract]
+    public class Rectangle : FourPointFigure
     {
+
         public Rectangle()
         {
 
@@ -20,6 +25,7 @@ namespace VectorEditorApplication
 
             paintBox.DrawRectangle(p, leftXDraw - 1, leftYDraw - 1, rightXDraw - leftXDraw + 1, rightYDraw - leftYDraw + 1);
             paintBox.FillRectangle(hBrush, leftXDraw, leftYDraw, rightXDraw - leftXDraw, rightYDraw - leftYDraw);
+
         }
 
     }

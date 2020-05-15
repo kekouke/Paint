@@ -1,8 +1,10 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Runtime.Serialization;
 
 namespace VectorEditorApplication
 {
+    [DataContract]
     class Ellipse : FourPointFigure
     {
         public Ellipse()

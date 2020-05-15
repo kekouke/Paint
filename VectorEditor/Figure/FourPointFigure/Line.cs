@@ -1,9 +1,11 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Runtime.Serialization;
 
 namespace VectorEditorApplication
 {
-    class Line : FourPointFigure
+    [DataContract]
+    public class Line : FourPointFigure
     {
 
         public Line()

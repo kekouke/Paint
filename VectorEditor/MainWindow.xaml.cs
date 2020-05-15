@@ -7,6 +7,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Interop;
 using VectorEditorApplication;
 using System.Drawing;
+using System.Runtime.Serialization.Json;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace VectorEditor
 {
@@ -154,7 +157,14 @@ namespace VectorEditor
             {
                 MessageBox.Show("Paint Clone\n© Козицкий Михаил(kekouke),\n2020.");
             }
-
+            if (value == "Save")
+            {
+                GraphApp.SaveImage();
+            }
+            if (value == "Open")
+            {
+                GraphApp.OpenImage();
+            }
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)

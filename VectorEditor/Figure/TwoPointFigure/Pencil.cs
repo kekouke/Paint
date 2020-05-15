@@ -1,7 +1,9 @@
 ﻿using System.Drawing;
+using System.Runtime.Serialization;
 
 namespace VectorEditorApplication
 {
+    [DataContract]
     class Pencil : TwoPointFigure
     {
 

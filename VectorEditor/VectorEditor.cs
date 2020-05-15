@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Runtime.Serialization.Json;
+using System.Windows;
 
 namespace VectorEditorApplication
 {
-
     class VectorEditorApp
     {
         public static Graphics paintBox;
-        public static LinkedList<IDrawable> figures;
-        public static int thickness;
+
+        public static LinkedList<Figure> figures;
+
         public ToolPicker toolPicker;
 
         public static double screenOffsetX;
@@ -26,16 +29,11 @@ namespace VectorEditorApplication
         public VectorEditorApp(Bitmap paintBox)
         {
             VectorEditorApp.paintBox = Graphics.FromImage(paintBox);
-            figures = new LinkedList<IDrawable>();
+            figures = new LinkedList<Figure>();
             toolPicker = new ToolPicker();
             currentScaleX = 1;
             currentScaleY = 1;
             isZoomed = false;
-        }
-
-        public void SetThicknessValue(int thickness)
-        {
-            VectorEditorApp.thickness = thickness;
         }
 
         public void SetImageboxSize(double height, double width)
@@ -69,6 +67,43 @@ namespace VectorEditorApplication
                 Tool.Invalidate();
             }*/
         } //TODO
+
+        public void SaveImage()
+        {
+            var jsonFormatter = new DataContractJsonSerializer(typeof(LinkedList<Figure>));
+
+            using (var file = new FileStream("picture.json", FileMode.Create))
+            {
+                jsonFormatter.WriteObject(file, figures);
+            }
+        }
+
+        public void OpenImage()
+        {
+            var jsonFormatter = new DataContractJsonSerializer(typeof(LinkedList<Figure>));
+
+            using (var file = new FileStream("picture.json", FileMode.OpenOrCreate))
+            {
+                var newFigures = jsonFormatter.ReadObject(file) as LinkedList<Figure>;
+
+                figures.Clear();
+
+                foreach (var figure in newFigures)
+                {
+                    figure.SetData();
+                    figures.AddLast(figure);
+                }
+               // MessageBox.Show(figures.Count.ToString());
+            }
+
+            Tool.Invalidate();
+           // foreach (var figure in figures)
+           // {
+           //     figure.SetData();
+           // }
+
+            //Tool.Invalidate();
+        }
 
     }
 }

@@ -1,12 +1,17 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Runtime.Serialization;
 
 namespace VectorEditorApplication
 {
-    class Pie : FourPointFigure
+    [DataContract]
+    public class Pie : FourPointFigure
     {
 
+        [DataMember]
         int startAngle;
+
+        [DataMember]
         int sweepAngle;
 
         public Pie()
