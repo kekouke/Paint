@@ -21,13 +21,13 @@
         </Grid.RowDefinitions>
         
         <Menu x:Name="menu" Grid.Row="0" Background="LightBlue">
-            <MenuItem Header="File" Click="MenuItem_Click">
-                <MenuItem Header="Open" Click="MenuItem_Click"></MenuItem>
-                <MenuItem Header="Save" Click="MenuItem_Click"></MenuItem>
-                <MenuItem Header="Exit" Click="MenuItem_Click"></MenuItem>
+            <MenuItem Header="File">
+                <MenuItem Header="Open" Click="MenuOpen_Click"></MenuItem>
+                <MenuItem Header="Save" Click="MenuSave_Click"></MenuItem>
+                <MenuItem Header="Exit" Click="MenuExit_Click"></MenuItem>
             </MenuItem>
-            <MenuItem Header="About" Click="MenuItem_Click"></MenuItem>
-            <MenuItem Header="Exit" Click="MenuItem_Click"></MenuItem>
+            <MenuItem Header="About" Click="MenuAbout_Click"></MenuItem>
+            <MenuItem Header="Exit" Click="MenuExit_Click"></MenuItem>
         </Menu>
 
         <Grid Grid.Row="1">
@@ -43,8 +43,8 @@
             <StackPanel x:Name="param" Grid.Column="1" Background="Yellow" Orientation="Horizontal"></StackPanel>
         </Grid>
 
-        <ScrollViewer x:Name="ScrollViewer" Grid.Row="2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-            <Image x:Name="image" MouseLeftButtonDown="paintBox_MouseLeftButtonDown" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp" MouseRightButtonUp="paintBox_MouseRightButtonUp" MouseLeave="paintBox_MouseLeave" MouseEnter="paintBox_MouseEnter" Loaded="image_Loaded"></Image>
+        <ScrollViewer x:Name="scrollViewer" Grid.Row="2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+            <Image x:Name="image" MouseLeftButtonDown="paintBox_MouseLeftButtonDown" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp" MouseRightButtonUp="paintBox_MouseRightButtonUp" MouseLeave="paintBox_MouseLeave" MouseEnter="paintBox_MouseEnter"></Image>
         </ScrollViewer>
 
         <Border Grid.Row="3" Background="LightGray">

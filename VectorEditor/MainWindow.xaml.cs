@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -23,7 +22,7 @@ namespace VectorEditor
         public MainWindow()
         {
             InitializeComponent();
-            picture = new Bitmap(1000, 1000);
+            picture = new Bitmap(770, 385);
             GraphApp = new VectorEditorApp(picture);
 
             GraphApp.toolPicker.AddTool(new RectTool());
@@ -35,6 +34,7 @@ namespace VectorEditor
             GraphApp.toolPicker.AddTool(new PieTool());
 
             GraphApp.toolPicker.DisplayInterface(toolParam, param);
+            GraphApp.SetImageboxSize(1000, 1000);
             Display();
         }
 
@@ -52,11 +52,8 @@ namespace VectorEditor
             var clickCord = e.GetPosition(image);
             GraphApp.toolPicker.GetSelectedTool().MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
 
-            if (GraphApp.toolPicker.GetSelectedTool() is HandTool && HandTool.handActive)
-            {
-                ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
-                ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.screenOffsetX);
-            }
+            scrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
+            scrollViewer.ScrollToHorizontalOffset(VectorEditorApp.screenOffsetX);
 
             Display();
         }
@@ -72,13 +69,13 @@ namespace VectorEditor
 
                 if (ZoomTool.justClick)
                 {
-                    ScrollViewer.ScrollToVerticalOffset(e.GetPosition(image).Y);
-                    ScrollViewer.ScrollToHorizontalOffset(e.GetPosition(image).X);
+                    scrollViewer.ScrollToVerticalOffset(e.GetPosition(image).Y);
+                    scrollViewer.ScrollToHorizontalOffset(e.GetPosition(image).X);
                 }
                 else
                 {
-                    ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.distanceToPointY * VectorEditorApp.scaleY);
-                    ScrollViewer.ScrollToHorizontalOffset(VectorEditorApp.distanceToPointX * VectorEditorApp.scaleX);
+                    scrollViewer.ScrollToVerticalOffset(VectorEditorApp.distanceToPointY * VectorEditorApp.scaleY);
+                    scrollViewer.ScrollToHorizontalOffset(VectorEditorApp.distanceToPointX * VectorEditorApp.scaleX);
                 }
                 GraphApp.isZoomed = true;
             }
@@ -104,13 +101,42 @@ namespace VectorEditor
             {
                 GraphApp.toolPicker.GetSelectedTool().MouseRightUpHandler();
                 image.LayoutTransform = new ScaleTransform(1, 1);
-                ScrollViewer.ScrollToVerticalOffset(0);
-                ScrollViewer.ScrollToHorizontalOffset(0);
+                scrollViewer.ScrollToVerticalOffset(0);
+                scrollViewer.ScrollToHorizontalOffset(0);
                 GraphApp.isZoomed = false;
             }
         }
         #endregion
 
+        #region MenuItemHandlers
+        private void MenuExit_Click(object sender, RoutedEventArgs e) => Close();
+
+        private void MenuAbout_Click(object sender, RoutedEventArgs e) => MessageBox.Show("Paint Clone\n© Козицкий Михаил(kekouke),\n2020.");
+
+        private void MenuSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PaintCLone files (*.json) | *.json";
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                GraphApp.SaveImage(saveFileDialog.FileName);
+            }
+        }
+
+        private void MenuOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "PaintCLone files (*.json) | *.json";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                GraphApp.OpenImage(openFileDialog.FileName);
+            }
+        }
+        #endregion
         private void Display()
         {
             var handle = picture.GetHbitmap();
@@ -123,11 +149,6 @@ namespace VectorEditor
         {
         }
 
-        private void image_Loaded(object sender, RoutedEventArgs e)
-        {
-            GraphApp.SetImageboxSize(652, 452);
-        }
-
         private void cancel_buttonClick(object sender, RoutedEventArgs e)
         {
             GraphApp.GoBack();
@@ -136,72 +157,30 @@ namespace VectorEditor
 
         private void next_buttonClick(object sender, RoutedEventArgs e)
         {
-            GraphApp.GoNext();
+            //GraphApp.GoNext();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        /*private void ScrollViewer_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
         {
-            MenuItem menuItem = sender as MenuItem;
-
-            string value = menuItem.Header.ToString();
-
-
-            if (value == "Exit")
+            if (GraphApp.currentTool is HandTool)
             {
-                Close();
-            }
-            if (value == "About")
-            {
-                MessageBox.Show("Paint Clone\n© Козицкий Михаил(kekouke),\n2020.");
-            }
-            if (value == "Save")
-            {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "PaintCLone files (*.json) | *.json";
-                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-                if (saveFileDialog.ShowDialog() == true)
+                if (image.ActualWidth - e.HorizontalOffset < 900)
                 {
-                    GraphApp.SaveImage(saveFileDialog.FileName);
+                    VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth + 10, (int)image.ActualHeight,
+                    WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+                    Tool.Invalidate();
+                }
+                if (image.ActualHeight - e.VerticalOffset < 900)
+                {
+                    VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth, (int)image.ActualHeight + 10,
+                    WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+                    Tool.Invalidate();
                 }
 
+
+            image.Source = VectorEditorApp.paintBox;
+            GraphApp.SetImageboxSize(image.ActualHeight, image.ActualWidth);
             }
-            if (value == "Open")
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "PaintCLone files (*.json) | *.json";
-                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    GraphApp.OpenImage(openFileDialog.FileName);
-                }
-            }
-        }
-
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-        /*        private void ScrollViewer_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
-{
-if (GraphApp.currentTool is HandTool)
-{
-if (image.ActualWidth - e.HorizontalOffset < 900)
-{
- VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth + 10, (int)image.ActualHeight, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
- Tool.Invalidate();
-}
-if (image.ActualHeight - e.VerticalOffset < 900)
-{
- VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth, (int)image.ActualHeight + 10, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
- Tool.Invalidate();
-}
-
-
-image.Source = VectorEditorApp.paintBox;
-GraphApp.SetImageboxSize(image.ActualHeight, image.ActualWidth);
-}
-}*/
+        }*/
     }
 }

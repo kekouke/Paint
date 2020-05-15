@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,7 +9,7 @@ namespace VectorEditorApplication
         List<Point> handPoint;
         public static bool handActive;
         public static bool handForNewViewport = true;
-
+        
         public HandTool()
         {
             handPoint = new List<Point>();
@@ -30,7 +28,7 @@ namespace VectorEditorApplication
         public override void MouseDownHandler(int x, int y)
         {
 
-            //ScrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
+            //scrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
 
             if (handForNewViewport)
             {
