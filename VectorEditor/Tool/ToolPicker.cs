@@ -32,7 +32,7 @@ namespace VectorEditorApplication
         {
             toolPanel.Children.Clear();
 
-            _currentTool = _tools[0]; //TODO
+            _currentTool = _tools[0];
 
             foreach (var tool in _tools)
             {

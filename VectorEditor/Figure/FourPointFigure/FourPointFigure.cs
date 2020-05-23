@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+﻿using System.Windows.Media;
 using System.Runtime.Serialization;
 
 namespace VectorEditorApplication
@@ -17,21 +15,15 @@ namespace VectorEditorApplication
         public int rightXDraw;
         public int rightYDraw;
 
-        [DataMember]
-        public HatchDataObject hatchDataObject;
-
         public FourPointFigure()
         {
-
         }
 
-        public FourPointFigure(int x1, int y1, int x2, int y2, Pen pen, HatchBrush brush) : base(x1, y1, x2, y2, pen, brush)
+        public FourPointFigure(int x1, int y1, int x2, int y2, Pen pen, Brush brush) : base(x1, y1, x2, y2, pen, brush)
         {
-            hatchDataObject = new HatchDataObject() { backgroungColor = brush.BackgroundColor, foregroundColor = brush.ForegroundColor,
-                hatchStyle = brush.HatchStyle };
         }
 
-        override abstract public void Draw(Graphics paintBox);
+        override abstract public void Draw(DrawingContext drawingContext);
 
         public void SetCorrectCoordinate()
         {
@@ -58,24 +50,6 @@ namespace VectorEditorApplication
             }
 
         }
-
-        public override void SetData()
-        {
-            p = new Pen(penDataObject.penColor);
-
-            p.Width = penDataObject.penWidth;
-            p.DashStyle = penDataObject.penStyle;
-
-            hBrush = new HatchBrush(hatchDataObject.hatchStyle, hatchDataObject.foregroundColor, hatchDataObject.backgroungColor);
-        }
-
-        public struct HatchDataObject
-        {
-            public Color backgroungColor;
-            public Color foregroundColor;
-            public HatchStyle hatchStyle;
-        }
-
     }
 
 }

@@ -2,28 +2,21 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Interop;
 using VectorEditorApplication;
-using System.Drawing;
 using Microsoft.Win32;
 
 namespace VectorEditor
 {
     public partial class MainWindow : Window
     {
-        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
-        public static extern bool DeleteObject(IntPtr hObject);
-
 
         VectorEditorApp GraphApp;
-        Bitmap picture;
 
         public MainWindow()
         {
             InitializeComponent();
-            picture = new Bitmap(770, 385);
-            GraphApp = new VectorEditorApp(picture);
+            GraphApp = new VectorEditorApp(Canvas);
+            scrollViewer.AddHandler(MouseLeftButtonDownEvent, new MouseButtonEventHandler(paintBox_MouseLeftButtonDown), true);
 
             GraphApp.toolPicker.AddTool(new RectTool());
             GraphApp.toolPicker.AddTool(new EllipseTool());
@@ -34,28 +27,26 @@ namespace VectorEditor
             GraphApp.toolPicker.AddTool(new PieTool());
 
             GraphApp.toolPicker.DisplayInterface(toolParam, param);
-            GraphApp.SetImageboxSize(1000, 1000);
-            Display();
         }
 
         #region MouseHandlers
         private void paintBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Mouse.Capture(image);
-            var clickCord = e.GetPosition(image);
+            Mouse.Capture(scrollViewer);
+            var clickCord = e.GetPosition(scrollViewer);
             GraphApp.toolPicker.GetSelectedTool().MouseDownHandler((int)clickCord.X, (int)clickCord.Y);
-            Display();
+            GraphApp.Invalidate();
         }
 
         private void paintBox_MouseMove(object sender, MouseEventArgs e)
         {
-            var clickCord = e.GetPosition(image);
+            var clickCord = e.GetPosition(Canvas);
             GraphApp.toolPicker.GetSelectedTool().MouseMoveHandler((int)clickCord.X, (int)clickCord.Y);
 
             scrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
             scrollViewer.ScrollToHorizontalOffset(VectorEditorApp.screenOffsetX);
 
-            Display();
+            GraphApp.Invalidate();
         }
 
         private void paintBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -65,12 +56,12 @@ namespace VectorEditor
             if (GraphApp.toolPicker.GetSelectedTool() is ZoomTool && !GraphApp.isZoomed)
             {
 
-                image.LayoutTransform = new ScaleTransform(VectorEditorApp.scaleX, VectorEditorApp.scaleY);
+                Canvas.LayoutTransform = new ScaleTransform(VectorEditorApp.scaleX, VectorEditorApp.scaleY);
 
                 if (ZoomTool.justClick)
                 {
-                    scrollViewer.ScrollToVerticalOffset(e.GetPosition(image).Y);
-                    scrollViewer.ScrollToHorizontalOffset(e.GetPosition(image).X);
+                    scrollViewer.ScrollToVerticalOffset(e.GetPosition(Canvas).Y);
+                    scrollViewer.ScrollToHorizontalOffset(e.GetPosition(Canvas).X);
                 }
                 else
                 {
@@ -80,8 +71,8 @@ namespace VectorEditor
                 GraphApp.isZoomed = true;
             }
 
+            GraphApp.Invalidate();
             Mouse.Capture(null);
-            Display();
         }
 
         private void paintBox_MouseLeave(object sender, MouseEventArgs e)
@@ -91,7 +82,7 @@ namespace VectorEditor
 
         private void paintBox_MouseEnter(object sender, MouseEventArgs e)
         {
-            var coord = e.GetPosition(image);
+            var coord = e.GetPosition(Canvas);
             GraphApp.toolPicker.GetSelectedTool().MouseEnterHandler((int)coord.X, (int)coord.Y);
         }
 
@@ -100,7 +91,7 @@ namespace VectorEditor
             if (GraphApp.toolPicker.GetSelectedTool() is ZoomTool)
             {
                 GraphApp.toolPicker.GetSelectedTool().MouseRightUpHandler();
-                image.LayoutTransform = new ScaleTransform(1, 1);
+                Canvas.LayoutTransform = new ScaleTransform(1, 1);
                 scrollViewer.ScrollToVerticalOffset(0);
                 scrollViewer.ScrollToHorizontalOffset(0);
                 GraphApp.isZoomed = false;
@@ -137,12 +128,7 @@ namespace VectorEditor
             }
         }
         #endregion
-        private void Display()
-        {
-            var handle = picture.GetHbitmap();
-            image.Source = Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            DeleteObject(handle);
-        }
+
 
         // TODO Field
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -152,7 +138,6 @@ namespace VectorEditor
         private void cancel_buttonClick(object sender, RoutedEventArgs e)
         {
             GraphApp.GoBack();
-            Display();
         }
 
         private void next_buttonClick(object sender, RoutedEventArgs e)
@@ -164,22 +149,22 @@ namespace VectorEditor
         {
             if (GraphApp.currentTool is HandTool)
             {
-                if (image.ActualWidth - e.HorizontalOffset < 900)
+                if (Canvas.ActualWidth - e.HorizontalOffset < 900)
                 {
-                    VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth + 10, (int)image.ActualHeight,
+                    VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)Canvas.ActualWidth + 10, (int)Canvas.ActualHeight,
                     WriteableBitmapExtensions.Interpolation.NearestNeighbor);
                     Tool.Invalidate();
                 }
-                if (image.ActualHeight - e.VerticalOffset < 900)
+                if (Canvas.ActualHeight - e.VerticalOffset < 900)
                 {
-                    VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)image.ActualWidth, (int)image.ActualHeight + 10,
+                    VectorEditorApp.paintBox = VectorEditorApp.paintBox.Resize((int)Canvas.ActualWidth, (int)Canvas.ActualHeight + 10,
                     WriteableBitmapExtensions.Interpolation.NearestNeighbor);
                     Tool.Invalidate();
                 }
 
 
-            image.Source = VectorEditorApp.paintBox;
-            GraphApp.SetImageboxSize(image.ActualHeight, image.ActualWidth);
+            Canvas.Source = VectorEditorApp.paintBox;
+            GraphApp.SetImageboxSize(Canvas.ActualHeight, Canvas.ActualWidth);
             }
         }*/
     }

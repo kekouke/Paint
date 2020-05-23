@@ -1,22 +1,20 @@
 ﻿using System.Windows;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using Xceed.Wpf.Toolkit;
+using System.Windows.Media;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using System;
 
 namespace VectorEditorApplication
 {
 
     public class DashStyleConfig : Config
     {
-        public DashStyle dashStyle { get; set; }
-        List<string> styles = new List<string> {"Solid", "Dash", "Dot", "DashDot", "DashDotDot" };
+        public Type Pencil { get; set; }
+        List<string> styles = new List<string> {"Solid", "Dot", "Dash", "DashDot", "DashDotDot" };
 
-        public DashStyleConfig(DashStyle dashStyle)
+        public DashStyleConfig(Type penType)
         {
-            this.dashStyle = dashStyle;
-
+            Pencil = penType;
             Configurator = new ComboBox() { SelectedItem = styles[0], Width = 80, Height = 50, ItemsSource = styles, Margin = new Thickness(5) };
             (Configurator as ComboBox).SelectionChanged += DashCapConfig_selectionChangedEventHandler;
         }
@@ -27,23 +25,23 @@ namespace VectorEditorApplication
 
             if (index == "0")
             {
-                dashStyle = DashStyle.Solid;
+               Pencil = typeof(SolidPen);
             }
             if (index == "1")
             {
-                dashStyle = DashStyle.Dash;
+                Pencil = typeof(DotPen);
             }
             if (index == "2")
             {
-                dashStyle = DashStyle.Dot;
+                Pencil = typeof(DashPen);
             }
             if (index == "3")
             {
-                dashStyle = DashStyle.DashDot;
+                Pencil = typeof(DashDotPen);
             }
             if (index == "4")
             {
-                dashStyle = DashStyle.DashDotDot;
+                Pencil = typeof(DashDotDotPen);
             }
         }
     }

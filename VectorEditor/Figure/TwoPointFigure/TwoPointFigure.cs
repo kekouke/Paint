@@ -1,6 +1,7 @@
-﻿using System.Drawing;
+﻿using System.Windows.Media;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Windows;
 
 namespace VectorEditorApplication
 {
@@ -16,7 +17,7 @@ namespace VectorEditorApplication
 
         }
 
-        public TwoPointFigure(int x, int y, Pen pen) : base(pen)
+        public TwoPointFigure(int x, int y, Pen pen)
         {
             points = new List<Point>();
             points.Add(new Point(x, y));
@@ -25,15 +26,6 @@ namespace VectorEditorApplication
         }
 
 
-        override abstract public void Draw(Graphics paintBox);
-
-        public override void SetData()
-        {
-
-            p = new Pen(penDataObject.penColor);
-            p.Width = penDataObject.penWidth;
-            p.DashStyle = penDataObject.penStyle;
-        }
-
+        override abstract public void Draw(DrawingContext drawingContext);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Windows;
@@ -8,11 +7,12 @@ namespace VectorEditorApplication
 {
     class VectorEditorApp
     {
-        public static Graphics paintBox;
 
         public static LinkedList<Figure> figures;
 
         public ToolPicker toolPicker;
+
+        private readonly DrawingObject canvas;
 
         public static double screenOffsetX;
         public static double screenOffsetY;
@@ -26,14 +26,24 @@ namespace VectorEditorApplication
         public static double distanceToPointY;
         public bool isZoomed;
 
-        public VectorEditorApp(Bitmap paintBox)
+        public VectorEditorApp(DrawingObject canvas)
         {
-            VectorEditorApp.paintBox = Graphics.FromImage(paintBox);
+            this.canvas = canvas;
             figures = new LinkedList<Figure>();
             toolPicker = new ToolPicker();
             currentScaleX = 1;
             currentScaleY = 1;
             isZoomed = false;
+
+            BrushPicker.AddBrush(new SolidBrush());
+            BrushPicker.AddBrush(new RectBrush());
+            BrushPicker.AddBrush(new LinesBrush());
+
+            PenPicker.AddPen(new SolidPen());
+            PenPicker.AddPen(new DotPen());
+            PenPicker.AddPen(new DashPen());
+            PenPicker.AddPen(new DashDotPen());
+            PenPicker.AddPen(new DashDotDotPen());
         }
 
         public void SetImageboxSize(double height, double width)
@@ -41,12 +51,6 @@ namespace VectorEditorApplication
             imageHeight = height;
             imageWidth = width;
         }
-
-       // public Bitmap SetSizeBitmap(Bitmap bitmap)
-       // {
-       //     paintBox = bitmap;
-       //     return paintBox;
-        //} //TODO
         
         public void GoBack()
         {
@@ -54,7 +58,7 @@ namespace VectorEditorApplication
             if (figures.Count > 0)
             {
                 figures.RemoveLast();
-                Tool.Invalidate();
+                //Tool.Invalidate();
             }
         }
 
@@ -87,18 +91,17 @@ namespace VectorEditorApplication
                 try
                 {
                     figures = jsonFormatter.ReadObject(file) as LinkedList<Figure>;
-
-                    foreach (var figure in figures)
-                    {
-                        figure.SetData();
-                    }
                 }
                 catch
                 {
                     MessageBox.Show("Ошибка в чтении файла! Возможно файл поврежден");
                 }
             }
-            Tool.Invalidate();
+        }
+
+        public void Invalidate()
+        {
+            canvas.Invalidate(figures);
         }
 
     }

@@ -1,4 +1,3 @@
-using System.Drawing;
 using System.Windows;
 
 namespace VectorEditorApplication
@@ -31,16 +30,6 @@ namespace VectorEditorApplication
         }
         public virtual void MouseRightUpHandler()
         {
-        }
-
-        public static void Invalidate()
-        {
-            VectorEditorApp.paintBox.Clear(Color.White);
-            
-            foreach (var drawingFigure in VectorEditorApp.figures)
-            {
-                drawingFigure.Draw(VectorEditorApp.paintBox);
-            }
         }
     }
 }

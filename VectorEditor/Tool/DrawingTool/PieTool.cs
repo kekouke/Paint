@@ -1,6 +1,5 @@
-﻿using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Media;
 using System.Windows.Controls;
 
 namespace VectorEditorApplication
@@ -27,10 +26,10 @@ namespace VectorEditorApplication
 
         public PieTool()
         {
-            conturColor = new ConturColorConfig(System.Windows.Media.Colors.Black);
-            fillColor = new FillColorConfig(System.Windows.Media.Colors.White);
-            dashStyle = new DashStyleConfig(System.Drawing.Drawing2D.DashStyle.Solid);
-            hatchStyle = new HatchBrushConfig(System.Drawing.Drawing2D.HatchStyle.ZigZag);
+            conturColor = new ConturColorConfig(Colors.Black);
+            fillColor = new FillColorConfig(Colors.White);
+            dashStyle = new DashStyleConfig(typeof(SolidPen));
+            hatchStyle = new HatchBrushConfig(typeof(SolidBrush));
             thickness = new ThicknessConfig(1);
             startAngleConfig = new PieConfigStart(0);
             sweepAngleConfig = new PieConfigSweep(360);
@@ -47,12 +46,9 @@ namespace VectorEditorApplication
 
         public override void MouseDownHandler(int x, int y)
         {
-            Pen pen = new Pen(conturColor.colorDrawing);
-            pen.DashStyle = dashStyle.dashStyle;
-            pen.Width = thickness.Thickness;
+            Pen pen = PenPicker.GetPen(dashStyle.Pencil).GetPen(conturColor.Color, thickness.Thickness);
 
             VectorEditorApp.figures.AddLast(CreateLayout(x, y, x, y, pen));
-            Invalidate();
             currentState = States.mouseClick;
         }
 
@@ -61,7 +57,6 @@ namespace VectorEditorApplication
             if (currentState == States.mouseClick)
             {
                 VectorEditorApp.figures.Last.Value.EditSize(x, y);
-                Invalidate();
             }
         }
 
@@ -69,19 +64,16 @@ namespace VectorEditorApplication
         {
             currentState = States.initial;
             LayoutToPie(VectorEditorApp.figures.Last.Value as Ellipse);
-            Invalidate();
         }
 
         private Figure CreateLayout(int x1, int y1, int x2, int y2, Pen pen)
         {
-            return new Ellipse(x1, y1, x2, y2, pen, new HatchBrush(hatchStyle.fillStyle, conturColor.colorDrawing, fillColor.colorDrawing));
+            return new Ellipse(x1, y1, x2, y2, pen, BrushPicker.GetBrush(hatchStyle.Brush).GetBrush(fillColor.Color));
         }
 
         protected override Figure CreateFigure(int x1, int y1, int x2, int y2, Pen pen)
         {
-            return new Pie(x1, y1, x2, y2, pen, new HatchBrush(hatchStyle.fillStyle,
-                (hatchStyle.Configurator as ComboBox).SelectedItem.ToString() == "None" ? fillColor.colorDrawing : conturColor.colorDrawing,
-                fillColor.colorDrawing),
+            return new Pie(x1, y1, x2, y2, pen, BrushPicker.GetBrush(hatchStyle.Brush).GetBrush(fillColor.Color),
                 startAngleConfig.startAngle, sweepAngleConfig.sweepAngle);
         }
 

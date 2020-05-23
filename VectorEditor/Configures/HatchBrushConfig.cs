@@ -3,21 +3,20 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using System;
 
 namespace VectorEditorApplication
 {
 
     public class HatchBrushConfig : Config
     {
-        public HatchStyle fillStyle { get; set; }
-        public Color colorHatch { get; set; }
-        
+        public Type Brush { get; set; }    
 
-        List<string> styles = new List<string> { "Zig-Zag", "Horizontal", "Vertical", "Divot", "Plaid", "None" };
+        List<string> styles = new List<string> { "Solid", "Rectangle", "Lines" };
 
-        public HatchBrushConfig (HatchStyle hatchStyle)
+        public HatchBrushConfig (Type brushType)
         {
-            this.fillStyle = hatchStyle;
+            Brush = brushType;
 
             Configurator = new ComboBox() { SelectedItem = styles[0], Width = 80, Height = 50, ItemsSource = styles, Margin = new Thickness(5) };
             (Configurator as ComboBox).SelectionChanged += HatchBrushConfig_selectionChangedEventHandler;
@@ -29,23 +28,15 @@ namespace VectorEditorApplication
 
             if (index == "0")
             {
-                fillStyle = HatchStyle.ZigZag;
+                Brush = typeof(SolidBrush);
             }
             if (index == "1")
             {
-                fillStyle = HatchStyle.Horizontal;
+                Brush = typeof(RectBrush);
             }
             if (index == "2")
             {
-                fillStyle = HatchStyle.Vertical;
-            }
-            if (index == "3")
-            {
-                fillStyle = HatchStyle.Divot;
-            }
-            if (index == "4")
-            {
-                fillStyle = HatchStyle.Plaid;
+                Brush = typeof(LinesBrush);
             }
         }
     }

@@ -1,7 +1,7 @@
-﻿using System.Drawing;
-using System.Windows;
+﻿using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows;
 
 namespace VectorEditorApplication
 {
@@ -18,8 +18,8 @@ namespace VectorEditorApplication
 
         public PencilTool()
         {
-            conturColor = new ConturColorConfig(System.Windows.Media.Colors.Black);
-            dashStyle = new DashStyleConfig(System.Drawing.Drawing2D.DashStyle.Solid);
+            conturColor = new ConturColorConfig(Colors.Black);
+            dashStyle = new DashStyleConfig(typeof(SolidPen));
             thickness = new ThicknessConfig(1);
 
             ToolForm = new Button()
@@ -34,12 +34,9 @@ namespace VectorEditorApplication
 
         public override void MouseDownHandler(int x, int y)
         {
-            Pen pen = new Pen(conturColor.colorDrawing);
-            pen.DashStyle = dashStyle.dashStyle;
-            pen.Width = thickness.Thickness;
+            Pen pen = PenPicker.GetPen(dashStyle.Pencil).GetPen(conturColor.Color, thickness.Thickness);
 
             VectorEditorApp.figures.AddLast(CreateFigure(x, y, x, y, pen));
-            Invalidate();
             currentState = States.mouseClick;
         }
         public override void MouseMoveHandler(int x, int y)
@@ -47,7 +44,6 @@ namespace VectorEditorApplication
             if (currentState == States.mouseClick)
             {
                 VectorEditorApp.figures.Last.Value.EditSize(x, y);
-                Invalidate();
             }
         }
         public override void MouseUpHandler()

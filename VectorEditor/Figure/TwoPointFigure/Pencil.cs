@@ -1,5 +1,6 @@
-﻿using System.Drawing;
+﻿using System.Windows.Media;
 using System.Runtime.Serialization;
+using System.Windows;
 
 namespace VectorEditorApplication
 {
@@ -16,14 +17,25 @@ namespace VectorEditorApplication
         {
         }
 
-        override public void Draw(Graphics paintBox)
+        override public void Draw(DrawingContext drawingContext)
         {
-            paintBox.DrawLines(p, points.ToArray());
+            var geometry = new StreamGeometry();
+
+            using (StreamGeometryContext ctx = geometry.Open())
+            {
+                ctx.BeginFigure(points[0], true, false);
+                foreach (var point in points)
+                {
+                    ctx.LineTo(point, true, true);
+                }
+            }
+            geometry.Freeze();
+            drawingContext.DrawGeometry(brush, p, geometry);
         }
 
         public override void EditSize(int x, int y)
         {
             points.Add(new Point(x, y));
         }
-    }              
+    }
 }

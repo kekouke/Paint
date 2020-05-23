@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+using System.Windows.Media;
 using System.Windows;
 
 namespace VectorEditorApplication
@@ -22,11 +21,11 @@ namespace VectorEditorApplication
 
         public RectTool()
         {
-            conturColor = new ConturColorConfig(System.Windows.Media.Colors.Black);
-            fillColor = new FillColorConfig(System.Windows.Media.Colors.White);
-            dashStyle = new DashStyleConfig(System.Drawing.Drawing2D.DashStyle.Solid);
-            hatchStyle = new HatchBrushConfig(System.Drawing.Drawing2D.HatchStyle.ZigZag);
+            conturColor = new ConturColorConfig(Colors.Black);
+            fillColor = new FillColorConfig(Colors.White);
             thickness = new ThicknessConfig(1);
+            dashStyle = new DashStyleConfig(typeof(SolidPen));
+            hatchStyle = new HatchBrushConfig(typeof(SolidBrush));
 
             ToolForm = new Button()
             {
@@ -41,12 +40,8 @@ namespace VectorEditorApplication
         public override void MouseDownHandler(int x, int y)
         {
 
-            Pen pen = new Pen(conturColor.colorDrawing);
-            pen.DashStyle = dashStyle.dashStyle;
-            pen.Width = thickness.Thickness;
-
+            Pen pen = PenPicker.GetPen(dashStyle.Pencil).GetPen(conturColor.Color, thickness.Thickness); 
             VectorEditorApp.figures.AddLast(CreateFigure(x, y, x, y, pen));
-            Invalidate();
             currentState = States.mouseClick;
         }
         public override void MouseMoveHandler(int x, int y)
@@ -54,16 +49,16 @@ namespace VectorEditorApplication
             if (currentState == States.mouseClick)
             {
                 VectorEditorApp.figures.Last.Value.EditSize(x, y);
-                Invalidate();
             }
         }
 
         protected override Figure CreateFigure(int x1, int y1, int x2, int y2, Pen pen)
         {
-            return new Rectangle(x1, y1, x2, y2, pen,
-                new HatchBrush(hatchStyle.fillStyle,
+            return new Rectangle(x1, y1, x2, y2, pen, BrushPicker.GetBrush(hatchStyle.Brush).GetBrush(fillColor.Color));
+                               
+/*                (hatchStyle.fillStyle,
                 (hatchStyle.Configurator as ComboBox).SelectedItem.ToString() == "None" ? fillColor.colorDrawing : conturColor.colorDrawing,
-                fillColor.colorDrawing));
+                fillColor.colorDrawing));*/
         }
     }
 }
