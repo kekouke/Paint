@@ -44,45 +44,45 @@ namespace VectorEditorApplication
 
         }
 
-        public override void MouseDownHandler(int x, int y)
+        public override void MouseDownHandler(Point firstPoint)
         {
             Pen pen = PenPicker.GetPen(dashStyle.Pencil).GetPen(conturColor.Color, thickness.Thickness);
 
-            VectorEditorApp.figures.AddLast(CreateLayout(x, y, x, y, pen));
+            PaintController.figures.AddLast(CreateLayout(firstPoint, firstPoint, pen));
             currentState = States.mouseClick;
         }
 
-        public override void MouseMoveHandler(int x, int y)
+        public override void MouseMoveHandler(Point secondPoint)
         {
             if (currentState == States.mouseClick)
             {
-                VectorEditorApp.figures.Last.Value.EditSize(x, y);
+                PaintController.figures.Last.Value.EditSize(secondPoint);
             }
         }
 
         public override void MouseUpHandler()
         {
             currentState = States.initial;
-            LayoutToPie(VectorEditorApp.figures.Last.Value as Ellipse);
+            LayoutToPie(PaintController.figures.Last.Value as Ellipse);
         }
 
-        private Figure CreateLayout(int x1, int y1, int x2, int y2, Pen pen)
+        private Figure CreateLayout(Point firstPoint, Point secondPoint, Pen pen)
         {
-            return new Ellipse(x1, y1, x2, y2, pen, BrushPicker.GetBrush(hatchStyle.Brush).GetBrush(fillColor.Color));
+            return new Ellipse(firstPoint, secondPoint, pen, BrushPicker.GetBrush(hatchStyle.Brush).GetBrush(fillColor.Color));
         }
 
-        protected override Figure CreateFigure(int x1, int y1, int x2, int y2, Pen pen)
+        protected override Figure CreateFigure(Point firstPoint, Point secondPoint, Pen pen)
         {
-            return new Pie(x1, y1, x2, y2, pen, BrushPicker.GetBrush(hatchStyle.Brush).GetBrush(fillColor.Color),
+            return new Pie(firstPoint, secondPoint, pen, BrushPicker.GetBrush(hatchStyle.Brush).GetBrush(fillColor.Color),
                 startAngleConfig.startAngle, sweepAngleConfig.sweepAngle);
         }
 
         private void LayoutToPie(Ellipse rect)
         {
-            VectorEditorApp.figures.AddLast(CreateFigure(rect.leftXDraw, rect.leftYDraw, rect.rightXDraw, rect.rightYDraw,
+            PaintController.figures.AddLast(CreateFigure(rect.firstDrawPoint, rect.secondDrawPoint,
                                             rect.p));
 
-            VectorEditorApp.figures.Remove(VectorEditorApp.figures.Last.Previous);
+            PaintController.figures.Remove(PaintController.figures.Last.Previous);
         }
 
     }

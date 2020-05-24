@@ -4,9 +4,9 @@ using System.Windows.Controls;
 
 namespace VectorEditorApplication
 {
-    public class ZoomTool : NotDrawingTool
+    public class ZoomTool //: NotDrawingTool
     {
-        LinkedList<Point> zoomPoint;
+       /* LinkedList<Point> zoomPoint;
         public static bool justClick;
         private bool _zoom;
 
@@ -102,6 +102,6 @@ namespace VectorEditorApplication
         {
             VectorEditorApp.scaleY = (VectorEditorApp.scaleY + VectorEditorApp.scaleX) / 2;
             VectorEditorApp.scaleX = VectorEditorApp.scaleY;
-        }
+        }*/
     }
 }

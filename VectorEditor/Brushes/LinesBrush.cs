@@ -29,6 +29,8 @@ namespace VectorEditorApplication
             checkersDrawingGroup.Children.Add(backgroundSquare);
             checkersDrawingGroup.Children.Add(checkers);
 
+
+
             var brush = new DrawingBrush(checkersDrawingGroup);
             brush.Viewport = new Rect(0, 0, 10, 0.40);
             brush.TileMode = TileMode.Tile;

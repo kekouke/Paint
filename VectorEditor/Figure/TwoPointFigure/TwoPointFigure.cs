@@ -17,15 +17,15 @@ namespace VectorEditorApplication
 
         }
 
-        public TwoPointFigure(int x, int y, Pen pen)
+        public TwoPointFigure(Point point, Pen pen)
         {
             points = new List<Point>();
-            points.Add(new Point(x, y));
-            points.Add(new Point(x, y));
+            points.Add(point);
+            points.Add(point);
             p = pen;
         }
 
 
-        override abstract public void Draw(DrawingContext drawingContext);
+        override abstract public void Draw(DrawingContext drawingContext, ViewPort vp);
     }
 }

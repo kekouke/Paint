@@ -13,11 +13,11 @@ namespace VectorEditorApplication
 
         }
 
-        public Pencil(int x1, int y1, Pen pen) : base(x1, y1, pen)
+        public Pencil(Point point, Pen pen) : base(point, pen)
         {
         }
 
-        override public void Draw(DrawingContext drawingContext)
+        override public void Draw(DrawingContext drawingContext, ViewPort vp)
         {
             var geometry = new StreamGeometry();
 
@@ -33,9 +33,9 @@ namespace VectorEditorApplication
             drawingContext.DrawGeometry(brush, p, geometry);
         }
 
-        public override void EditSize(int x, int y)
+        public override void EditSize(Point point)
         {
-            points.Add(new Point(x, y));
+            points.Add(point);
         }
     }
 }

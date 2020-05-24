@@ -37,28 +37,24 @@ namespace VectorEditorApplication
 
         }
 
-        public override void MouseDownHandler(int x, int y)
+        public override void MouseDownHandler(Point firstPoint)
         {
 
             Pen pen = PenPicker.GetPen(dashStyle.Pencil).GetPen(conturColor.Color, thickness.Thickness); 
-            VectorEditorApp.figures.AddLast(CreateFigure(x, y, x, y, pen));
+            PaintController.figures.AddLast(CreateFigure(firstPoint, firstPoint, pen));
             currentState = States.mouseClick;
         }
-        public override void MouseMoveHandler(int x, int y)
+        public override void MouseMoveHandler(Point secondPoint)
         {
             if (currentState == States.mouseClick)
             {
-                VectorEditorApp.figures.Last.Value.EditSize(x, y);
+                PaintController.figures.Last.Value.EditSize(secondPoint);
             }
         }
 
-        protected override Figure CreateFigure(int x1, int y1, int x2, int y2, Pen pen)
+        protected override Figure CreateFigure(Point point1, Point point2, Pen pen)
         {
-            return new Rectangle(x1, y1, x2, y2, pen, BrushPicker.GetBrush(hatchStyle.Brush).GetBrush(fillColor.Color));
-                               
-/*                (hatchStyle.fillStyle,
-                (hatchStyle.Configurator as ComboBox).SelectedItem.ToString() == "None" ? fillColor.colorDrawing : conturColor.colorDrawing,
-                fillColor.colorDrawing));*/
+            return new Rectangle(point1, point2, pen, BrushPicker.GetBrush(hatchStyle.Brush).GetBrush(fillColor.Color));                             
         }
     }
 }

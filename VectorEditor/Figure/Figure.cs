@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Media;
 using System.Runtime.Serialization;
+using System.Windows;
 
 namespace VectorEditorApplication
 {
@@ -31,38 +32,51 @@ namespace VectorEditorApplication
         public Brush brush;
 
         [DataMember]
-        public int leftX;
+        public Point firstPoint;
 
         [DataMember]
-        public int leftY;
-
-        [DataMember]
-        public int rightX;
-
-        [DataMember]
-        public int rightY;
+        public Point secondPoint;
 
         public Figure()
         {
 
         }
 
-        public Figure(int x1, int y1, int x2, int y2, Pen pen, Brush brush)
+        public Figure(Point point1, Point point2, Pen pen, Brush brush)
         {
-            leftX = x1;
-            leftY = y1;
-            rightX = x2;
-            rightY = y2;
+            firstPoint = point1;
+            secondPoint = point2;
             p = pen;
             this.brush = brush;
         }
 
-        abstract public void Draw(DrawingContext drawingContext);
+        abstract public void Draw(DrawingContext drawingContext, ViewPort vp);
 
-        public virtual void EditSize(int x, int y)
+        public virtual void EditSize(Point point)
         {
-            rightX = x;
-            rightY = y;
+            secondPoint = point;
+        }
+
+        public virtual Figure ToWorldSpace(ViewPort vp)
+        {
+            /*            var globalFigure = (Figure)Clone();
+                        globalFigure.startPoint.X = (startPoint.X - vp.x1) * vp.scale;
+                        globalFigure.startPoint.Y = (startPoint.Y - vp.y1) * vp.scale;
+                        globalFigure.endPoint.X = (endPoint.X - vp.x1) * vp.scale;
+                        globalFigure.endPoint.Y = (endPoint.Y - vp.y1) * vp.scale;
+                        return globalFigure;*/
+            return null;
+        }
+
+        public virtual Figure InLocalSpace(ViewPort vp)
+        {
+            /*          var globalFigure = (Figure)Clone();
+                        globalFigure.startPoint.X = startPoint.X / vp.scale + vp.x1;
+                        globalFigure.startPoint.Y = startPoint.Y / vp.scale + vp.y1;
+                        globalFigure.endPoint.X = endPoint.X / vp.scale + vp.x1;
+                        globalFigure.endPoint.Y = endPoint.Y / vp.scale + vp.y1;
+                        return globalFigure;*/
+            return null;
         }
 
     }

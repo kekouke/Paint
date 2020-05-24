@@ -19,25 +19,25 @@ namespace VectorEditorApplication
 
         }
 
-        public Pie(int x1, int y1, int x2, int y2, Pen pen, Brush brush, int startAngle, int sweepAngle) : base(x1, y1, x2, y2, pen, brush)
+        public Pie(Point point1, Point point2, Pen pen, Brush brush, int startAngle, int sweepAngle) : base(point1, point2, pen, brush)
         {
             this.startAngle = startAngle;
             this.sweepAngle = sweepAngle;
         }
 
-        override public void Draw(DrawingContext drawingContext)
+        override public void Draw(DrawingContext drawingContext, ViewPort vp)
         {
             SetCorrectCoordinate();
 
-            center = new Point((leftXDraw + rightXDraw) / 2, (leftYDraw + rightYDraw) / 2);
+            center = new Point((firstDrawPoint.X + secondDrawPoint.X) / 2, (firstDrawPoint.Y + secondDrawPoint.Y) / 2);
 
             var geometry = new StreamGeometry();
 
             using (var ctx = geometry.Open())
             {
                 ctx.BeginFigure(center, true, false);
-                ctx.LineTo(new Point(rightXDraw, leftYDraw), true, false);
-                ctx.ArcTo(new Point(rightXDraw, rightYDraw), new Size(100, 50), 45 /* rotation angle */, true /* is large arc */,
+                ctx.LineTo(new Point(secondDrawPoint.X, firstDrawPoint.Y), true, false);
+                ctx.ArcTo(secondDrawPoint, new Size(100, 50), 45 /* rotation angle */, true /* is large arc */,
                           SweepDirection.Counterclockwise, true /* is stroked */, false /* is smooth join */);
                 ctx.LineTo(center, true, false);
             }

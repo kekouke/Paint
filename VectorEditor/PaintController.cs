@@ -5,35 +5,30 @@ using System.Windows;
 
 namespace VectorEditorApplication
 {
-    class VectorEditorApp
+    class PaintController
     {
-
-        public static LinkedList<Figure> figures;
-
-        public ToolPicker toolPicker;
-
         private readonly DrawingObject canvas;
 
-        public static double screenOffsetX;
-        public static double screenOffsetY;
-        public static double scaleX;
-        public static double scaleY;
-        public static double currentScaleX;
-        public static double currentScaleY;
+        public static LinkedList<Figure> figures;
+        public ToolPicker toolPicker;
+        public ViewPort vp;
+
         public static double imageWidth;
         public static double imageHeight;
-        public static double distanceToPointX;
-        public static double distanceToPointY;
-        public bool isZoomed;
 
-        public VectorEditorApp(DrawingObject canvas)
+        public Point startPoint;
+        public Point endPoint;
+
+        public PaintController(DrawingObject canvas)
         {
             this.canvas = canvas;
             figures = new LinkedList<Figure>();
             toolPicker = new ToolPicker();
-            currentScaleX = 1;
-            currentScaleY = 1;
-            isZoomed = false;
+
+            startPoint = new Point(0, 0);
+            endPoint = new Point(769, 385);
+            
+            vp = new ViewPort(startPoint, endPoint);
 
             BrushPicker.AddBrush(new SolidBrush());
             BrushPicker.AddBrush(new RectBrush());
@@ -51,26 +46,6 @@ namespace VectorEditorApplication
             imageHeight = height;
             imageWidth = width;
         }
-        
-        public void GoBack()
-        {
-
-            if (figures.Count > 0)
-            {
-                figures.RemoveLast();
-                //Tool.Invalidate();
-            }
-        }
-
-        public void GoNext()
-        {
-/*            if (figures.Count < figuresHistory.Count)
-            {
-                figures.AddLast(figuresHistory[figures.Count]);
-                figuresHistory.RemoveAt(figuresHistory.Count - 1);
-                Tool.Invalidate();
-            }*/
-        } //TODO
 
         public void SaveImage(string fileName)
         {
@@ -81,7 +56,6 @@ namespace VectorEditorApplication
                 jsonFormatter.WriteObject(file, figures);
             }
         }
-
         public void OpenImage(string fileName)
         {
             var jsonFormatter = new DataContractJsonSerializer(typeof(LinkedList<Figure>));
@@ -94,14 +68,14 @@ namespace VectorEditorApplication
                 }
                 catch
                 {
-                    MessageBox.Show("Ошибка в чтении файла! Возможно файл поврежден");
+                    MessageBox.Show("Ошибка чтения файла! Возможно, файл поврежден.");
                 }
             }
         }
 
         public void Invalidate()
         {
-            canvas.Invalidate(figures);
+            canvas.Invalidate(figures, vp);
         }
 
     }

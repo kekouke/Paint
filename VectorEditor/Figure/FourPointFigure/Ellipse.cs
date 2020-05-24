@@ -15,15 +15,15 @@ namespace VectorEditorApplication
 
         }
 
-        public Ellipse(int x1, int y1, int x2, int y2, Pen pen, Brush brush) : base(x1, y1, x2, y2, pen, brush)
+        public Ellipse(Point point1, Point point2, Pen pen, Brush brush) : base(point1, point2, pen, brush)
         {
         }
 
-        override public void Draw(DrawingContext drawingContext)
+        override public void Draw(DrawingContext drawingContext, ViewPort vp)
         {
             SetCorrectCoordinate();
-            center = new Point((leftXDraw + rightXDraw) / 2, (leftYDraw + rightYDraw) / 2);
-            drawingContext.DrawEllipse(brush, p, center, center.X - leftXDraw, center.Y - leftYDraw);
+            center = new Point((firstDrawPoint.X + secondDrawPoint.X) / 2, (firstDrawPoint.Y + secondDrawPoint.Y) / 2);
+            drawingContext.DrawEllipse(brush, p, center, center.X - firstDrawPoint.X, center.Y - firstDrawPoint.Y);
         }
     }
 

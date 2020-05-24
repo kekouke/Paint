@@ -15,7 +15,7 @@ namespace VectorEditorApplication
             _collection = new VisualCollection(this);
         }
 
-        public void Invalidate(LinkedList<Figure> figures)
+        public void Invalidate(LinkedList<Figure> figures, ViewPort vp)
         {
             _collection.Clear();
 
@@ -25,7 +25,7 @@ namespace VectorEditorApplication
             {
                 foreach (var figure in figures)
                 {
-                    figure.Draw(drawingContext);
+                    figure.Draw(drawingContext, vp);
                 }
             }
             _collection.Add(drawingVisual);

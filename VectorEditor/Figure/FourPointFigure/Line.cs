@@ -13,13 +13,13 @@ namespace VectorEditorApplication
 
         }
 
-        public Line(int x1, int y1, int x2, int y2, Pen pen, Brush brush) : base(x1, y1, x2, y2, pen, brush)
+        public Line(Point point1, Point point2, Pen pen, Brush brush) : base(point1, point2, pen, brush)
         {
         }
 
-        override public void Draw(DrawingContext drawingContext)
+        override public void Draw(DrawingContext drawingContext, ViewPort vp)
         {
-            drawingContext.DrawLine(p, new Point(leftX, leftY), new Point(rightX, rightY));
+            drawingContext.DrawLine(p, firstPoint, secondPoint);
         }
     }
 }

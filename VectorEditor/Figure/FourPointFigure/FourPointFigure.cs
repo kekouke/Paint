@@ -1,5 +1,7 @@
 ﻿using System.Windows.Media;
 using System.Runtime.Serialization;
+using System.Windows;
+using System;
 
 namespace VectorEditorApplication
 {
@@ -10,45 +12,27 @@ namespace VectorEditorApplication
     [DataContract]
     abstract public class FourPointFigure : Figure
     {
-        public int leftXDraw;
-        public int leftYDraw;
-        public int rightXDraw;
-        public int rightYDraw;
+        public Point firstDrawPoint;
+        public Point secondDrawPoint;
 
         public FourPointFigure()
         {
         }
 
-        public FourPointFigure(int x1, int y1, int x2, int y2, Pen pen, Brush brush) : base(x1, y1, x2, y2, pen, brush)
+        public FourPointFigure(Point point1, Point point2, Pen pen, Brush brush) : base(point1, point2, pen, brush)
         {
         }
 
-        override abstract public void Draw(DrawingContext drawingContext);
+        override abstract public void Draw(DrawingContext drawingContext, ViewPort vp);
 
-        public void SetCorrectCoordinate()
+        public void SetCorrectCoordinate() //TODO
         {
-            if (leftX > rightX)
-            {
-                leftXDraw = rightX;
-                rightXDraw = leftX;
-            }
-            else
-            {
-                leftXDraw = leftX;
-                rightXDraw = rightX;
-            }
-
-            if (leftY > rightY)
-            {
-                leftYDraw = rightY;
-                rightYDraw = leftY;
-            }
-            else
-            {
-                leftYDraw = leftY;
-                rightYDraw = rightY;
-            }
-
+            /* firstDrawPoint.X = Math.Min(firstPoint.X, secondPoint.X);
+             firstDrawPoint.Y = Math.Min(firstPoint.Y, secondPoint.Y);
+             secondDrawPoint.X = Math.Max(firstPoint.X, secondPoint.X);
+             secondDrawPoint.Y = Math.Max(firstPoint.X, secondPoint.X);*/
+            firstDrawPoint = firstPoint;
+            secondDrawPoint = secondPoint;
         }
     }
 

@@ -4,9 +4,9 @@ using System.Windows.Controls;
 
 namespace VectorEditorApplication
 {
-    public class HandTool : NotDrawingTool
+    public class HandTool //: NotDrawingTool
     {
-        List<Point> handPoint;
+        /*List<Point> handPoint;
         public static bool handActive;
         public static bool handForNewViewport = true;
         
@@ -59,6 +59,6 @@ namespace VectorEditorApplication
             currentState = States.initial;
             //VectorEditorApp.screenOffsetX = 0;
             // VectorEditorApp.screenOffsetY = 0;
-        }
+        }*/
     }
 }
