@@ -1,21 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Media;
 using System.Windows.Controls;
 
 namespace VectorEditorApplication
 {
-    public class ZoomTool //: NotDrawingTool
+    public class ZoomTool : NotDrawingTool
     {
-       /* LinkedList<Point> zoomPoint;
-        public static bool justClick;
-        private bool _zoom;
+        Point startPoint;
+        Point endPoint;
 
         public ZoomTool()
         {
-            zoomPoint = new LinkedList<Point>();
-            justClick = false;
-            _zoom = false;
-
             ToolForm = new Button()
             {
                 Width = 60,
@@ -26,44 +21,35 @@ namespace VectorEditorApplication
 
         }
 
-        public override void MouseDownHandler(int x, int y)
+        public override void MouseDownHandler(Point point, ViewPort vp)
         {
-            if (_zoom == false)
-            {
-                zoomPoint.AddLast(new Point(x, y));
-                zoomPoint.AddLast(new Point(x, y));
-                HandTool.handForNewViewport = true;
-                currentState = States.mouseClick;
-            }
+            Figure zoomLayout = new Rectangle(point, point, new Pen(new SolidColorBrush(Colors.Red), 3), new SolidColorBrush());
+            zoomLayout.ToLocalSpace(vp);
+
+            PaintController.figures.AddLast(zoomLayout);
+            currentState = States.mouseClick;
         }
 
-        public override void MouseMoveHandler(int x, int y)
+        public override void MouseMoveHandler(Point point, ViewPort vp)
         {
-            if (currentState == States.mouseClick && !_zoom)
+            if (currentState == States.mouseClick)
             {
-                zoomPoint.Last.Value = new Point(x, y);
+                PaintController.figures.Last.Value.EditSize(point, vp);
             }
         }
         public override void MouseUpHandler()
         {
-            if (_zoom == false)
-            {
-                _zoom = true;
-                FieldCalculate();
-                zoomPoint.Clear();
-                MakeRatio();
-                currentState = States.initial;
-            }
+            currentState = States.initial;
+            PaintController.figures.RemoveLast() ;
         }
 
         public override void MouseRightUpHandler()
         {
-            _zoom = false;
         }
 
         private void FieldCalculate()
         {
-            if (Point.Subtract(zoomPoint.First.Value, zoomPoint.Last.Value).Length > 30)
+/*            if (Point.Subtract(zoomPoint.First.Value, zoomPoint.Last.Value).Length > 30)
             {
                 justClick = false;
 
@@ -94,14 +80,8 @@ namespace VectorEditorApplication
                 VectorEditorApp.scaleX = 2;
                 VectorEditorApp.scaleY = 2;
                 VectorEditorApp.distanceToPointX = zoomPoint.First.Value.X / VectorEditorApp.scaleX;
-                VectorEditorApp.distanceToPointY = zoomPoint.First.Value.Y / VectorEditorApp.scaleY;
-            }
+                VectorEditorApp.distanceToPointY = zoomPoint.First.Value.Y / VectorEditorApp.scaleY;*/
+            //}
         }
-
-        private void MakeRatio()
-        {
-            VectorEditorApp.scaleY = (VectorEditorApp.scaleY + VectorEditorApp.scaleX) / 2;
-            VectorEditorApp.scaleX = VectorEditorApp.scaleY;
-        }*/
     }
 }

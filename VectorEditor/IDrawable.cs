@@ -7,6 +7,6 @@ namespace VectorEditorApplication
     public interface IDrawable
     {
         void Draw(DrawingContext drawingContext, ViewPort vp);
-        void EditSize(Point point);
+        void EditSize(Point point, ViewPort vp);
     }
 }

@@ -37,18 +37,20 @@ namespace VectorEditorApplication
 
         }
 
-        public override void MouseDownHandler(Point firstPoint)
+        public override void MouseDownHandler(Point firstPoint, ViewPort vp)
         {
+            Pen pen = PenPicker.GetPen(dashStyle.Pencil).GetPen(conturColor.Color, thickness.Thickness);
+            Figure localFigure = CreateFigure(firstPoint, firstPoint, pen);
+            localFigure.ToLocalSpace(vp);
 
-            Pen pen = PenPicker.GetPen(dashStyle.Pencil).GetPen(conturColor.Color, thickness.Thickness); 
-            PaintController.figures.AddLast(CreateFigure(firstPoint, firstPoint, pen));
+            PaintController.figures.AddLast(localFigure);
             currentState = States.mouseClick;
         }
-        public override void MouseMoveHandler(Point secondPoint)
+        public override void MouseMoveHandler(Point secondPoint, ViewPort vp)
         {
             if (currentState == States.mouseClick)
             {
-                PaintController.figures.Last.Value.EditSize(secondPoint);
+                PaintController.figures.Last.Value.EditSize(secondPoint, vp);
             }
         }
 

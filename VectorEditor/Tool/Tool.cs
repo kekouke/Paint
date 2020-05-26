@@ -16,8 +16,8 @@ namespace VectorEditorApplication
         }
         protected States currentState = States.initial;
 
-        public abstract void MouseDownHandler(Point firstPoint);
-        public abstract void MouseMoveHandler(Point secondPoint);
+        public abstract void MouseDownHandler(Point firstPoint, ViewPort vp);
+        public abstract void MouseMoveHandler(Point secondPoint, ViewPort vp);
         public virtual void MouseUpHandler()
         {
             currentState = States.initial;

@@ -23,19 +23,14 @@ namespace VectorEditorApplication
 
             using (StreamGeometryContext ctx = geometry.Open())
             {
-                ctx.BeginFigure(points[0], true, false);
-                foreach (var point in points)
+                ctx.BeginFigure(worldPoints[0], true, false);
+                foreach (var point in worldPoints)
                 {
                     ctx.LineTo(point, true, true);
                 }
             }
             geometry.Freeze();
             drawingContext.DrawGeometry(brush, p, geometry);
-        }
-
-        public override void EditSize(Point point)
-        {
-            points.Add(point);
         }
     }
 }

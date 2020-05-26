@@ -19,14 +19,18 @@ namespace VectorEditorApplication
         {
             _collection.Clear();
 
-            DrawingVisual drawingVisual = new DrawingVisual();
+            var drawingVisual = new DrawingVisual();
 
             using (var drawingContext = drawingVisual.RenderOpen())
             {
                 foreach (var figure in figures)
                 {
-                    figure.Draw(drawingContext, vp);
-                }
+                    //MessageBox.Show((figure as TwoPointFigure).points[0].ToString() + "or");
+                    var globalFigure = (figure.Clone() as Figure);
+                    globalFigure.ToWorldSpace(vp);
+                    //MessageBox.Show((globalFigure as TwoPointFigure).points[0].ToString());
+                    globalFigure.Draw(drawingContext, vp);
+    }
             }
             _collection.Add(drawingVisual);
         }

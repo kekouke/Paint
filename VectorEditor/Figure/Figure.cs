@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Runtime.Serialization;
 using System.Windows;
 
@@ -52,32 +51,30 @@ namespace VectorEditorApplication
 
         abstract public void Draw(DrawingContext drawingContext, ViewPort vp);
 
-        public virtual void EditSize(Point point)
+        public virtual void EditSize(Point point, ViewPort vp)
         {
+            point = ToLocalSpace(point, vp);
             secondPoint = point;
         }
 
-        public virtual Figure ToWorldSpace(ViewPort vp)
+        public virtual void ToWorldSpace(ViewPort vp)
         {
-            /*            var globalFigure = (Figure)Clone();
-                        globalFigure.startPoint.X = (startPoint.X - vp.x1) * vp.scale;
-                        globalFigure.startPoint.Y = (startPoint.Y - vp.y1) * vp.scale;
-                        globalFigure.endPoint.X = (endPoint.X - vp.x1) * vp.scale;
-                        globalFigure.endPoint.Y = (endPoint.Y - vp.y1) * vp.scale;
-                        return globalFigure;*/
-            return null;
+            firstPoint.X = (firstPoint.X - vp.StartPoint.X) * vp.Scale;
+            firstPoint.Y = (firstPoint.Y - vp.StartPoint.Y) * vp.Scale;
+            secondPoint.X = (secondPoint.X - vp.StartPoint.X) * vp.Scale;
+            secondPoint.Y = (secondPoint.Y - vp.StartPoint.Y) * vp.Scale;
         }
 
-        public virtual Figure InLocalSpace(ViewPort vp)
-        {
-            /*          var globalFigure = (Figure)Clone();
-                        globalFigure.startPoint.X = startPoint.X / vp.scale + vp.x1;
-                        globalFigure.startPoint.Y = startPoint.Y / vp.scale + vp.y1;
-                        globalFigure.endPoint.X = endPoint.X / vp.scale + vp.x1;
-                        globalFigure.endPoint.Y = endPoint.Y / vp.scale + vp.y1;
-                        return globalFigure;*/
-            return null;
+        public virtual void ToLocalSpace(ViewPort vp)
+        {                       
+            firstPoint.X = firstPoint.X / vp.Scale + vp.StartPoint.X;
+            firstPoint.Y = firstPoint.Y / vp.Scale + vp.StartPoint.Y;
+            secondPoint.X = secondPoint.X / vp.Scale + vp.StartPoint.X;
+            secondPoint.Y = secondPoint.Y / vp.Scale + vp.StartPoint.Y;
         }
 
+        public Point ToLocalSpace(Point point, ViewPort vp) => new Point(point.X / vp.Scale + vp.StartPoint.X, point.Y / vp.Scale + vp.StartPoint.Y);
+
+        public object Clone() => MemberwiseClone();
     }
 }

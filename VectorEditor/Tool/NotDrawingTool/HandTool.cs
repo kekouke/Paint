@@ -4,16 +4,13 @@ using System.Windows.Controls;
 
 namespace VectorEditorApplication
 {
-    public class HandTool //: NotDrawingTool
+    public class HandTool : NotDrawingTool
     {
-        /*List<Point> handPoint;
-        public static bool handActive;
-        public static bool handForNewViewport = true;
-        
+        private Point StartPoint { get; set; }
+        private Point EndPoint { get; set; }
+
         public HandTool()
         {
-            handPoint = new List<Point>();
-            handActive = false;
 
             ToolForm = new Button()
             {
@@ -25,40 +22,22 @@ namespace VectorEditorApplication
 
         }
 
-        public override void MouseDownHandler(int x, int y)
+        public override void MouseDownHandler(Point point1, ViewPort vp)
         {
 
-            //scrollViewer.ScrollToVerticalOffset(VectorEditorApp.screenOffsetY);
-
-            if (handForNewViewport)
-            {
-                VectorEditorApp.screenOffsetX = VectorEditorApp.scaleX * VectorEditorApp.distanceToPointX;
-                VectorEditorApp.screenOffsetY = VectorEditorApp.scaleY * VectorEditorApp.distanceToPointY;
-                handForNewViewport = false;
-            }
-
-            handPoint.Add(new Point(x, y));
-            handActive = true;
+            StartPoint = point1;
             currentState = States.mouseClick;
         }
 
-        public override void MouseMoveHandler(int x, int y)
+        public override void MouseMoveHandler(Point point2, ViewPort vp)
         {
+            EndPoint = point2;
             if (currentState == States.mouseClick)
             {
-                handPoint.Add(new Point(x, y));
-                VectorEditorApp.screenOffsetX -= handPoint[handPoint.Count - 1].X - handPoint[handPoint.Count - 2].X;
-                VectorEditorApp.screenOffsetY -= handPoint[handPoint.Count - 1].Y - handPoint[handPoint.Count - 2].Y;
+                vp.StartPoint -= Point.Subtract(EndPoint, StartPoint) / vp.Scale;
+                vp.EndPoint -= Point.Subtract(EndPoint, StartPoint) / vp.Scale;
+                StartPoint = EndPoint;
             }
         }
-
-        public override void MouseUpHandler()
-        {
-            handPoint.Clear();
-            handActive = false;
-            currentState = States.initial;
-            //VectorEditorApp.screenOffsetX = 0;
-            // VectorEditorApp.screenOffsetY = 0;
-        }*/
     }
 }

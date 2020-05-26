@@ -22,8 +22,8 @@ namespace VectorEditor
             GraphApp.toolPicker.AddTool(new EllipseTool());
             GraphApp.toolPicker.AddTool(new LineTool());
             GraphApp.toolPicker.AddTool(new PencilTool());
-            //GraphApp.toolPicker.AddTool(new ZoomTool());
-            //GraphApp.toolPicker.AddTool(new HandTool());
+            GraphApp.toolPicker.AddTool(new ZoomTool());
+            GraphApp.toolPicker.AddTool(new HandTool());
             GraphApp.toolPicker.AddTool(new PieTool());
 
             GraphApp.toolPicker.DisplayInterface(toolParam, param);
@@ -34,14 +34,15 @@ namespace VectorEditor
         {
             Mouse.Capture(scrollViewer);
             var clickPoint = e.GetPosition(scrollViewer);
-            GraphApp.toolPicker.GetSelectedTool().MouseDownHandler(clickPoint);
+            GraphApp.toolPicker.GetSelectedTool().MouseDownHandler(clickPoint, GraphApp.vp);
             GraphApp.Invalidate();
         }
 
         private void paintBox_MouseMove(object sender, MouseEventArgs e)
         {
             var clickPoint = e.GetPosition(Canvas);
-            GraphApp.toolPicker.GetSelectedTool().MouseMoveHandler(clickPoint);
+
+            GraphApp.toolPicker.GetSelectedTool().MouseMoveHandler(clickPoint, GraphApp.vp);
 
             GraphApp.Invalidate();
         }
@@ -51,6 +52,7 @@ namespace VectorEditor
             GraphApp.toolPicker.GetSelectedTool().MouseUpHandler();
             GraphApp.Invalidate();
             Mouse.Capture(null);
+            //MessageBox.Show(GraphApp.vp.ToString());
         }
 
         private void paintBox_MouseLeave(object sender, MouseEventArgs e)
@@ -99,6 +101,11 @@ namespace VectorEditor
         // TODO Field
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+        }
+
+        private void scrollViewer_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //GraphApp.vp.Scale += 5;
         }
     }
 }
