@@ -49,7 +49,7 @@ namespace VectorEditor
 
         private void paintBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            GraphApp.toolPicker.GetSelectedTool().MouseUpHandler();
+            GraphApp.toolPicker.GetSelectedTool().MouseUpHandler(GraphApp.vp);
             GraphApp.Invalidate();
             Mouse.Capture(null);
             //MessageBox.Show(GraphApp.vp.ToString());
@@ -106,6 +106,11 @@ namespace VectorEditor
         private void scrollViewer_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             //GraphApp.vp.Scale += 5;
+        }
+
+        private void scrollViewer_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            GraphApp.toolPicker.GetSelectedTool().MouseRightUpHandler(GraphApp.vp);
         }
     }
 }

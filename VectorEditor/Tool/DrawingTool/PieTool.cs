@@ -62,7 +62,7 @@ namespace VectorEditorApplication
             }
         }
 
-        public override void MouseUpHandler()
+        public override void MouseUpHandler(ViewPort vp)
         {
             currentState = States.initial;
             LayoutToPie(PaintController.figures.Last.Value as Ellipse);

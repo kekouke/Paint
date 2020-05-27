@@ -77,6 +77,5 @@ namespace VectorEditorApplication
         {
             canvas.Invalidate(figures, vp);
         }
-
     }
 }

@@ -18,7 +18,7 @@ namespace VectorEditorApplication
 
         public abstract void MouseDownHandler(Point firstPoint, ViewPort vp);
         public abstract void MouseMoveHandler(Point secondPoint, ViewPort vp);
-        public virtual void MouseUpHandler()
+        public virtual void MouseUpHandler(ViewPort vp)
         {
             currentState = States.initial;
         }
@@ -28,7 +28,7 @@ namespace VectorEditorApplication
         public virtual void MouseEnterHandler(int x, int y)
         {
         }
-        public virtual void MouseRightUpHandler()
+        public virtual void MouseRightUpHandler(ViewPort vp)
         {
         }
     }
