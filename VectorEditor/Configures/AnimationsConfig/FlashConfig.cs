@@ -1,18 +1,16 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Collections.Generic;
-using System;
 
 namespace VectorEditorApplication
 {
 
-    public class TranslateConfig : Config
+    public class FlashConfig : Config
     {
-        public double TranslateValue { get; set; }
+        public double FlashValue { get; set; }
 
-        public TranslateConfig(double value)
+        public FlashConfig(double value)
         {
-            TranslateValue = value;
+            FlashValue = value;
 
             Configurator = new Slider() { Minimum = 0, Maximum = 10, Width = 50, Margin = new Thickness(5) };
             (Configurator as Slider).ValueChanged += AnimationConfig_valueChangedEventHandler;
@@ -20,7 +18,7 @@ namespace VectorEditorApplication
 
         private void AnimationConfig_valueChangedEventHandler(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            TranslateValue = e.NewValue;
+            FlashValue = e.NewValue;
         }
     }
 }

@@ -75,6 +75,11 @@ namespace VectorEditorApplication
                 try
                 {
                     figures = jsonFormatter.ReadObject(file) as LinkedList<Figure>;
+
+                    foreach (var shape in figures)
+                    {
+                        shape.Restore();
+                    }
                 }
                 catch
                 {

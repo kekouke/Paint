@@ -38,8 +38,6 @@ namespace VectorEditorApplication
 
         public double rotationAngle;
         public double scale;
-        public double offsetX;
-        public double offsetY;
 
         private List<Animation> _animations;
 
@@ -47,8 +45,6 @@ namespace VectorEditorApplication
         {
             rotationAngle = 0;
             scale = 1;
-            offsetX = 0;
-            offsetY = 0;
             _animations = new List<Animation>();
         }
 
@@ -99,6 +95,11 @@ namespace VectorEditorApplication
             {
                 anim.Tick(this);
             }
+        }
+
+        public void Restore()
+        {
+            _animations = new List<Animation>();
         }
     }
 }

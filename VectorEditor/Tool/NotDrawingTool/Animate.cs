@@ -10,18 +10,18 @@ namespace VectorEditorApplication
     public class Animate : NotDrawingTool
     {
         private RotateConfig _rotation;
+        private FlashConfig _flash;
         private ScaleConfig _scale;
-        private TranslateConfig _translate;
 
         public RotateConfig Rotation { get => _rotation; set => Rotation = value; }
+        public FlashConfig Flash { get => _flash; set => Flash = value; }
         public ScaleConfig Scale { get => _scale; set => Scale = value; }
-        public TranslateConfig Translate { get => _translate; set => Translate = value; }
 
         public Animate()
         {
-            _translate = new TranslateConfig(0);
-            _rotation = new RotateConfig(0);
             _scale = new ScaleConfig(0);
+            _rotation = new RotateConfig(0);
+            _flash = new FlashConfig(0);
 
             ToolForm = new Button()
             {
@@ -68,13 +68,13 @@ namespace VectorEditorApplication
                     {
                         shape.AddAnim(new RotationAnimation(Rotation.RotationValue));
                     }
+                    if (Flash.FlashValue != 0)
+                    {
+                        shape.AddAnim(new FlashAnimation(Flash.FlashValue));
+                    }
                     if (Scale.ScaleValue != 0)
                     {
                         shape.AddAnim(new ScaleAnimation(Scale.ScaleValue));
-                    }
-                    if (Translate.TranslateValue != 0)
-                    {
-                        shape.AddAnim(new TranslateAnimation(Translate.TranslateValue));
                     }
                 }
             }
