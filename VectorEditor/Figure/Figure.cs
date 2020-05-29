@@ -11,7 +11,6 @@ namespace VectorEditorApplication
     [KnownType(typeof(Line))]
     [KnownType(typeof(Pencil))]
 
-    //TODO
     [KnownType(typeof(SolidColorBrush))]
     [KnownType(typeof(MatrixTransform))]
 
@@ -42,7 +41,7 @@ namespace VectorEditorApplication
         public double offsetX;
         public double offsetY;
 
-        private List<Animation> animations;
+        private List<Animation> _animations;
 
         public Figure()
         {
@@ -50,7 +49,7 @@ namespace VectorEditorApplication
             scale = 1;
             offsetX = 0;
             offsetY = 0;
-            animations = new List<Animation>();
+            _animations = new List<Animation>();
         }
 
         public Figure(Point point1, Point point2, Pen pen, Brush brush) : this()
@@ -61,13 +60,10 @@ namespace VectorEditorApplication
             this.brush = brush;
         }
 
-        abstract public void Draw(DrawingContext drawingContext, ViewPort vp);
-
-        public virtual void EditSize(Point point, ViewPort vp)
-        {
-            point = ToLocalSpace(point, vp);
-            secondPoint = point;
-        }
+        public object Clone() => MemberwiseClone();
+        public abstract void Draw(DrawingContext drawingContext, ViewPort vp);
+        public abstract bool CheckIntersection(Point firstPoint, Point secondPoint);
+        public Point ToLocalSpace(Point point, ViewPort vp) => new Point(point.X / vp.Scale + vp.StartPoint.X, point.Y / vp.Scale + vp.StartPoint.Y);
 
         public virtual void ToWorldSpace(ViewPort vp)
         {
@@ -78,31 +74,31 @@ namespace VectorEditorApplication
         }
 
         public virtual void ToLocalSpace(ViewPort vp)
-        {                       
+        {
             firstPoint.X = firstPoint.X / vp.Scale + vp.StartPoint.X;
             firstPoint.Y = firstPoint.Y / vp.Scale + vp.StartPoint.Y;
             secondPoint.X = secondPoint.X / vp.Scale + vp.StartPoint.X;
             secondPoint.Y = secondPoint.Y / vp.Scale + vp.StartPoint.Y;
         }
 
-        public Point ToLocalSpace(Point point, ViewPort vp) => new Point(point.X / vp.Scale + vp.StartPoint.X, point.Y / vp.Scale + vp.StartPoint.Y);
-
-        public object Clone() => MemberwiseClone();
-
-        public void ApplyAnimation()
+        public virtual void EditSize(Point point, ViewPort vp)
         {
-
-            foreach (var anim in animations)
-            {
-                anim.Tick(this);
-            }
+            point = ToLocalSpace(point, vp);
+            secondPoint = point;
         }
 
         public void AddAnim(Animation animation)
         {
-            animations.Add(animation);
+            _animations.Add(animation);
         }
 
-        public abstract bool CheckIntersection(Point firstPoint, Point secondPoint);
+        public void ApplyAnimation()
+        {
+
+            foreach (var anim in _animations)
+            {
+                anim.Tick(this);
+            }
+        }
     }
 }

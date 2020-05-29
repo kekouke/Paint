@@ -1,14 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
-using System;
 
 namespace VectorEditorApplication
 {
     public class ZoomTool : NotDrawingTool
     {
-        Point NewScreen { get; set; }
-
         public ZoomTool()
         {
             ToolForm = new Button()

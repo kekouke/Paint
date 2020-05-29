@@ -24,7 +24,6 @@ namespace VectorEditor
             GraphApp.toolPicker.AddTool(new PencilTool());
             GraphApp.toolPicker.AddTool(new ZoomTool());
             GraphApp.toolPicker.AddTool(new HandTool());
-           // GraphApp.toolPicker.AddTool(new PieTool());
             GraphApp.toolPicker.AddTool(new Animate());
 
             GraphApp.toolPicker.DisplayInterface(toolParam, param);
@@ -53,7 +52,6 @@ namespace VectorEditor
             GraphApp.toolPicker.GetSelectedTool().MouseUpHandler(GraphApp.vp);
             GraphApp.Invalidate();
             Mouse.Capture(null);
-            //MessageBox.Show(GraphApp.vp.ToString());
         }
 
         private void paintBox_MouseLeave(object sender, MouseEventArgs e)
@@ -65,6 +63,10 @@ namespace VectorEditor
         {
             var coord = e.GetPosition(Canvas);
             GraphApp.toolPicker.GetSelectedTool().MouseEnterHandler((int)coord.X, (int)coord.Y);
+        }
+        private void scrollViewer_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            GraphApp.toolPicker.GetSelectedTool().MouseRightUpHandler(GraphApp.vp, e.GetPosition(Canvas));
         }
         #endregion
 
@@ -102,16 +104,6 @@ namespace VectorEditor
         // TODO Field
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-        }
-
-        private void scrollViewer_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //GraphApp.vp.Scale += 5;
-        }
-
-        private void scrollViewer_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            GraphApp.toolPicker.GetSelectedTool().MouseRightUpHandler(GraphApp.vp, e.GetPosition(Canvas));
         }
     }
 }

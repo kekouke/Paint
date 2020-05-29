@@ -36,8 +36,10 @@ namespace VectorEditorApplication
         public override bool CheckIntersection(Point firstPoint, Point secondPoint)
         {
             SetCorrectCoordinate();
-            return firstPoint.X < firstDrawPoint.X && firstPoint.Y < firstDrawPoint.Y &&
-                secondPoint.X > secondDrawPoint.X && secondPoint.Y > secondDrawPoint.Y;
+            Rect rect = new Rect(firstPoint, secondPoint);
+
+            return rect.X < firstDrawPoint.X && rect.Y < firstDrawPoint.Y &&
+                rect.Width + rect.X > secondDrawPoint.X && rect.Height + rect.Y > secondDrawPoint.Y;
  
         }
     }

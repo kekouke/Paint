@@ -44,7 +44,7 @@
             <StackPanel x:Name="param" Grid.Column="1" Background="Yellow" Orientation="Horizontal"></StackPanel>
         </Grid>
 
-        <ScrollViewer x:Name="scrollViewer" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp" MouseLeave="paintBox_MouseLeave" MouseEnter="paintBox_MouseEnter" MouseRightButtonDown="scrollViewer_MouseRightButtonDown" MouseRightButtonUp="scrollViewer_MouseRightButtonUp">
+        <ScrollViewer x:Name="scrollViewer" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" MouseMove="paintBox_MouseMove" MouseLeftButtonUp="paintBox_MouseLeftButtonUp" MouseLeave="paintBox_MouseLeave" MouseEnter="paintBox_MouseEnter" MouseRightButtonUp="scrollViewer_MouseRightButtonUp">
             <p:DrawingObject x:Name="Canvas"></p:DrawingObject>
         </ScrollViewer>
 

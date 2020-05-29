@@ -7,7 +7,6 @@ namespace VectorEditorApplication
     [DataContract]
     class Pencil : TwoPointFigure
     {
-        private Rect layout;
         public Pencil()
         {
 
@@ -15,7 +14,6 @@ namespace VectorEditorApplication
 
         public Pencil(Point point, Pen pen) : base(point, pen)
         {
-            layout = new Rect();
         }
 
         override public void Draw(DrawingContext drawingContext, ViewPort vp)
@@ -33,34 +31,30 @@ namespace VectorEditorApplication
 
             var center = new Point(geometry.Bounds.X + geometry.Bounds.Width / 2, geometry.Bounds.Y + geometry.Bounds.Height / 2);
 
-            layout.X = geometry.Bounds.X;
-            layout.Y = geometry.Bounds.Y;
-            layout.Height = geometry.Bounds.Height;
-            layout.Width = geometry.Bounds.Width;
-
             drawingContext.PushTransform(new RotateTransform(rotationAngle, center.X, center.Y));
             drawingContext.PushTransform(new ScaleTransform(scale, scale, center.X, center.Y));
+            drawingContext.PushTransform(new TranslateTransform(offsetX, offsetY));
             drawingContext.DrawGeometry(brush, p, geometry);
         }
 
         public override bool CheckIntersection(Point firstPoint, Point secondPoint)
         {
-            if (worldPoints.Count == 2)
+            int count = 0;
+            foreach (var point in points)
             {
-                var result = new Rect(firstPoint, secondPoint).IntersectsWith(new Rect(worldPoints[0], worldPoints[1]));
-                return result;
+                if (new Rect(firstPoint, secondPoint).IntersectsWith(new Rect(point, point)))
+                {
+                    count++;
+                }
+            }
+            if (count == points.Count)
+            {
+                return true;
             }
             else
             {
-                foreach (var point in worldPoints)
-                {
-                    if (new Rect(firstPoint, secondPoint).IntersectsWith(new Rect(point, point)));
-                    {
-                        return true;
-                    }
-                }
+                return false;
             }
-            return false;
         }
     }
 }
