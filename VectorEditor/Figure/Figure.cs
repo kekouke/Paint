@@ -100,6 +100,14 @@ namespace VectorEditorApplication
         public void Restore()
         {
             _animations = new List<Animation>();
+            scale = 1;
+            rotationAngle = 0;
+            p.Brush.Opacity = 1;
+            
+            if (brush != null)
+            {
+                brush.Opacity = 1;
+            }
         }
     }
 }

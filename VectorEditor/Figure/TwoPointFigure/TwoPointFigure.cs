@@ -11,7 +11,6 @@ namespace VectorEditorApplication
     {
         [DataMember]
         public List<Point> points;
-
         protected List<Point> worldPoints;
 
         public TwoPointFigure()
@@ -36,7 +35,15 @@ namespace VectorEditorApplication
 
         public override void ToWorldSpace(ViewPort vp)
         {
-            worldPoints?.Clear();
+            if (worldPoints == null)
+            {
+                worldPoints = new List<Point>();
+            }
+            else
+            {
+                worldPoints.Clear();
+            }
+            
             for (int i = 0; i < points.Count; i++)
             {
                 var point = new Point((points[i].X - vp.StartPoint.X) * vp.Scale,
