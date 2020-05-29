@@ -37,26 +37,3 @@ namespace VectorEditorApplication
 
     }
 }
-
-
-// Create a DrawingBrush and use it to
-// paint the rectangle.
-
-
-
-
-/*                var brush = new DrawingBrush();
-var myGeometryGroup = new GeometryGroup();
-myGeometryGroup.Children.Add(new LineGeometry(new Point(10, 0), new Point(0, 10)));
-
-            var myDrawing = new GeometryDrawing(null, new Pen(new SolidColorBrush(color), 10), myGeometryGroup);
-
-brush.Drawing = myDrawing;
-
-            brush.Viewbox = new Rect(0, 0, 0.25, 0.25);
-//brush.ViewboxUnits = BrushMappingMode.Absolute;
-brush.Viewport = new Rect(0, 0, 0.25, 0.25);
-            //brush.ViewportUnits = BrushMappingMode.Absolute;
-            //brush.TileMode = TileMode.FlipY;
-
-            return brush;*/

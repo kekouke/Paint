@@ -19,20 +19,16 @@ namespace VectorEditorApplication
         {
             _collection.Clear();
 
-            var drawingVisual = new DrawingVisual();
-
-            using (var drawingContext = drawingVisual.RenderOpen())
+            foreach (var figure in figures)
             {
-                foreach (var figure in figures)
-                {
-                    //MessageBox.Show((figure as TwoPointFigure).points[0].ToString() + "or");
-                    var globalFigure = (figure.Clone() as Figure);
-                    globalFigure.ToWorldSpace(vp);
-                    //MessageBox.Show((globalFigure as TwoPointFigure).points[0].ToString());
-                    globalFigure.Draw(drawingContext, vp);
-    }
-            }
-            _collection.Add(drawingVisual);
+                var drawingVisual = new DrawingVisual();
+                var drawingContext = drawingVisual.RenderOpen();
+                var globalFigure = (figure.Clone() as Figure);
+                globalFigure.ToWorldSpace(vp);
+                globalFigure.Draw(drawingContext, vp);
+                drawingContext.Close();
+                _collection.Add(drawingVisual);
+            } 
         }
 
         protected override Visual GetVisualChild(int index)

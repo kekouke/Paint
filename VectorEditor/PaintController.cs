@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Windows.Threading;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Windows;
+using System;
+using System.Windows.Media;
 
 namespace VectorEditorApplication
 {
@@ -12,6 +15,7 @@ namespace VectorEditorApplication
         public static LinkedList<Figure> figures;
         public ToolPicker toolPicker;
         public ViewPort vp;
+        private DispatcherTimer _timer;
 
         public static double imageWidth;
         public static double imageHeight;
@@ -39,6 +43,12 @@ namespace VectorEditorApplication
             PenPicker.AddPen(new DashPen());
             PenPicker.AddPen(new DashDotPen());
             PenPicker.AddPen(new DashDotDotPen());
+
+            _timer = new DispatcherTimer();
+            _timer.Tick += new EventHandler(timer_Tick);
+            _timer.Interval = new TimeSpan(0, 0, 0, 0, 25);
+            _timer.Start();
+
         }
 
         public void SetImageboxSize(double height, double width)
@@ -77,5 +87,15 @@ namespace VectorEditorApplication
         {
             canvas.Invalidate(figures, vp);
         }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            Invalidate();
+            foreach (var item in figures)
+            {
+                item.ApplyAnimation();
+            }
+        }
+
     }
 }

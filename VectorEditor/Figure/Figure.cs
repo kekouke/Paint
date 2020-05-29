@@ -1,6 +1,7 @@
 ﻿using System.Windows.Media;
 using System.Runtime.Serialization;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace VectorEditorApplication
 {
@@ -36,12 +37,23 @@ namespace VectorEditorApplication
         [DataMember]
         public Point secondPoint;
 
+        public double rotationAngle;
+        public double scale;
+        public double offsetX;
+        public double offsetY;
+
+        private List<Animation> animations;
+
         public Figure()
         {
-
+            rotationAngle = 0;
+            scale = 1;
+            offsetX = 0;
+            offsetY = 0;
+            animations = new List<Animation>();
         }
 
-        public Figure(Point point1, Point point2, Pen pen, Brush brush)
+        public Figure(Point point1, Point point2, Pen pen, Brush brush) : this()
         {
             firstPoint = point1;
             secondPoint = point2;
@@ -76,5 +88,21 @@ namespace VectorEditorApplication
         public Point ToLocalSpace(Point point, ViewPort vp) => new Point(point.X / vp.Scale + vp.StartPoint.X, point.Y / vp.Scale + vp.StartPoint.Y);
 
         public object Clone() => MemberwiseClone();
+
+        public void ApplyAnimation()
+        {
+
+            foreach (var anim in animations)
+            {
+                anim.Tick(this);
+            }
+        }
+
+        public void AddAnim(Animation animation)
+        {
+            animations.Add(animation);
+        }
+
+        public abstract bool CheckIntersection(Point firstPoint, Point secondPoint);
     }
 }

@@ -11,6 +11,7 @@ namespace VectorEditorApplication
     {
         [DataMember]
         public List<Point> points;
+
         protected List<Point> worldPoints;
 
         public TwoPointFigure()
@@ -18,7 +19,7 @@ namespace VectorEditorApplication
 
         }
 
-        public TwoPointFigure(Point point, Pen pen)
+        public TwoPointFigure(Point point, Pen pen) : base()
         {
             points = new List<Point>();
             worldPoints = new List<Point>();
@@ -35,18 +36,13 @@ namespace VectorEditorApplication
 
         public override void ToWorldSpace(ViewPort vp)
         {
-            worldPoints.Clear();
+            worldPoints?.Clear();
             for (int i = 0; i < points.Count; i++)
             {
                 var point = new Point((points[i].X - vp.StartPoint.X) * vp.Scale,
                                      (points[i].Y - vp.StartPoint.Y) *vp.Scale);
                 worldPoints.Add(point);
             }
-
-/*            for (int i = 0; i < points.Count; i++)
-            {
-                points[i] = new Point(
-            }*/
         }
 
         override abstract public void Draw(DrawingContext drawingContext, ViewPort vp);

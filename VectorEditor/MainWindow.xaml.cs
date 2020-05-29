@@ -24,7 +24,7 @@ namespace VectorEditor
             GraphApp.toolPicker.AddTool(new PencilTool());
             GraphApp.toolPicker.AddTool(new ZoomTool());
             GraphApp.toolPicker.AddTool(new HandTool());
-            GraphApp.toolPicker.AddTool(new PieTool());
+           // GraphApp.toolPicker.AddTool(new PieTool());
             GraphApp.toolPicker.AddTool(new Animate());
 
             GraphApp.toolPicker.DisplayInterface(toolParam, param);
@@ -111,7 +111,7 @@ namespace VectorEditor
 
         private void scrollViewer_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            GraphApp.toolPicker.GetSelectedTool().MouseRightUpHandler(GraphApp.vp);
+            GraphApp.toolPicker.GetSelectedTool().MouseRightUpHandler(GraphApp.vp, e.GetPosition(Canvas));
         }
     }
 }

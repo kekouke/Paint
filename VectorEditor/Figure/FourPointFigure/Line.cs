@@ -19,6 +19,12 @@ namespace VectorEditorApplication
 
         override public void Draw(DrawingContext drawingContext, ViewPort vp)
         {
+
+            Point center = new Point((firstPoint.X + secondPoint.X) / 2, (firstPoint.Y + secondPoint.Y) / 2);
+
+            drawingContext.PushTransform(new RotateTransform(rotationAngle, center.X, center.Y));
+            drawingContext.PushTransform(new ScaleTransform(scale, scale, center.X, center.Y));
+            drawingContext.PushTransform(new TranslateTransform(offsetX, offsetY));
             drawingContext.DrawLine(p, firstPoint, secondPoint);
         }
     }

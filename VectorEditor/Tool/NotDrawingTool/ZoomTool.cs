@@ -29,6 +29,7 @@ namespace VectorEditorApplication
             PaintController.figures.AddLast(zoomLayout);
             currentState = States.mouseClick;
             StartPoint = zoomLayout.firstPoint;
+            EndPoint = zoomLayout.firstPoint;
         }
 
         public override void MouseMoveHandler(Point point, ViewPort vp)
@@ -43,80 +44,58 @@ namespace VectorEditorApplication
         {
             currentState = States.initial;
             PaintController.figures.RemoveLast();
-            if (vp.Scale > 32)
+            if (vp.Scale > 50)
             {
+                return;
+            }
 
+            if (Point.Subtract(StartPoint, EndPoint).Length > 2)
+            {
+                double scaleX = (vp.EndPoint.X - vp.StartPoint.X) / (EndPoint.X - StartPoint.X);
+                double scaleY = (vp.EndPoint.Y - vp.StartPoint.Y) / (EndPoint.Y - StartPoint.Y);
+                double scale = (scaleX + scaleY) / 2;
+
+                vp.Scale *= scale;
+                vp.StartPoint = StartPoint;
+                vp.EndPoint = EndPoint;
             }
             else
-            {
-                if (Point.Subtract(StartPoint, EndPoint).Length > 2)
+            {               
+                double NewWidth = (vp.EndPoint.X - vp.StartPoint.X) / 2;
+                double NewHeight = (vp.EndPoint.Y - vp.StartPoint.Y) / 2;
+                vp.StartPoint = new Point()
                 {
-                    double scaleX = (vp.EndPoint.X - vp.StartPoint.X) / (EndPoint.X - StartPoint.X);
-                    double scaleY = (vp.EndPoint.Y - vp.StartPoint.Y) / (EndPoint.Y - StartPoint.Y);
-                    double scale = (scaleX + scaleY) / 2;
-
-                    vp.Scale *= scale;
-                    vp.StartPoint = StartPoint;
-                    vp.EndPoint = EndPoint;
-                }
-                else //TODO
+                    X = StartPoint.X - NewWidth / 2,
+                    Y = StartPoint.Y - NewHeight / 2
+                };
+                vp.EndPoint = new Point()
                 {
-                    vp.Scale *= 2;
-                    NewScreen = new Point((vp.EndPoint.X - vp.StartPoint.X) / vp.Scale,
-                                        (vp.EndPoint.Y - vp.StartPoint.Y) / 2);
-
-                    var offsetX = Math.Abs((NewScreen.X - (vp.EndPoint.X - vp.StartPoint.X)) / 2);
-                    var offsetY = Math.Abs((NewScreen.Y - (vp.EndPoint.Y - vp.StartPoint.Y)) / 2);
-
-                    vp.StartPoint = new Point(vp.StartPoint.X - offsetX / 2, vp.StartPoint.Y - offsetY / 2);
-                    vp.EndPoint = new Point(vp.EndPoint.X + offsetX / 2, vp.EndPoint.Y + offsetY / 2);
-                }
+                    X = vp.StartPoint.X + NewWidth,
+                    Y = vp.StartPoint.Y + NewHeight
+                };
+                vp.Scale *= 2;
             }
         }
         
-        public override void MouseRightUpHandler(ViewPort vp)
+        public override void MouseRightUpHandler(ViewPort vp, Point point)
         {
-            if (vp.Scale > 0.01)
+            StartPoint = point;
+            if (vp.Scale > 0.1)
             {
+                double NewWidth = (vp.EndPoint.X - vp.StartPoint.X) * 2;
+                double NewHeight = (vp.EndPoint.Y - vp.StartPoint.Y) * 2;
+                vp.StartPoint = new Point()
+                {
+                    X = StartPoint.X / vp.Scale + vp.StartPoint.X - NewWidth / 2,
+                    Y = StartPoint.Y / vp.Scale + vp.StartPoint.Y - NewHeight / 2
+                };
+                vp.EndPoint = new Point()
+                {
+                    X = vp.StartPoint.X + NewWidth,
+                    Y = vp.StartPoint.Y + NewHeight
+                };
                 vp.Scale /= 2;
             }
-        }
-
-        private void FieldCalculate()
-        {
-/*            if (Point.Subtract(zoomPoint.First.Value, zoomPoint.Last.Value).Length > 30)
-            {
-                justClick = false;
-
-                if (zoomPoint.First.Value.X > zoomPoint.Last.Value.X)
-                {
-                    VectorEditorApp.scaleX = VectorEditorApp.imageWidth / (zoomPoint.First.Value.X - zoomPoint.Last.Value.X);
-                    VectorEditorApp.distanceToPointX = zoomPoint.Last.Value.X;
-                }
-                else
-                {
-                    VectorEditorApp.scaleX = VectorEditorApp.imageWidth / (zoomPoint.Last.Value.X - zoomPoint.First.Value.X);
-                    VectorEditorApp.distanceToPointX = zoomPoint.First.Value.X;
-                }
-                if (zoomPoint.First.Value.Y > zoomPoint.Last.Value.Y)
-                {
-                    VectorEditorApp.scaleY = VectorEditorApp.imageHeight / (zoomPoint.First.Value.Y - zoomPoint.Last.Value.Y);
-                    VectorEditorApp.distanceToPointY = zoomPoint.Last.Value.Y;
-                }
-                else
-                {
-                    VectorEditorApp.scaleY = VectorEditorApp.imageHeight / (zoomPoint.Last.Value.Y - zoomPoint.First.Value.Y);
-                    VectorEditorApp.distanceToPointY = zoomPoint.First.Value.Y;
-                }
-            }
-            else
-            {
-                justClick = true;
-                VectorEditorApp.scaleX = 2;
-                VectorEditorApp.scaleY = 2;
-                VectorEditorApp.distanceToPointX = zoomPoint.First.Value.X / VectorEditorApp.scaleX;
-                VectorEditorApp.distanceToPointY = zoomPoint.First.Value.Y / VectorEditorApp.scaleY;*/
-            //}
         }
     }
 }

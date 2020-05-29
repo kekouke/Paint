@@ -9,8 +9,20 @@ namespace VectorEditorApplication
 {
     public class Animate : NotDrawingTool
     {
+        private RotateConfig _rotation;
+        private ScaleConfig _scale;
+        private TranslateConfig _translate;
+
+        public RotateConfig Rotation { get => _rotation; set => Rotation = value; }
+        public ScaleConfig Scale { get => _scale; set => Scale = value; }
+        public TranslateConfig Translate { get => _translate; set => Translate = value; }
+
         public Animate()
         {
+            _translate = new TranslateConfig(0);
+            _rotation = new RotateConfig(0);
+            _scale = new ScaleConfig(0);
+
             ToolForm = new Button()
             {
                 Width = 60,
@@ -27,7 +39,6 @@ namespace VectorEditorApplication
 
             PaintController.figures.AddLast(selectLayout);
             currentState = States.mouseClick;
-            StartPoint = selectLayout.firstPoint;
         }
 
         public override void MouseMoveHandler(Point point, ViewPort vp)
@@ -35,25 +46,36 @@ namespace VectorEditorApplication
             if (currentState == States.mouseClick)
             {
                 PaintController.figures.Last.Value.EditSize(point, vp);
-                EndPoint = PaintController.figures.Last.Value.secondPoint;
             }
         }
 
         public override void MouseUpHandler(ViewPort vp)
         {
             currentState = States.initial;
+            StartPoint = PaintController.figures.Last.Value.firstPoint;
+            EndPoint = PaintController.figures.Last.Value.secondPoint;
             PaintController.figures.RemoveLast();
             MakeAnimation();
         }
 
         private void MakeAnimation()
         {
-            foreach (var item in PaintController.figures)
+            foreach (var shape in PaintController.figures)
             {
-                if (StartPoint.X < item.firstPoint.X && StartPoint.Y < item.firstPoint.Y && EndPoint.X > item.secondPoint.X
-                    && EndPoint.Y > item.secondPoint.Y)
+                if (shape.CheckIntersection(StartPoint, EndPoint))
                 {
-                    item.brush = new SolidColorBrush(Colors.Red);
+                    if (Rotation.RotationValue != 0)
+                    {
+                        shape.AddAnim(new RotationAnimation(Rotation.RotationValue));
+                    }
+                    if (Scale.ScaleValue != 0)
+                    {
+                        shape.AddAnim(new ScaleAnimation(Scale.ScaleValue));
+                    }
+                    if (Translate.TranslateValue != 0)
+                    {
+                        shape.AddAnim(new TranslateAnimation(Translate.TranslateValue));
+                    }
                 }
             }
         }

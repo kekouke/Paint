@@ -28,7 +28,7 @@ namespace VectorEditorApplication
         public virtual void MouseEnterHandler(int x, int y)
         {
         }
-        public virtual void MouseRightUpHandler(ViewPort vp)
+        public virtual void MouseRightUpHandler(ViewPort vp, Point point)
         {
         }
     }

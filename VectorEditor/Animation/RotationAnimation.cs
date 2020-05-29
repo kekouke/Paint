@@ -3,24 +3,17 @@ using System.Windows;
 
 namespace VectorEditorApplication
 {
-    class RotationAnimation : Animation
+    public class RotationAnimation : Animation
     {
-        public double increment;
-        public Point center;
-        private double phi;
-        public override void Tick()
+        private double _speed;
+        public override void Tick(Figure shape)
         {
-            phi += increment;
+            shape.rotationAngle = (shape.rotationAngle + _speed) % 360;
         }
 
-        public override Point Transform(Point p)
+        public RotationAnimation(double value)
         {
-            throw new NotImplementedException();
-        }
-
-        public override double Transform(double angle)
-        {
-            throw new NotImplementedException();
+            _speed = value;
         }
     }
 }

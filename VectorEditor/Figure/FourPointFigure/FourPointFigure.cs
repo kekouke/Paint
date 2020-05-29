@@ -25,14 +25,20 @@ namespace VectorEditorApplication
 
         override abstract public void Draw(DrawingContext drawingContext, ViewPort vp);
 
-        public void SetCorrectCoordinate() //TODO
+        public void SetCorrectCoordinate()
         {
-            /* firstDrawPoint.X = Math.Min(firstPoint.X, secondPoint.X);
+             firstDrawPoint.X = Math.Min(firstPoint.X, secondPoint.X);
              firstDrawPoint.Y = Math.Min(firstPoint.Y, secondPoint.Y);
              secondDrawPoint.X = Math.Max(firstPoint.X, secondPoint.X);
-             secondDrawPoint.Y = Math.Max(firstPoint.X, secondPoint.X);*/
-            firstDrawPoint = firstPoint;
-            secondDrawPoint = secondPoint;
+             secondDrawPoint.Y = Math.Max(firstPoint.Y, secondPoint.Y);
+        }
+        
+        public override bool CheckIntersection(Point firstPoint, Point secondPoint)
+        {
+            SetCorrectCoordinate();
+            return firstPoint.X < firstDrawPoint.X && firstPoint.Y < firstDrawPoint.Y &&
+                secondPoint.X > secondDrawPoint.X && secondPoint.Y > secondDrawPoint.Y;
+ 
         }
     }
 
