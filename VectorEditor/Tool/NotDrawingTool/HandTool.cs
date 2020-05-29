@@ -5,9 +5,6 @@ namespace VectorEditorApplication
 {
     public class HandTool : NotDrawingTool
     {
-        private Point StartPoint { get; set; }
-        private Point EndPoint { get; set; }
-
         public HandTool()
         {
 

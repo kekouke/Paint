@@ -25,6 +25,7 @@ namespace VectorEditor
             GraphApp.toolPicker.AddTool(new ZoomTool());
             GraphApp.toolPicker.AddTool(new HandTool());
             GraphApp.toolPicker.AddTool(new PieTool());
+            GraphApp.toolPicker.AddTool(new Animate());
 
             GraphApp.toolPicker.DisplayInterface(toolParam, param);
         }

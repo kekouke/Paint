@@ -7,8 +7,6 @@ namespace VectorEditorApplication
 {
     public class ZoomTool : NotDrawingTool
     {
-        Point StartPoint { get; set; }
-        Point EndPoint { get; set; }
         Point NewScreen { get; set; }
 
         public ZoomTool()
@@ -74,9 +72,8 @@ namespace VectorEditorApplication
                     vp.EndPoint = new Point(vp.EndPoint.X + offsetX / 2, vp.EndPoint.Y + offsetY / 2);
                 }
             }
-            MessageBox.Show(vp.Scale.ToString());
         }
-
+        
         public override void MouseRightUpHandler(ViewPort vp)
         {
             if (vp.Scale > 0.01)
