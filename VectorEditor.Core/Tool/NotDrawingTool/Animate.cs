@@ -9,6 +9,7 @@ namespace VectorEditorApplication
 {
     public class Animate : NotDrawingTool
     {
+        private TranslateConfig _translate;
         private RotateConfig _rotation;
         private FlashConfig _flash;
         private ScaleConfig _scale;
@@ -16,9 +17,11 @@ namespace VectorEditorApplication
         public RotateConfig Rotation { get => _rotation; set => Rotation = value; }
         public FlashConfig Flash { get => _flash; set => Flash = value; }
         public ScaleConfig Scale { get => _scale; set => Scale = value; }
+        public TranslateConfig Translate { get => _translate; set => Translate = value; }
 
         public Animate()
         {
+            _translate = new TranslateConfig(0);
             _scale = new ScaleConfig(0);
             _rotation = new RotateConfig(0);
             _flash = new FlashConfig(0);
@@ -75,6 +78,10 @@ namespace VectorEditorApplication
                     if (Scale.ScaleValue != 0)
                     {
                         shape.AddAnim(new ScaleAnimation(Scale.ScaleValue));
+                    }
+                    if (Translate.TranslateValue != 0)
+                    {
+                        shape.AddAnim(new TranslateAnimation(Translate.TranslateValue));
                     }
                 }
             }

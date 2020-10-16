@@ -4,11 +4,10 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Windows;
 using System;
-using System.Windows.Media;
 
 namespace VectorEditorApplication
 {
-    class PaintController
+    public class PaintController
     {
         private readonly DrawingObject canvas;
 
@@ -30,7 +29,7 @@ namespace VectorEditorApplication
             toolPicker = new ToolPicker();
 
             startPoint = new Point(0, 0);
-            endPoint = new Point(769, 385);
+            endPoint = new Point(1520, 600);
             
             vp = new ViewPort(startPoint, endPoint);
 

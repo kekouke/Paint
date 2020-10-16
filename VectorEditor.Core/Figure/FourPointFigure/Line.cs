@@ -24,6 +24,7 @@ namespace VectorEditorApplication
 
             drawingContext.PushTransform(new RotateTransform(rotationAngle, center.X, center.Y));
             drawingContext.PushTransform(new ScaleTransform(scale, scale, center.X, center.Y));
+            drawingContext.PushTransform(new TranslateTransform(offsetX, offsetY));
             drawingContext.DrawLine(p, firstPoint, secondPoint);
         }
     }

@@ -8,6 +8,6 @@ namespace VectorEditorApplication
 {
     public interface ICustomBrush
     {
-        public Brush GetBrush(Color color);
+        Brush GetBrush(Color color);
     }
 }

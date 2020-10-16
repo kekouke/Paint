@@ -5,6 +5,6 @@ namespace VectorEditorApplication
 {
     public interface ICustomPen
     {
-        public Pen GetPen(Color color, double thickness);
+        Pen GetPen(Color color, double thickness);
     }
 }

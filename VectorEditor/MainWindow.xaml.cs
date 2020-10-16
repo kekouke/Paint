@@ -5,7 +5,7 @@ using System.Windows.Media;
 using VectorEditorApplication;
 using Microsoft.Win32;
 
-namespace VectorEditor
+namespace VectorEditor.UI
 {
     public partial class MainWindow : Window
     {
@@ -33,6 +33,7 @@ namespace VectorEditor
         private void paintBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Mouse.Capture(scrollViewer);
+            
             var clickPoint = e.GetPosition(scrollViewer);
             GraphApp.toolPicker.GetSelectedTool().MouseDownHandler(clickPoint, GraphApp.vp);
             GraphApp.Invalidate();
@@ -73,7 +74,7 @@ namespace VectorEditor
         #region MenuItemHandlers
         private void MenuExit_Click(object sender, RoutedEventArgs e) => Close();
 
-        private void MenuAbout_Click(object sender, RoutedEventArgs e) => MessageBox.Show("Paint Clone\n© Козицкий Михаил(kekouke),\n2020.");
+        private void MenuAbout_Click(object sender, RoutedEventArgs e) => MessageBox.Show("Paint Clone\n© Козицкий Михаил,\n2020.");
 
         private void MenuSave_Click(object sender, RoutedEventArgs e)
         {
